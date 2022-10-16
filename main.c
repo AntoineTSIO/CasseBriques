@@ -8,14 +8,12 @@ int main() {
 
     // Séléection du nombre de joueurs
     int nbJoueursSouhaites = 0;
-    printf("Saisir le nombre de joueurs :");
-    scanf("%d",&nbJoueursSouhaites);
-    while(nbJoueursSouhaites<=0 || nbJoueursSouhaites>4){
-        if(nbJoueursSouhaites<=0 || nbJoueursSouhaites>4) {
-            printf("Saisir le nombre de joueurs :");
-            scanf("%d", &nbJoueursSouhaites);
-        }
-    }
+    do{
+        printf("Saisir le nombre de joueurs :");
+        scanf(" %d",&nbJoueursSouhaites);
+        getchar();
+    }while(nbJoueursSouhaites<=0 || nbJoueursSouhaites>4);
+    
     printf("\nNombre de joueurs : %d", nbJoueursSouhaites);
 
     // Création des joueurs

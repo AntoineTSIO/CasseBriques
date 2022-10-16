@@ -1,8 +1,8 @@
 # Casse Briques Groupe 7
 ## Membres du groupe
-- Gabriel BONJOUR
-- Antoine TOUZART
-- Nicolas PIERROT
+- [Gabriel BONJOUR](https://github.com/Elbub)
+- [Antoine TOUZART](https://github.com/AntoineTSIO)
+- [Nicolas PIERROT](https://github.com/ncls-p)
 ## Table des matières
 - [Casse Briques Groupe 7](#casse-briques-groupe-7)
   - [Membres du groupe](#membres-du-groupe)
