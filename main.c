@@ -18,7 +18,7 @@ int main() {
 
     // Création des joueurs
     for (int indexNbJoueursSouhaites = 0; indexNbJoueursSouhaites < nbJoueursSouhaites; ++indexNbJoueursSouhaites) {
-
+        
     }
     return 0;
 }
