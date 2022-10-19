@@ -2,22 +2,22 @@
 
 
 ## Taches en cours
-- Créations des fichiers en .h pour faire les structures    
+- Créations des fichiers en .h pour faire les structures
 // Nicolas
 
-- Gestion des explosions            
+- Gestion des explosions
 //Gabriel
 
-- Gestion des déplacements          
+- Gestion des déplacements
 //Gabriel
 
-- Gestion des objets                
+- Gestion des objets
 //Gabriel
 
-- Gestion des joueurs               
+- Gestion des joueurs
 //Antoine
 
-- Gestion de la carte de base       
+- Gestion de la carte de base
 //Antoine
 
 - Menu et config de lancement d'une partie
