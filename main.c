@@ -19,8 +19,22 @@ int main()
     printf("\nNombre de joueurs : %d", nbJoueursSouhaites);
 
     // Création des joueurs
+    Joueur** joueurs = malloc(nbJoueursSouhaites * sizeof(Joueur));
+    int idJoueur =1;
     for (int indexNbJoueursSouhaites = 0; indexNbJoueursSouhaites < nbJoueursSouhaites; ++indexNbJoueursSouhaites)
     {
+        Joueur *unJoueur = malloc(sizeof(Joueur));
+        unJoueur->id = idJoueur;
+        unJoueur->nbBombes = 1;
+        joueurs[indexNbJoueursSouhaites] = unJoueur;
     }
+
+    for (int indexNbJoueursSouhaites = 0; indexNbJoueursSouhaites < nbJoueursSouhaites; ++indexNbJoueursSouhaites)
+    {
+        free(joueurs[indexNbJoueursSouhaites]);
+    }
+    free(joueurs);
+
     return 0;
+
 }
