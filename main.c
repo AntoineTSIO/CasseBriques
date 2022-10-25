@@ -26,6 +26,12 @@ int main()
         Joueur *unJoueur = malloc(sizeof(Joueur));
         unJoueur->id = idJoueur;
         unJoueur->nbBombes = 1;
+        unJoueur->portee = 1;
+        unJoueur->vie = 3;
+        unJoueur->bouclier = 0;
+        unJoueur->passBomb = 0;
+        unJoueur->invicibilite = 0;
+        unJoueur->nbKills = 0;
         joueurs[indexNbJoueursSouhaites] = unJoueur;
     }
 

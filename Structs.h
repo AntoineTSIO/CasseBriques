@@ -9,6 +9,12 @@ typedef struct
 {
     int id;
     int nbBombes;
+    int portee;
+    int vie;
+    int bouclier;
+    int passBomb;
+    int invicibilite;
+    int nbKills;
 } Joueur;
 
 typedef struct
