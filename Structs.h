@@ -1,3 +1,5 @@
+#ifndef Structs_h
+#define Structs_h
 typedef struct
 {
     int nbBombesParJoueur;
@@ -25,3 +27,4 @@ typedef struct
     int timer;
     Joueur joueur;
 } Bombes;
+#endif
