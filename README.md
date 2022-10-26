@@ -9,6 +9,7 @@
   - [Table des matières](#table-des-matières)
   - [Journal](#journal)
     - [16 Octobre:](#16-octobre)
+    - [24 Octobre:](#24-octobre)
 
 
 ## Journal
