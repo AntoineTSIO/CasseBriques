@@ -3,11 +3,8 @@
 #include <string.h>
 #include "Structs.h"
 
-int main()
-{
-    printf("Casse Briques\n");
-
-    // Séléection du nombre de joueurs
+int chooseNumberOfPlayers(){
+    // Séléction du nombre de joueurs
     int nbJoueursSouhaites = 0;
     do
     {
@@ -17,7 +14,10 @@ int main()
     } while (nbJoueursSouhaites <= 0 || nbJoueursSouhaites > 4);
 
     printf("\nNombre de joueurs : %d", nbJoueursSouhaites);
+    return nbJoueursSouhaites;
+}
 
+Joueur* createPlayers(int nbJoueursSouhaites){
     // Création des joueurs
     Joueur** joueurs = malloc(nbJoueursSouhaites * sizeof(Joueur));
     int idJoueur =1;
@@ -34,13 +34,26 @@ int main()
         unJoueur->nbKills = 0;
         joueurs[indexNbJoueursSouhaites] = unJoueur;
     }
+    return joueurs;
+}
 
+void deletePlayers(Joueur *joueurs, int nbJoueursSouhaites){
     for (int indexNbJoueursSouhaites = 0; indexNbJoueursSouhaites < nbJoueursSouhaites; ++indexNbJoueursSouhaites)
     {
         free(joueurs[indexNbJoueursSouhaites]);
     }
     free(joueurs);
+}
 
+int main()
+{
+    printf("Casse Briques\n");
+    int nbJoueursSouhaites = chooseNumberOfPlayers();
+    Joueur* joueurs = createPlayers(nbJoueursSouhaites);
+
+
+
+    deletePlayers(joueurs, nbJoueursSouhaites);
     return 0;
 
 }
