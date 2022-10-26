@@ -3,4 +3,4 @@ project(CasseBriques C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(CasseBriques main.c)
+add_executable(CasseBriques main.c Functions.h)
