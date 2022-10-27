@@ -2,3 +2,5 @@ cmake-build-debug
 .x
 .exe
 main
+.vscode/*
+.vscode
