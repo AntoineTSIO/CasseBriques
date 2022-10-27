@@ -24,7 +24,7 @@
 - Mise en place de la création des joueurs
 - Update du fichier **README.md** pour la documentation du projet
 - Update du fichier **AVANCEE.md** pour la documentation de l'avancée du projet (***tâches en cours, tâches prochaines, structures/fonctions pour chaque membre du groupe***)
-### 27 Octobre :
+### 26 Octobre :
 - Création d'un fichier header pour les fonctions
 - Déplacement des fonctions dans un fichier header
 - Jointure des fichier header de Structs & de fonctions afin de les utiliser dans la classe Main
