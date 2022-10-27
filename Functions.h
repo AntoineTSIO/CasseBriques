@@ -24,7 +24,7 @@ int chooseNumberOfPlayers() {
 }
 
 
-Joueur *createPlayers(int nbJoueursSouhaites) {
+Joueur **createPlayers(int nbJoueursSouhaites) {
     // Création des joueurs
     Joueur **joueurs = malloc(nbJoueursSouhaites * sizeof(Joueur));
     int idJoueur = 1;
@@ -39,11 +39,12 @@ Joueur *createPlayers(int nbJoueursSouhaites) {
         unJoueur->invicibilite = 0;
         unJoueur->nbKills = 0;
         joueurs[indexNbJoueursSouhaites] = unJoueur;
+        idJoueur++;
     }
     return joueurs;
 }
 
-void deletePlayers(Joueur *joueurs, int nbJoueursSouhaites) {
+void deletePlayers(Joueur **joueurs, int nbJoueursSouhaites) {
     for (int indexNbJoueursSouhaites = 0; indexNbJoueursSouhaites < nbJoueursSouhaites; ++indexNbJoueursSouhaites) {
         free(joueurs[indexNbJoueursSouhaites]);
     }
