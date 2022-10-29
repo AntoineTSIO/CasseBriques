@@ -77,12 +77,12 @@ void deleteGame(Game game) {
 }
 
 void displayStats(Game game) {
-    printf("Affichage des stats\n");
+    printf("Paramètres de jeu:\n");
     printf("Nombre de joueurs : %d\n", game.nombreJoueurs);
     if (game.multijoueur == 1)
-        printf("Mode multijoueur\n");
+        printf("Mode: multijoueur\n");
     else
-        printf("Mode solo\n");
+        printf("Mode: solo\n");
 }
 
 #endif //CASSEBRIQUES_FUNCTIONS_H

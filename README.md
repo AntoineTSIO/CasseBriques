@@ -12,8 +12,11 @@
   - [Membres du groupe](#membres-du-groupe)
   - [Table des matières](#table-des-matières)
   - [Makefile](#makefile)
+    - [Compiler Nettoyer Jouer](#compiler-nettoyer-jouer)
     - [Compilation](#compilation)
     - [Nettoyage](#nettoyage)
+    - [Jouer](#jouer)
+    - [voir les commandes disponibles](#voir-les-commandes-disponibles)
   - [Journal](#journal)
     - [16 Octobre](#16-octobre)
     - [24 Octobre](#24-octobre)
@@ -22,16 +25,30 @@
 
 ## Makefile
 
+### Compiler Nettoyer Jouer
+Exécutez la commande suivante pour compiler, nettoyer et jouer au jeu.
+
+``make run``
+
 ### Compilation
 Exécutez la commande suivante pour compiler le projet :
 
-`make main`
+`make build`
 
 ### Nettoyage
 Exécutez la commande suivante pour nettoyer le projet :
 
 `make clean`
 
+### Jouer
+Exécutez la commande suivante pour jouer au jeu :
+
+`make play`
+
+### voir les commandes disponibles
+Exécutez la commande suivante pour voir les commandes disponibles :
+
+`make help`
 ## Journal
 
 ### 16 Octobre
