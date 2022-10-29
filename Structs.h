@@ -1,5 +1,5 @@
-#ifndef Structs_h
-#define Structs_h
+#ifndef structs_h
+#define structs_h
 typedef struct {
     int nbBombesParJoueur;
     int *dimensionsCarte;

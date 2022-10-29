@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "Structs.h"
-#include "Functions.h"
+#include "structs.h"
+#include "functions.h"
 
 int main() {
     printf("Casse Briques\n");
