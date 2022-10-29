@@ -4,10 +4,11 @@
 
 int main() {
     printf("Casse Briques\n");
-    int nbJoueursSouhaites = chooseNumberOfPlayers();
-    Joueur *joueurs = createPlayers(nbJoueursSouhaites);
+    Game game = initGame();
+    // int nbJoueursSouhaites = chooseNumberOfPlayers();
+    //Joueur *joueurs = createPlayers(nbJoueursSouhaites);
 
-    deletePlayers(joueurs, nbJoueursSouhaites);
+    deleteGame(game);
     return 0;
 
 }

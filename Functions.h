@@ -10,18 +10,18 @@
 #ifndef CASSEBRIQUES_FUNCTIONS_H
 #define CASSEBRIQUES_FUNCTIONS_H
 
-int chooseNumberOfPlayers() {
-    // Séléction du nombre de joueurs
-    int nbJoueursSouhaites = 0;
-    do {
-        printf("Saisir le nombre de joueurs :");
-        scanf(" %d", &nbJoueursSouhaites);
-        getchar();
-    } while (nbJoueursSouhaites <= 0 || nbJoueursSouhaites > 4);
+// int chooseNumberOfPlayers() {
+//     // Séléction du nombre de joueurs
+//     int nbJoueursSouhaites = 0;
+//     do {
+//         printf("Saisir le nombre de joueurs :");
+//         scanf(" %d", &nbJoueursSouhaites);
+//         getchar();
+//     } while (nbJoueursSouhaites <= 0 || nbJoueursSouhaites > 4);
 
-    printf("\nNombre de joueurs : %d", nbJoueursSouhaites);
-    return nbJoueursSouhaites;
-}
+//     printf("\nNombre de joueurs : %d", nbJoueursSouhaites);
+//     return nbJoueursSouhaites;
+// }
 
 
 Joueur **createPlayers(int nbJoueursSouhaites) {
@@ -49,6 +49,31 @@ void deletePlayers(Joueur **joueurs, int nbJoueursSouhaites) {
         free(joueurs[indexNbJoueursSouhaites]);
     }
     free(joueurs);
+}
+
+Game initGame(){
+    Game game;
+    printf("Initialisation du jeu\n");
+    game.nombreJoueurs = 0;
+    game.multijoueur = 0;
+    game.Joueur = NULL;
+    while(game.nombreJoueurs <= 0 || game.nombreJoueurs > 4){
+        printf("Saisir le nombre de joueurs :");
+        scanf(" %d", &game.nombreJoueurs);
+        getchar();
+        if(game.nombreJoueurs <= 0 || game.nombreJoueurs > 4){
+            printf("Le nombre de joueurs doit être compris entre 1 et 4\n");
+        }
+        if(game.nombreJoueurs > 1){
+            game.multijoueur = 1;
+        }
+    }
+    game.Joueur = createPlayers(game.nombreJoueurs);
+    return game;
+}
+
+void deleteGame(Game game){
+    deletePlayers(game.Joueur, game.nombreJoueurs);
 }
 
 #endif //CASSEBRIQUES_FUNCTIONS_H

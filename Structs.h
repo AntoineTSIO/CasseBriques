@@ -27,4 +27,12 @@ typedef struct
     int timer;
     Joueur joueur;
 } Bombes;
+
+typedef struct
+{
+    int nombreJoueurs;
+    int multijoueur; // Boolean -> 0 = false, 1 = true
+    int* Joueur; // Player array
+} Game;
+
 #endif
