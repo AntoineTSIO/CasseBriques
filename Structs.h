@@ -32,7 +32,8 @@ typedef struct
 {
     int nombreJoueurs;
     int multijoueur; // Boolean -> 0 = false, 1 = true
-    int* Joueur; // Player array
+    //player array
+    Joueur **Joueur;
 } Game;
 
 #endif

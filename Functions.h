@@ -68,12 +68,22 @@ Game initGame(){
             game.multijoueur = 1;
         }
     }
+    // Création des joueurs et ajout dans la partie
     game.Joueur = createPlayers(game.nombreJoueurs);
     return game;
 }
 
 void deleteGame(Game game){
     deletePlayers(game.Joueur, game.nombreJoueurs);
+}
+
+void displayStats(Game game){
+    printf("Affichage des stats\n");
+    printf("Nombre de joueurs : %d\n", game.nombreJoueurs);
+    if (game.multijoueur == 1)
+        printf("Mode multijoueur\n");
+    else
+        printf("Mode solo\n");
 }
 
 #endif //CASSEBRIQUES_FUNCTIONS_H

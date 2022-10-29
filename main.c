@@ -5,6 +5,7 @@
 int main() {
     printf("Casse Briques\n");
     Game game = initGame();
+    displayStats(game);
     // int nbJoueursSouhaites = chooseNumberOfPlayers();
     //Joueur *joueurs = createPlayers(nbJoueursSouhaites);
 
