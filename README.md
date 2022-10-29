@@ -9,12 +9,28 @@
 ## Table des matières
 
 - [Casse Briques Groupe 7](#casse-briques-groupe-7)
-    - [Membres du groupe](#membres-du-groupe)
-    - [Table des matières](#table-des-matières)
-    - [Journal](#journal)
-        - [16 Octobre](#16-octobre)
-        - [24 Octobre](#24-octobre)
-        - [26 Octobre](#26-octobre)
+  - [Membres du groupe](#membres-du-groupe)
+  - [Table des matières](#table-des-matières)
+  - [Makefile](#makefile)
+    - [Compilation](#compilation)
+    - [Nettoyage](#nettoyage)
+  - [Journal](#journal)
+    - [16 Octobre](#16-octobre)
+    - [24 Octobre](#24-octobre)
+    - [26 Octobre](#26-octobre)
+    - [29 Octobre](#29-octobre)
+
+## Makefile
+
+### Compilation
+Exécutez la commande suivante pour compiler le projet :
+
+`make main`
+
+### Nettoyage
+Exécutez la commande suivante pour nettoyer le projet :
+
+`make clean`
 
 ## Journal
 
@@ -40,3 +56,7 @@
 - Création d'un fichier header pour les fonctions
 - Déplacement des fonctions dans un fichier header
 - Jointure des fichier header de Structs & de fonctions afin de les utiliser dans la classe Main
+
+### 29 Octobre
+- Création de la fonction d'initialisation de la partie
+- Création du fichier Makefile
