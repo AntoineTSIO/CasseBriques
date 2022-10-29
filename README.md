@@ -26,29 +26,35 @@
 ## Makefile
 
 ### Compiler Nettoyer Jouer
+
 Exécutez la commande suivante pour compiler, nettoyer et jouer au jeu.
 
-``make run``
+`make run`
 
 ### Compilation
+
 Exécutez la commande suivante pour compiler le projet :
 
 `make build`
 
 ### Nettoyage
+
 Exécutez la commande suivante pour nettoyer le projet :
 
 `make clean`
 
 ### Jouer
+
 Exécutez la commande suivante pour jouer au jeu :
 
 `make play`
 
 ### voir les commandes disponibles
+
 Exécutez la commande suivante pour voir les commandes disponibles :
 
 `make help`
+
 ## Journal
 
 ### 16 Octobre
@@ -58,15 +64,15 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Répartition des tâches de base entre les membres du groupe
 - Départ du développement de la structure du projet
 - Création du fichier **README.md** pour la documentation du projet
-- Création du fichier **AVANCEE.md** pour la documentation de l'avancée du projet (***tâches en cours, tâches
-  prochaines, structures/fonctions pour chaque membre du groupe***)
+- Création du fichier **AVANCEE.md** pour la documentation de l'avancée du projet (**_tâches en cours, tâches
+  prochaines, structures/fonctions pour chaque membre du groupe_**)
 
 ### 24 Octobre
 
 - Mise en place de la création des joueurs
 - Update du fichier **README.md** pour la documentation du projet
-- Update du fichier **AVANCEE.md** pour la documentation de l'avancée du projet (***tâches en cours, tâches prochaines,
-  structures/fonctions pour chaque membre du groupe***)
+- Update du fichier **AVANCEE.md** pour la documentation de l'avancée du projet (**_tâches en cours, tâches prochaines,
+  structures/fonctions pour chaque membre du groupe_**)
 
 ### 26 Octobre
 
@@ -75,5 +81,6 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Jointure des fichier header de Structs & de fonctions afin de les utiliser dans la classe Main
 
 ### 29 Octobre
+
 - Création de la fonction d'initialisation de la partie
 - Création du fichier Makefile
