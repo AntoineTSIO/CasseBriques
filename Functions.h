@@ -51,20 +51,20 @@ void deletePlayers(Joueur **joueurs, int nbJoueursSouhaites) {
     free(joueurs);
 }
 
-Game initGame(){
+Game initGame() {
     Game game;
     printf("Initialisation du jeu\n");
     game.nombreJoueurs = 0;
     game.multijoueur = 0;
     game.Joueur = NULL;
-    while(game.nombreJoueurs <= 0 || game.nombreJoueurs > 4){
+    while (game.nombreJoueurs <= 0 || game.nombreJoueurs > 4) {
         printf("Saisir le nombre de joueurs :");
         scanf(" %d", &game.nombreJoueurs);
         getchar();
-        if(game.nombreJoueurs <= 0 || game.nombreJoueurs > 4){
+        if (game.nombreJoueurs <= 0 || game.nombreJoueurs > 4) {
             printf("Le nombre de joueurs doit être compris entre 1 et 4\n");
         }
-        if(game.nombreJoueurs > 1){
+        if (game.nombreJoueurs > 1) {
             game.multijoueur = 1;
         }
     }
@@ -72,11 +72,11 @@ Game initGame(){
     return game;
 }
 
-void deleteGame(Game game){
+void deleteGame(Game game) {
     deletePlayers(game.Joueur, game.nombreJoueurs);
 }
 
-void displayStats(Game game){
+void displayStats(Game game) {
     printf("Affichage des stats\n");
     printf("Nombre de joueurs : %d\n", game.nombreJoueurs);
     if (game.multijoueur == 1)
