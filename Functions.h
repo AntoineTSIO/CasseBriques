@@ -68,7 +68,6 @@ Game initGame(){
             game.multijoueur = 1;
         }
     }
-    // Création des joueurs et ajout dans la partie
     game.Joueur = createPlayers(game.nombreJoueurs);
     return game;
 }
