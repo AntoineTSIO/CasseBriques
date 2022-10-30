@@ -84,3 +84,9 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 
 - Création de la fonction d'initialisation de la partie
 - Création du fichier Makefile
+
+### 30 Octobre
+- Début de la création de la map
+- Début de la création de l'affichage de la map
+- refonte de structs
+- mise à jour du fichier README.md
