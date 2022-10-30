@@ -7,7 +7,7 @@ int main() {
     Game game = initGame();
     displayStats(game);
     // int nbJoueursSouhaites = chooseNumberOfPlayers();
-    //Joueur *joueurs = createPlayers(nbJoueursSouhaites);
+    //Joueurs *joueurs = createPlayers(nbJoueursSouhaites);
 
     deleteGame(game);
     return 0;

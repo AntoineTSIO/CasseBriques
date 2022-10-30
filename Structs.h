@@ -1,8 +1,6 @@
 #ifndef structs_h
 #define structs_h
 typedef struct {
-    int nbBombesParJoueur;
-    int *dimensionsCarte;
     char **carte;
 } Cartes;
 
@@ -26,9 +24,12 @@ typedef struct {
 } Bombes;
 
 typedef struct {
+    int dimensionsCarteX;
+    int dimensionsCarteY;
+    int nbBombesParJoueur;
     int nombreJoueurs;
     int multijoueur; // Boolean -> 0 = false, 1 = true
-    Joueur **Joueur;
+    Joueur **Joueurs;
 } Game;
 
 #endif

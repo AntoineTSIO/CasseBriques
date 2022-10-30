@@ -56,7 +56,26 @@ Game initGame() {
     printf("Initialisation du jeu\n");
     game.nombreJoueurs = 0;
     game.multijoueur = 0;
-    game.Joueur = NULL;
+    game.Joueurs = NULL;
+    game.nbBombesParJoueur = 0;
+    game.dimensionsCarteX = 0;
+    game.dimensionsCarteY = 0;
+
+    while (game.dimensionsCarteX < 10) {
+        printf("Saisir la largeur de la carte :");
+        scanf(" %d", &game.dimensionsCarteX);
+        getchar();
+    }
+    while (game.dimensionsCarteY < 10) {
+        printf("Saisir la hauteur de la carte :");
+        scanf(" %d", &game.dimensionsCarteY);
+        getchar();
+    }
+    while (game.nbBombesParJoueur < 1) {
+        printf("Saisir le nombre de bombes par joueur :");
+        scanf(" %d", &game.nbBombesParJoueur);
+        getchar();
+    }
     while (game.nombreJoueurs <= 0 || game.nombreJoueurs > 4) {
         printf("Saisir le nombre de joueurs :");
         scanf(" %d", &game.nombreJoueurs);
@@ -68,21 +87,26 @@ Game initGame() {
             game.multijoueur = 1;
         }
     }
-    game.Joueur = createPlayers(game.nombreJoueurs);
+    game.Joueurs = createPlayers(game.nombreJoueurs);
     return game;
 }
 
 void deleteGame(Game game) {
-    deletePlayers(game.Joueur, game.nombreJoueurs);
+    deletePlayers(game.Joueurs, game.nombreJoueurs);
 }
 
 void displayStats(Game game) {
     printf("Paramètres de jeu:\n");
     printf("Nombre de joueurs : %d\n", game.nombreJoueurs);
+    printf("Nombre de bombes par joueur : %d\n", game.nbBombesParJoueur);
     if (game.multijoueur == 1)
         printf("Mode: multijoueur\n");
     else
         printf("Mode: solo\n");
+    printf("Dimensions de la carte: %d x %d\n", game.dimensionsCarteX, game.dimensionsCarteY);
 }
+
+
+
 
 #endif //CASSEBRIQUES_FUNCTIONS_H
