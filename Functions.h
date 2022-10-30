@@ -106,7 +106,78 @@ void displayStats(Game game) {
     printf("Dimensions de la carte: %d x %d\n", game.dimensionsCarteX, game.dimensionsCarteY);
 }
 
+Map initMap(Game game){
+    // x = indestructible wall
+    //m = destructible wall
+    //b = bomb
+    //p = spawn point
+    //e = empty
 
+    Map map;
+    map.cases = malloc(game.dimensionsCarteX * sizeof(char*));
+    for (int i = 0; i < game.dimensionsCarteX; ++i) {
+        map.cases[i] = malloc(game.dimensionsCarteY * sizeof(char));
+    }
+
+
+    for (int i = 0; i < game.dimensionsCarteX; ++i) {
+        for (int j = 0; j < game.dimensionsCarteY; ++j) {
+            map.cases[i][j] = 'e';
+        }
+    }
+    for (int i = 0; i < game.dimensionsCarteX; ++i) {
+        map.cases[i][0] = 'x';
+        map.cases[i][game.dimensionsCarteY-1] = 'x';
+    }
+    for (int i = 0; i < game.dimensionsCarteY; ++i) {
+        map.cases[0][i] = 'x';
+        map.cases[game.dimensionsCarteX-1][i] = 'x';
+    }
+    for (int i = 0; i < game.dimensionsCarteX; ++i) {
+        for (int j = 0; j < game.dimensionsCarteY; ++j) {
+            if (map.cases[i][j] == 'e') {
+                if (rand() % 100 < 20) {
+                    map.cases[i][j] = 'm';
+                }
+            }
+        }
+    }
+    for (int i = 0; i < game.nombreJoueurs; ++i) {
+        int x = rand() % (game.dimensionsCarteX-2) + 1;
+        int y = rand() % (game.dimensionsCarteY-2) + 1;
+        while (map.cases[x][y] != 'e') {
+            x = rand() % (game.dimensionsCarteX-2) + 1;
+            y = rand() % (game.dimensionsCarteY-2) + 1;
+        }
+        map.cases[x][y] = 'p';
+    }
+    return map;
+}
+// x = █
+// m = ▒
+// p =
+void displayMap(Map map, Game game){
+    for (int i = 0; i < game.dimensionsCarteX; ++i) {
+        for (int j = 0; j < game.dimensionsCarteY; ++j) {
+            if (map.cases[i][j] == 'x') {
+                printf("█");
+            }
+            else if (map.cases[i][j] == 'm') {
+                printf("▒");
+            }
+            else if (map.cases[i][j] == 'p') {
+                printf("p");
+            }
+            else if (map.cases[i][j] == 'b') {
+                printf("b");
+            }
+            else if (map.cases[i][j] == 'e') {
+                printf(" ");
+            }
+        }
+        printf("\n");
+    }
+}
 
 
 #endif //CASSEBRIQUES_FUNCTIONS_H

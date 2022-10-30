@@ -1,8 +1,8 @@
 #ifndef structs_h
 #define structs_h
 typedef struct {
-    char **carte;
-} Cartes;
+    char **cases;
+} Map;
 
 typedef struct {
     int id;
