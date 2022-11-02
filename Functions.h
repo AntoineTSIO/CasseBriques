@@ -171,7 +171,7 @@ void displayMap(Map map, Game game){
             else if (map.cases[i][j] == 'b') {
                 printf("b");
             }
-            else if (map.cases[i][j] == 'e') {
+            else if (map.cases[i][j] == 'e' || map.cases[i][j] == '_') {
                 printf(" ");
             }
         }
