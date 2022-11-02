@@ -14,9 +14,6 @@
 - Gestion des objets
 //Gabriel
 
-- Gestion des joueurs
-//Antoine
-
 - Gestion de la carte de base
 //Antoine
 
@@ -25,15 +22,17 @@
 
 - Game over
 
+- Gestion de l'affichage graphique (SDL)
+//Antoine
+
 ---
 ## Taches prochaines
-
-- Gestion de l'affichage graphique
 
 - gestion socket.io
 
 - Gestion du/des easter egg(s)
     - Cuisson d'une omelette
+    - maskedMap
 
 ---
 
