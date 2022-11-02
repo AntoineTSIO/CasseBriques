@@ -91,3 +91,9 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Début de la création de l'affichage de la map
 - refonte de structs
 - mise à jour du fichier README.md
+
+### 02 Novembre
+- Répartition de nouvelles tâches de base entre les membres du groupe
+- 
+- Modifications sur le fichier AVANCEE.md
+- Mise à jour du fichier README.md

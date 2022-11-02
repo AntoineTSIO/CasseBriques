@@ -14,9 +14,6 @@
 - Gestion des objets
 //Gabriel
 
-- Gestion de la carte de base
-//Antoine
-
 - Menu et config de lancement d'une partie
 //Nicolas
 
@@ -24,6 +21,9 @@
 
 - Gestion de l'affichage graphique (SDL)
 //Antoine
+
+- Gestion du menu de démarrage (Démarrer partie, Démarrer serveur, Rejoindre serveur)
+  //Antoine
 
 ---
 ## Taches prochaines
