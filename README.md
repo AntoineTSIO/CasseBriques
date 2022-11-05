@@ -98,9 +98,10 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Répartition de nouvelles tâches de base entre les membres du groupe
 - Modifications sur le fichier AVANCEE.md
 - Mise à jour du fichier README.md
-- 
+
 ### 05 Novembre
 - Très gros Refactoring du code
 - mise au propre du code
 - Fusion du trvavail
 - mise en place de nom de variable plus explicite
+- mise à jour du fichier README.md
