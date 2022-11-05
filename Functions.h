@@ -59,7 +59,7 @@ Game initGame() {
         getchar();
     }
     while (game.nbBombsPerPlayer < 1) {
-        printf("Saisir le nombre de bombes par pla :");
+        printf("Saisir le nombre de bombes par joueur :");
         scanf(" %hd", &game.nbBombsPerPlayer);
         getchar();
     }
@@ -85,7 +85,7 @@ void deleteGame(Game game) {
 void displayStats(Game game) {
     printf("Paramètres de jeu:\n");
     printf("Nombre de joueurs : %d\n", game.numberOfPlayers);
-    printf("Nombre de bombes par pla : %d\n", game.nbBombsPerPlayer);
+    printf("Nombre de bombes par joueur : %d\n", game.nbBombsPerPlayer);
     if (game.multiplayer == 1)
         printf("Mode: multiplayer\n");
     else
@@ -163,34 +163,45 @@ void displayMap(Map map, Game game) {
 }
 
 
-void boom(Bomb *bombToExplode, Game game, Map *map) {
-    int i = 1;
-    while (i <= bombToExplode->range && (bombToExplode->x + i) < game.sizeMapX) {
-        short current_item = map->tile[bombToExplode->x + i][bombToExplode->y].item;
-        switch (current_item) {
-            case INDESTRUCTIBLE_WALL:
-                break;
-            case DESTRUCTIBLE_WALL:
-                current_item = spawn_random_item();
-                break;
-            default:
-                getting_pumped_up(game.players[game.playerTurn % 4], current_item);
-                current_item = 0;
-                break;
-        }
-    }
-    i = 1;
-    while (i <= bombToExplode->range && (bombToExplode->y + i) < game.sizeMapY) {
+// void boom(Bomb *bombToExplode, Game game, Map *map) {
+//     int i = 1;
+//     while (i <= bombToExplode->range && (bombToExplode->x + i) < game.sizeMapX) {
+//         short current_item = map->tile[bombToExplode->x + i][bombToExplode->y].item;
+//         switch (current_item) {
+//             case INDESTRUCTIBLE_WALL:
+//                 break;
+//             case DESTRUCTIBLE_WALL:
+//                 current_item = spawn_random_item();
+//                 break;
+//             default:
+//                 getting_pumped_up(game.players[game.playerTurn % 4], current_item);
+//                 current_item = 0;
+//                 break;
+//         }
+//     }
+//     i = 1;
+//     while (i <= bombToExplode->range && (bombToExplode->y + i) < game.sizeMapY) {
 
-    }
-    i = 1;
-    while (i <= bombToExplode->range && (bombToExplode->x - i) >= 0) {
+//     }
+//     i = 1;
+//     while (i <= bombToExplode->range && (bombToExplode->x - i) >= 0) {
 
-    }
-    i = 1;
-    while (i <= bombToExplode->range && (bombToExplode->x - i) >= 0) {
+//     }
+//     i = 1;
+//     while (i <= bombToExplode->range && (bombToExplode->x - i) >= 0) {
 
-    }
+//     }
+// }
+
+//detect key pressed
+int keypress() {
+    system ("/bin/stty raw");
+    int c;
+    system ("/bin/stty -echo");
+    c = getc(stdin);
+    system ("/bin/stty echo");
+    system ("/bin/stty cooked");
+    return c;
 }
 
 #endif //CASSEBRIQUES_FUNCTIONS_H
