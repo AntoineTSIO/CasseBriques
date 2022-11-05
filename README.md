@@ -106,3 +106,4 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - mise en place de nom de variable plus explicite
 - mise à jour du fichier README.md
 - ajout de la détection de touche du clavier
+- update Tile status on map initialisation
