@@ -23,6 +23,8 @@
     - [26 Octobre](#26-octobre)
     - [29 Octobre](#29-octobre)
     - [30 Octobre](#30-octobre)
+    - [02 Novembre](#02-novembre)
+    - [05 Novembre](#05-novembre)
 
 ## Makefile
 
@@ -94,6 +96,11 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 
 ### 02 Novembre
 - Répartition de nouvelles tâches de base entre les membres du groupe
-- 
 - Modifications sur le fichier AVANCEE.md
 - Mise à jour du fichier README.md
+- 
+### 05 Novembre
+- Très gros Refactoring du code
+- mise au propre du code
+- Fusion du trvavail
+- mise en place de nom de variable plus explicite

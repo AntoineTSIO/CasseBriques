@@ -41,8 +41,8 @@
 
 player{
    portée
-   vie
-   bouclier
+   life
+   shield
    kick/pass bomb
    invincibilité
    nb_kills

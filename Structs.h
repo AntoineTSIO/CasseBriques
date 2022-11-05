@@ -1,35 +1,55 @@
 #ifndef structs_h
 #define structs_h
+
 typedef struct {
-    char **cases;
+    short ID; //BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
+} Item;
+
+typedef struct {
+    short id;
+    short nbBomb;
+    short range;
+    short life;
+    short shield;
+    short passBomb;
+    short invincibility;
+    short nbKill;
+    char color;
+    short x, y;
+    short interaction_with_bombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
+} Player;
+
+typedef struct {
+    short id;
+    short stateBomb;
+    short range;
+    short x;
+    short y;
+    short timer;
+    char sprite;
+    Player owner;
+} Bomb;
+
+typedef struct {
+    char sprite;
+    Item *item;
+    Bomb *bomb;
+} Tile;
+
+typedef struct {
+    Tile **tile;
 } Map;
 
 typedef struct {
-    int id;
-    int nbBombes;
-    int portee;
-    int vie;
-    int bouclier;
-    int passBomb;
-    int invicibilite;
-    int nbKills;
-} Joueur;
-
-typedef struct {
-    int id;
-    int etatBombes;
-    int portee;
-    int timer;
-    Joueur joueur;
-} Bombes;
-
-typedef struct {
-    int dimensionsCarteX;
-    int dimensionsCarteY;
-    int nbBombesParJoueur;
-    int nombreJoueurs;
-    int multijoueur; // Boolean -> 0 = false, 1 = true
-    Joueur **Joueurs;
+    short sizeMapX;
+    short sizeMapY;
+    short nbBombsPerPlayer;
+    short numberOfPlayers;
+    short multiplayer; // Boolean -> 0 = false, 1 = true
+    Player *players;
+    short playerTurn;
+    Player* currentPlayer;
+    short max_range;
 } Game;
 
 #endif

@@ -9,8 +9,6 @@ int main() {
 
     Map map = initMap(game);
     displayMap(map, game);
-    // int nbJoueursSouhaites = chooseNumberOfPlayers();
-    //Joueurs *joueurs = createPlayers(nbJoueursSouhaites);
 
     deleteGame(game);
     return 0;
