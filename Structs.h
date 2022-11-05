@@ -32,8 +32,8 @@ typedef struct {
 
 typedef struct {
     char sprite;
-    Item *item;
-    Bomb *bomb;
+    int item;
+    int bomb;
 } Tile;
 
 typedef struct {

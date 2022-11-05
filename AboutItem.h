@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "structs.h"
+#include "Structs.h"
 
 
 #ifndef CASSEBRIQUES_ABOUTITEM_H
@@ -138,7 +138,7 @@ void pick_up_item(Game *game, short which_one) {
     }
 }
 
-int player_moves(Game *game, short direction, Map *map) {
+/*int player_moves(Game *game, short direction, Map *map) {
     if (direction == DONTMOVE)
         return 1;
 
@@ -147,7 +147,7 @@ int player_moves(Game *game, short direction, Map *map) {
 
     switch (direction) {
         case EXPLOSION:
-            map->tile[destination_x][destination_y]->bomb = create_bomb(game);
+            map->tile[destination_x][destination_y].bomb = create_bomb(game);
             return 1;
         case DONTMOVE:
             break;
@@ -167,12 +167,12 @@ int player_moves(Game *game, short direction, Map *map) {
             return 0;
     }
 
-    Item what_s_there = *map->tile[destination_x][destination_y].item;
-    Bomb which_bomb_is_there = *map->tile[destination_x][destination_y].item;
+    Item what_s_there = map->tile[destination_x][destination_y].item;
+    Bomb which_bomb_is_there = map->tile[destination_x][destination_y].item;
     switch (what_s_there.ID) {
         case INDESTRUCTIBLE_WALL:
         case WALL:
-            return true;
+            return 1;
         default:
             mover->x = destination_x;
             mover->y = destination_y;
@@ -181,6 +181,6 @@ int player_moves(Game *game, short direction, Map *map) {
             break;
     }
     return 1;
-}
+}*/
 
 #endif

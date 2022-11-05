@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Structs.h"
+#include "AboutItem.h"
 
 
 #ifndef CASSEBRIQUES_FUNCTIONS_H
@@ -94,11 +95,13 @@ void displayStats(Game game) {
 }
 
 Map initMap(Game game) {
-    // x = indestructible wall
-    //m = destructible wall
-    //b = bomb
-    //p = spawn point
-    //e = empty
+    /*
+    x = indestructible wall
+    m = destructible wall
+    b = bomb
+    p = spawn point
+    e = empty
+    */
     Map map;
     map.tile = malloc(game.sizeMapX * sizeof(char *));
     for (int i = 0; i < game.sizeMapX; ++i) {
@@ -109,21 +112,25 @@ Map initMap(Game game) {
     for (int i = 0; i < game.sizeMapX; ++i) {
         for (int j = 0; j < game.sizeMapY; ++j) {
             map.tile[i][j].sprite = 'e';
+            map.tile[i][j].item = NOTHING;
         }
     }
     for (int i = 0; i < game.sizeMapX; ++i) {
         map.tile[i][0].sprite = 'x';
         map.tile[i][game.sizeMapY - 1].sprite = 'x';
+        map.tile[0][i].item = INDESTRUCTIBLE_WALL;
     }
     for (int i = 0; i < game.sizeMapY; ++i) {
         map.tile[0][i].sprite = 'x';
         map.tile[game.sizeMapX - 1][i].sprite = 'x';
+        map.tile[0][i].item = INDESTRUCTIBLE_WALL;
     }
     for (int i = 0; i < game.sizeMapX; ++i) {
         for (int j = 0; j < game.sizeMapY; ++j) {
             if (map.tile[i][j].sprite == 'e') {
                 if (rand() % 100 < 20) {
                     map.tile[i][j].sprite = 'm';
+                    map.tile[i][j].item = WALL;
                 }
             }
         }
