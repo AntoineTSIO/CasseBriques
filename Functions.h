@@ -201,6 +201,14 @@ int keypress() {
     c = getc(stdin);
     system ("/bin/stty echo");
     system ("/bin/stty cooked");
+
+    /*
+    z = 122 Z = 90
+    q = 113 Q = 81
+    s = 115 S = 83
+    d = 100 D = 68
+    e = 101 E = 69
+    */
     return c;
 }
 

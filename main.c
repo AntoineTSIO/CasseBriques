@@ -13,6 +13,5 @@ int main() {
     int input = keypress();
     printf("%d", input);
 
-
     return 0;
 }
