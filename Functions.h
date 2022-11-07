@@ -136,14 +136,14 @@ Map initMap(Game game) {
             }
         }
     }
-    if(game.numberOfPlayers == 1){
+
+    if (game.numberOfPlayers == 1) {
         map.tile[1][1].sprite = 'p';
         map.tile[1][1].item = NOTHING;
-    }
-    else {
+    } else {
         int spawnPointToPlace = game.numberOfPlayers;
         for (int i = 0; i < game.numberOfPlayers - 1; i++) {
-            if(spawnPointToPlace > 0) {
+            if (spawnPointToPlace > 0) {
                 map.tile[1 + i * 2][1].sprite = 'p';
                 map.tile[1 + i * 2][1].item = NOTHING;
                 spawnPointToPlace--;
@@ -152,8 +152,7 @@ Map initMap(Game game) {
                 map.tile[1 + i * 2][game.sizeMapY - 2].sprite = 'p';
                 map.tile[1][1 + i * 2].item = NOTHING;
                 spawnPointToPlace--;
-            }
-            else
+            } else
                 break;
         }
     }
@@ -225,12 +224,12 @@ void displayMap(Map map, Game game) {
 
 //detect key pressed
 int keypress() {
-    system ("/bin/stty raw");
+    system("/bin/stty raw");
     int c;
-    system ("/bin/stty -echo");
+    system("/bin/stty -echo");
     c = getc(stdin);
-    system ("/bin/stty echo");
-    system ("/bin/stty cooked");
+    system("/bin/stty echo");
+    system("/bin/stty cooked");
 
     /*
     z = 122 Z = 90
