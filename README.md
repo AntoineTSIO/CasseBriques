@@ -113,3 +113,7 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Réparation de la création de la map
 - Création de la map finalisée
 - Refactoring du code pour séparation entre headers et sources
+- réajustement des spawns des joueurs
+- Ajout des joueurs sur la map à l'emplacement des spawns
+- création de la fonction de déplacement des joueurs
+- mise à jour du fichier README.md pour le journal

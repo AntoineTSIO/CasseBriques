@@ -32,6 +32,7 @@
 #define PROBABILITY_OF_SHIELD 50
 #define LIFE_UP 10
 #define PROBABILITY_OF_LIFE_UP 90
+#define PLAYER 11
 //#define DUCK 10000       // Eh, why not transform the player into a duck ?
 
 

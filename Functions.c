@@ -265,6 +265,8 @@ void displayMap(Game game) {
                 printf("b");
             } else if (game.map.tile[i][j].sprite == 'e' || game.map.tile[i][j].sprite == '_') {
                 printf(" ");
+            } else if(game.map.tile[i][j].sprite == 'u'){
+                printf("u");
             }
         }
         printf("\n");
@@ -341,6 +343,63 @@ char keypress() {
         default:
             return ' ';
     }
+}
+
+Game spawnPlayers(Game game){
+    for(int i = 0; i < game.numberOfPlayers; i++){
+        for(int j = 0; j < game.sizeMapX; j++){
+            for(int k = 0; k < game.sizeMapY; k++){
+                if(game.map.tile[j][k].sprite == 'p'){
+                    game.players[i].x = j;
+                    game.players[i].y = k;
+                    game.map.tile[j][k].sprite = 'u';
+                    break;
+                }
+            }
+        }
+    }
+    return game;
+}
+
+Game playerMovement(Game game) {
+    Player currentPlayer = game.players[game.playerTurn % game.numberOfPlayers];
+    char key = keypress();
+    switch (key) {
+        case 'z':
+            if (game.map.tile[currentPlayer.x - 1][currentPlayer.y].item == NOTHING) {
+                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
+                game.map.tile[currentPlayer.x - 1][currentPlayer.y].sprite = 'u';
+                currentPlayer.x--;
+            }
+            break;
+        case 'q':
+            if (game.map.tile[currentPlayer.x][currentPlayer.y - 1].item == NOTHING) {
+                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
+                game.map.tile[currentPlayer.x][currentPlayer.y - 1].sprite = 'u';
+                currentPlayer.y--;
+            }
+            break;
+        case 's':
+            if (game.map.tile[currentPlayer.x + 1][currentPlayer.y].item == NOTHING) {
+                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
+                game.map.tile[currentPlayer.x + 1][currentPlayer.y].sprite = 'u';
+                currentPlayer.x++;
+            }
+            break;
+        case 'd':
+            if (game.map.tile[currentPlayer.x][currentPlayer.y + 1].item == NOTHING) {
+                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
+                game.map.tile[currentPlayer.x][currentPlayer.y + 1].sprite = 'u';
+                currentPlayer.y++;
+            }
+            break;
+        case 'e':
+                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'b';
+                currentPlayer.nbBomb++;
+            break;
+    }
+    game.players[game.playerTurn % game.numberOfPlayers] = currentPlayer;
+    return game;
 }
 
 void clearScreen() {

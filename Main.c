@@ -10,9 +10,18 @@ int main() {
     clearScreen();
 
     displayStats(game);
+    spawnPlayers(game);
     displayMap(game);
 
-    deleteMap(game);
+    int i = 0;
+    while (i < 100) {
+        game = playerMovement(game);
+        clearScreen();
+        displayMap(game);
+        i++;
+        printf("i = %d\n", i);
+
+    }
 
 
     return 0;

@@ -20,6 +20,8 @@ void displayMap(Game game);
 void deleteMap(Game game);
 char keypress();
 void clearScreen();
+Game playerMovement(Game game);
+Game spawnPlayers(Game game);
 
 
 
