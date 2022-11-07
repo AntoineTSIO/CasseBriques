@@ -3,6 +3,7 @@
 #include "Functions.h"
 
 int main() {
+    clearScreen();
     printf("Casse Briques\n");
     Game game = initGame();
     clearScreen();
