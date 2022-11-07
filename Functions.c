@@ -399,6 +399,7 @@ Game playerMovement(Game game) {
             break;
     }
     game.players[game.playerTurn % game.numberOfPlayers] = currentPlayer;
+    game.playerTurn++;
     return game;
 }
 
