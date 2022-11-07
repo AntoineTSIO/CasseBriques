@@ -112,3 +112,4 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 ### 07 Novembre
 - Réparation de la création de la map
 - Création de la map finalisée
+- Refactoring du code pour séparation entre headers et sources
