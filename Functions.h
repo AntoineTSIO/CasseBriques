@@ -202,6 +202,12 @@ void displayMap(Map map, Game game) {
     }
 }
 
+void deleteMap(Map map, Game game) {
+    for (int i = 0; i < game.sizeMapX; i++) {
+        free(map.tile[i]);
+    }
+    free(map.tile);
+}
 
 // void boom(Bomb *bombToExplode, Game game, Map *map) {
 //     int i = 1;

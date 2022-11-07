@@ -107,3 +107,7 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - mise à jour du fichier README.md
 - ajout de la détection de touche du clavier
 - update Tile status on map initialisation
+
+### 07 Novembre
+- Réparation de la création de la map
+- Création de la map finalisée

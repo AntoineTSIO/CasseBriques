@@ -10,8 +10,7 @@ int main() {
     Map map = initMap(game);
     displayMap(map, game);
 
-    int input = keypress();
-    printf("%d", input);
+    deleteMap(map, game);
 
     return 0;
 }
