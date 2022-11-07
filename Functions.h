@@ -103,47 +103,50 @@ Map initMap(Game game) {
     e = empty
     */
     Map map;
-    map.tile = malloc(game.sizeMapX * sizeof(char *));
-    for (int i = 0; i < game.sizeMapX; ++i) {
-        map.tile[i] = malloc(game.sizeMapY * sizeof(char));
+
+    map.tile = malloc(game.sizeMapX * sizeof(Tile *));
+    for (int i = 0; i < game.sizeMapX; i++) {
+        map.tile[i] = malloc(game.sizeMapY * sizeof(Tile));
     }
 
-
-    for (int i = 0; i < game.sizeMapX; ++i) {
-        for (int j = 0; j < game.sizeMapY; ++j) {
+    for (int i = 0; i < game.sizeMapX; i++) {
+        for (int j = 0; j < game.sizeMapY; j++) {
             map.tile[i][j].sprite = 'e';
-            map.tile[i][j].item = NOTHING;
+            map.tile[i][j].item = 0;
+            map.tile[i][j].bomb = 0;
         }
     }
-    for (int i = 0; i < game.sizeMapX; ++i) {
+
+    for (int i = 0; i < game.sizeMapX; i++) {
         map.tile[i][0].sprite = 'x';
         map.tile[i][game.sizeMapY - 1].sprite = 'x';
-        map.tile[0][i].item = INDESTRUCTIBLE_WALL;
     }
-    for (int i = 0; i < game.sizeMapY; ++i) {
-        map.tile[0][i].sprite = 'x';
-        map.tile[game.sizeMapX - 1][i].sprite = 'x';
-        map.tile[0][i].item = INDESTRUCTIBLE_WALL;
+    for (int j = 0; j < game.sizeMapY; j++) {
+        map.tile[0][j].sprite = 'x';
+        map.tile[game.sizeMapX - 1][j].sprite = 'x';
     }
-    for (int i = 0; i < game.sizeMapX; ++i) {
-        for (int j = 0; j < game.sizeMapY; ++j) {
-            if (map.tile[i][j].sprite == 'e') {
-                if (rand() % 100 < 20) {
-                    map.tile[i][j].sprite = 'm';
-                    map.tile[i][j].item = WALL;
-                }
+
+    for (int i = 1; i < game.sizeMapX - 1; i++) {
+        for (int j = 1; j < game.sizeMapY - 1; j++) {
+            if (i % 2 == 0 && j % 2 == 0) {
+                map.tile[i][j].sprite = 'x';
             }
         }
     }
-    for (int i = 0; i < game.numberOfPlayers; ++i) {
-        int x = rand() % (game.sizeMapX - 2) + 1;
-        int y = rand() % (game.sizeMapY - 2) + 1;
-        while (map.tile[x][y].sprite != 'e') {
-            x = rand() % (game.sizeMapX - 2) + 1;
-            y = rand() % (game.sizeMapY - 2) + 1;
-        }
-        map.tile[x][y].sprite = 'p';
+
+    for (int i = 0; i < game.numberOfPlayers; i++) {
+        map.tile[1 + i * 2][1].sprite = 'p';
+        map.tile[1 + i * 2][game.sizeMapY - 2].sprite = 'p';
     }
+
+    for (int i = 1; i < game.sizeMapX - 1; i++) {
+        for (int j = 1; j < game.sizeMapY - 1; j++) {
+            if (map.tile[i][j].sprite != 'x' && map.tile[i][j].sprite != 'p') {
+                map.tile[i][j].sprite = 'm';
+            }
+        }
+    }
+
     return map;
 }
 
