@@ -156,21 +156,30 @@ Map initMap(Game game) {
     if (game.numberOfPlayers == 1) {
         map.tile[1][1].sprite = 'p';
         map.tile[1][1].item = NOTHING;
-    } else {
-        int spawnPointToPlace = game.numberOfPlayers;
-        for (int i = 0; i < game.numberOfPlayers - 1; i++) {
-            if (spawnPointToPlace > 0) {
-                map.tile[1 + i * 2][1].sprite = 'p';
-                map.tile[1 + i * 2][1].item = NOTHING;
-                spawnPointToPlace--;
-                if (spawnPointToPlace == 0)
-                    break;
-                map.tile[1 + i * 2][game.sizeMapY - 2].sprite = 'p';
-                map.tile[1][1 + i * 2].item = NOTHING;
-                spawnPointToPlace--;
-            } else
-                break;
-        }
+    }
+    if (game.numberOfPlayers == 2) {
+        map.tile[1][1].sprite = 'p';
+        map.tile[1][1].item = NOTHING;
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+    }
+    if (game.numberOfPlayers == 3) {
+        map.tile[1][1].sprite = 'p';
+        map.tile[1][1].item = NOTHING;
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+        map.tile[game.sizeMapX - 2][1].sprite = 'p';
+        map.tile[game.sizeMapX - 2][1].item = NOTHING;
+    }
+    if (game.numberOfPlayers == 4) {
+        map.tile[1][1].sprite = 'p';
+        map.tile[1][1].item = NOTHING;
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+        map.tile[game.sizeMapX - 2][1].sprite = 'p';
+        map.tile[game.sizeMapX - 2][1].item = NOTHING;
+        map.tile[1][game.sizeMapY - 2].sprite = 'p';
+        map.tile[1][game.sizeMapY - 2].item = NOTHING;
     }
 
     for (int i = 1; i < game.sizeMapX - 1; i++) {
