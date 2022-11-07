@@ -136,11 +136,26 @@ Map initMap(Game game) {
             }
         }
     }
-
-    for (int i = 0; i < game.numberOfPlayers-1; i++) {
-        map.tile[1 + i * 2][1].sprite = 'p';
-        map.tile[1 + i * 2][game.sizeMapY - 2].sprite = 'p';
-        map.tile[1][1 + i * 2].item = NOTHING;
+    if(game.numberOfPlayers == 1){
+        map.tile[1][1].sprite = 'p';
+        map.tile[1][1].item = NOTHING;
+    }
+    else {
+        int spawnPointToPlace = game.numberOfPlayers;
+        for (int i = 0; i < game.numberOfPlayers - 1; i++) {
+            if(spawnPointToPlace > 0) {
+                map.tile[1 + i * 2][1].sprite = 'p';
+                map.tile[1 + i * 2][1].item = NOTHING;
+                spawnPointToPlace--;
+                if (spawnPointToPlace == 0)
+                    break;
+                map.tile[1 + i * 2][game.sizeMapY - 2].sprite = 'p';
+                map.tile[1][1 + i * 2].item = NOTHING;
+                spawnPointToPlace--;
+            }
+            else
+                break;
+        }
     }
 
     for (int i = 1; i < game.sizeMapX - 1; i++) {
