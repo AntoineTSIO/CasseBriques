@@ -166,6 +166,17 @@ Map initMap(Game game) {
         }
     }
 
+    for (int i = 1; i < game.sizeMapX - 1; i++) {
+        for (int j = 1; j < game.sizeMapY - 1; j++) {
+            if (map.tile[i][j].sprite == 'm') {
+                if (map.tile[i - 1][j].sprite == 'p' || map.tile[i + 1][j].sprite == 'p' || map.tile[i][j - 1].sprite == 'p' || map.tile[i][j + 1].sprite == 'p') {
+                    map.tile[i][j].sprite = 'e';
+                    map.tile[i][j].item = NOTHING;
+                }
+            }
+        }
+    }
+
     return map;
 }
 
