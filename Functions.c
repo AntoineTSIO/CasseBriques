@@ -44,15 +44,34 @@ Game initGame() {
     game.sizeMapY = 0;
     game.playerTurn = 0;
 
-    while (game.sizeMapX < 10) {
-        printf("Saisir la largeur de la carte :");
-        scanf(" %hd", &game.sizeMapX);
-        getchar();
-    }
-    while (game.sizeMapY < 10) {
-        printf("Saisir la hauteur de la carte :");
-        scanf(" %hd", &game.sizeMapY);
-        getchar();
+    while (game.sizeMapX < 11) {
+        printf("Saisir le numéro de carte :\n");
+        printf("1 - 11x11\n");
+        printf("2 - 21x21\n");
+        printf("3 - 31x31\n");
+        printf("4 - 41x41\n");
+        int num = scanf(" %hd", &game.sizeMapX);
+        switch (num) {
+            case 1:
+                game.sizeMapX = 11;
+                game.sizeMapY = 11;
+                break;
+            case 2:
+                game.sizeMapX = 21;
+                game.sizeMapY = 21;
+                break;
+            case 3:
+                game.sizeMapX = 31;
+                game.sizeMapY = 31;
+                break;
+            case 4:
+                game.sizeMapX = 41;
+                game.sizeMapY = 41;
+                break;
+            default:
+                printf("Saisie incorrecte\n");
+                break;
+        }
     }
     while (game.nbBombsPerPlayer < 1) {
         printf("Saisir le nombre de bombes par joueur :");
@@ -63,12 +82,10 @@ Game initGame() {
         printf("Saisir le nombre de joueurs :");
         scanf(" %hd", &game.numberOfPlayers);
         getchar();
-        if (game.numberOfPlayers <= 0 || game.numberOfPlayers > 4) {
+        if (game.numberOfPlayers <= 0 || game.numberOfPlayers > 4)
             printf("Le nombre de joueurs doit être compris entre 1 et 4\n");
-        }
-        if (game.numberOfPlayers > 1) {
+        if (game.numberOfPlayers > 1)
             game.multiplayer = 1;
-        }
     }
     game.players = *createPlayers(game.numberOfPlayers);
     return game;
