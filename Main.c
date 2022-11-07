@@ -5,12 +5,14 @@
 int main() {
     printf("Casse Briques\n");
     Game game = initGame();
+    clearScreen();
     displayStats(game);
 
     Map map = initMap(game);
     displayMap(map, game);
 
     deleteMap(map, game);
+
 
     return 0;
 }

@@ -324,3 +324,8 @@ int keypress() {
     */
     return c;
 }
+
+void clearScreen() {
+    printf("\033[2J");
+    printf("\033[%d;%dH", 0, 0);
+}

@@ -19,6 +19,7 @@ Map initMap(Game game);
 void displayMap(Map map, Game game);
 void deleteMap(Map map, Game game);
 int keypress();
+void clearScreen();
 
 
 
