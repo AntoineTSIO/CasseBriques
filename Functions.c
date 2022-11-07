@@ -309,7 +309,7 @@ void deleteMap(Game game) {
 // }
 
 //detect key pressed
-int keypress() {
+char keypress() {
     system("/bin/stty raw");
     int c;
     system("/bin/stty -echo");
@@ -317,14 +317,30 @@ int keypress() {
     system("/bin/stty echo");
     system("/bin/stty cooked");
 
-    /*
-    z = 122 Z = 90
-    q = 113 Q = 81
-    s = 115 S = 83
-    d = 100 D = 68
-    e = 101 E = 69
-    */
-    return c;
+    switch (c) {
+        case 122:
+            return 'z';
+        case 90:
+            return 'Z';
+        case 113:
+            return 'q';
+        case 81:
+            return 'Q';
+        case 115:
+            return 's';
+        case 83:
+            return 'S';
+        case 100:
+            return 'd';
+        case 68:
+            return 'D';
+        case 101:
+            return 'e';
+        case 69:
+            return 'E';
+        default:
+            return ' ';
+    }
 }
 
 void clearScreen() {

@@ -18,7 +18,7 @@ void displayStats(Game game);
 Map initMap(Game game);
 void displayMap(Game game);
 void deleteMap(Game game);
-int keypress();
+char keypress();
 void clearScreen();
 
 
