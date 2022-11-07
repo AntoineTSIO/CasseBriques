@@ -112,7 +112,7 @@ Map initMap(Game game) {
     for (int i = 0; i < game.sizeMapX; i++) {
         for (int j = 0; j < game.sizeMapY; j++) {
             map.tile[i][j].sprite = 'e';
-            map.tile[i][j].item = 0;
+            map.tile[i][j].item = NOTHING;
             map.tile[i][j].bomb = 0;
         }
     }
@@ -120,29 +120,34 @@ Map initMap(Game game) {
     for (int i = 0; i < game.sizeMapX; i++) {
         map.tile[i][0].sprite = 'x';
         map.tile[i][game.sizeMapY - 1].sprite = 'x';
+        map.tile[i][0].item = INDESTRUCTIBLE_WALL;
     }
     for (int j = 0; j < game.sizeMapY; j++) {
         map.tile[0][j].sprite = 'x';
         map.tile[game.sizeMapX - 1][j].sprite = 'x';
+        map.tile[0][j].item = INDESTRUCTIBLE_WALL;
     }
 
     for (int i = 1; i < game.sizeMapX - 1; i++) {
         for (int j = 1; j < game.sizeMapY - 1; j++) {
             if (i % 2 == 0 && j % 2 == 0) {
                 map.tile[i][j].sprite = 'x';
+                map.tile[i][j].item = INDESTRUCTIBLE_WALL;
             }
         }
     }
 
-    for (int i = 0; i < game.numberOfPlayers; i++) {
+    for (int i = 0; i < game.numberOfPlayers-1; i++) {
         map.tile[1 + i * 2][1].sprite = 'p';
         map.tile[1 + i * 2][game.sizeMapY - 2].sprite = 'p';
+        map.tile[1][1 + i * 2].item = NOTHING;
     }
 
     for (int i = 1; i < game.sizeMapX - 1; i++) {
         for (int j = 1; j < game.sizeMapY - 1; j++) {
             if (map.tile[i][j].sprite != 'x' && map.tile[i][j].sprite != 'p') {
                 map.tile[i][j].sprite = 'm';
+                map.tile[i][j].item = WALL;
             }
         }
     }
