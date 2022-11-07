@@ -43,13 +43,18 @@ Game initGame() {
     game.sizeMapX = 0;
     game.sizeMapY = 0;
     game.playerTurn = 0;
+    game.teleportZone = 0;
 
     while (game.sizeMapX < 11) {
         printf("Saisir le numéro de carte :\n");
         printf("1 - 11x11\n");
-        printf("2 - 21x21\n");
-        printf("3 - 31x31\n");
-        printf("4 - 41x41\n");
+        printf("2 - 11x11 + Zone de téléportation\n");
+        printf("3 - 21x21\n");
+        printf("4 - 21x21 + Zone de téléportation\n");
+        printf("5 - 31x31\n");
+        printf("6 - 31x31 + Zone de téléportation\n");
+        printf("7 - 41x41\n");
+        printf("8 - 41x41 + Zone de téléportation\n");
 
         char input[256];
         fgets(input, 256, stdin);
@@ -59,18 +64,42 @@ Game initGame() {
             case 1:
                 game.sizeMapX = 11;
                 game.sizeMapY = 11;
+                game.teleportZone = 0;
                 break;
             case 2:
-                game.sizeMapX = 21;
-                game.sizeMapY = 21;
+                game.sizeMapX = 11;
+                game.sizeMapY = 11;
+                game.teleportZone = 1;
                 break;
             case 3:
-                game.sizeMapX = 31;
-                game.sizeMapY = 31;
+                game.sizeMapX = 21;
+                game.sizeMapY = 21;
+                game.teleportZone = 0;
                 break;
             case 4:
+                game.sizeMapX = 21;
+                game.sizeMapY = 21;
+                game.teleportZone = 1;
+                break;
+            case 5:
+                game.sizeMapX = 31;
+                game.sizeMapY = 31;
+                game.teleportZone = 0;
+                break;
+            case 6:
+                game.sizeMapX = 31;
+                game.sizeMapY = 31;
+                game.teleportZone = 1;
+                break;
+            case 7:
                 game.sizeMapX = 41;
                 game.sizeMapY = 41;
+                game.teleportZone = 0;
+                break;
+            case 8:
+                game.sizeMapX = 41;
+                game.sizeMapY = 41;
+                game.teleportZone = 1;
                 break;
             default:
                 printf("Saisie incorrecte\n");
@@ -200,6 +229,19 @@ Map initMap(Game game) {
                 }
             }
         }
+    }
+
+    if (game.teleportZone == 1){
+        // set teleport zone to map sides
+        map.tile[0][game.sizeMapY/2].sprite = 'e';
+        map.tile[0][game.sizeMapY/2].item = NOTHING;
+        map.tile[game.sizeMapX-1][game.sizeMapY/2].sprite = 'e';
+        map.tile[game.sizeMapX-1][game.sizeMapY/2].item = NOTHING;
+        map.tile[game.sizeMapX/2][0].sprite = 'e';
+        map.tile[game.sizeMapX/2][0].item = NOTHING;
+        map.tile[game.sizeMapX/2][game.sizeMapY-1].sprite = 'e';
+        map.tile[game.sizeMapX/2][game.sizeMapY-1].item = NOTHING;
+
     }
 
     return map;

@@ -50,6 +50,7 @@ typedef struct {
     short playerTurn;
     Player* currentPlayer;
     short max_range;
+    short teleportZone;
 } Game;
 
 #endif
