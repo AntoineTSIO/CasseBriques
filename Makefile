@@ -28,5 +28,5 @@ play:
 
 clean:
 	@echo "Cleaning up ..."
-	@rm -f main
+	@rm -f main Functions AboutItem
 	@echo "Done."
