@@ -51,6 +51,7 @@ typedef struct {
     Player* currentPlayer;
     short max_range;
     short teleportZone;
+    Map map;
 } Game;
 
 #endif

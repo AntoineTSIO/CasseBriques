@@ -16,8 +16,8 @@ Game initGame();
 void deleteGame(Game game);
 void displayStats(Game game);
 Map initMap(Game game);
-void displayMap(Map map, Game game);
-void deleteMap(Map map, Game game);
+void displayMap(Game game);
+void deleteMap(Game game);
 int keypress();
 void clearScreen();
 

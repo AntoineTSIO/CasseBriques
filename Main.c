@@ -6,13 +6,13 @@ int main() {
     clearScreen();
     printf("Casse Briques\n");
     Game game = initGame();
+    game.map = initMap(game);
     clearScreen();
+
     displayStats(game);
+    displayMap(game);
 
-    Map map = initMap(game);
-    displayMap(map, game);
-
-    deleteMap(map, game);
+    deleteMap(game);
 
 
     return 0;

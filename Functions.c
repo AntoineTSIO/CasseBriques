@@ -249,21 +249,21 @@ Map initMap(Game game) {
     return map;
 }
 
-void displayMap(Map map, Game game) {
+void displayMap(Game game) {
 // x = █
 // m = ▒
 // p =
     for (int i = 0; i < game.sizeMapX; ++i) {
         for (int j = 0; j < game.sizeMapY; ++j) {
-            if (map.tile[i][j].sprite == 'x') {
+            if (game.map.tile[i][j].sprite == 'x') {
                 printf("█");
-            } else if (map.tile[i][j].sprite == 'm') {
+            } else if (game.map.tile[i][j].sprite == 'm') {
                 printf("▒");
-            } else if (map.tile[i][j].sprite == 'p') {
+            } else if (game.map.tile[i][j].sprite == 'p') {
                 printf("p");
-            } else if (map.tile[i][j].sprite == 'b') {
+            } else if (game.map.tile[i][j].sprite == 'b') {
                 printf("b");
-            } else if (map.tile[i][j].sprite == 'e' || map.tile[i][j].sprite == '_') {
+            } else if (game.map.tile[i][j].sprite == 'e' || game.map.tile[i][j].sprite == '_') {
                 printf(" ");
             }
         }
@@ -271,11 +271,11 @@ void displayMap(Map map, Game game) {
     }
 }
 
-void deleteMap(Map map, Game game) {
+void deleteMap(Game game) {
     for (int i = 0; i < game.sizeMapX; i++) {
-        free(map.tile[i]);
+        free(game.map.tile[i]);
     }
-    free(map.tile);
+    free(game.map.tile);
 }
 
 // void boom(Bomb *bombToExplode, Game game, Map *map) {
