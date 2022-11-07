@@ -232,7 +232,6 @@ Map initMap(Game game) {
     }
 
     if (game.teleportZone == 1){
-        // set teleport zone to map sides
         map.tile[0][game.sizeMapY/2].sprite = 'e';
         map.tile[0][game.sizeMapY/2].item = NOTHING;
         map.tile[game.sizeMapX-1][game.sizeMapY/2].sprite = 'e';
