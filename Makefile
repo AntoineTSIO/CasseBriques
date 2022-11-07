@@ -7,7 +7,7 @@ help:
 
 run:
 	@echo "Compiling game ..."
-	@gcc -o main main.c -lncurses
+	@gcc -o main main.c Functions.c AboutItem.c -lncurses
 	@echo "Done."
 	@./main
 	@echo "Cleaning up ..."
@@ -16,7 +16,7 @@ run:
 
 build:
 	@echo "Compiling game ..."
-	@gcc -o main main.c -lncurses
+	@gcc -o main main.c Functions.c AboutItem.c -lncurses
 	@echo "Done."
 	@echo "Run with 'make play'"
 
