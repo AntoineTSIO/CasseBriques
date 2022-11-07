@@ -50,8 +50,12 @@ Game initGame() {
         printf("2 - 21x21\n");
         printf("3 - 31x31\n");
         printf("4 - 41x41\n");
-        int num = scanf(" %hd", &game.sizeMapX);
-        switch (num) {
+
+        char input[256];
+        fgets(input, 256, stdin);
+        int choice = atoi(input);
+
+        switch (choice) {
             case 1:
                 game.sizeMapX = 11;
                 game.sizeMapY = 11;
