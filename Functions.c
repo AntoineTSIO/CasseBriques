@@ -182,33 +182,35 @@ Map initMap(Game game) {
         }
     }
 
-    if (game.numberOfPlayers == 1) {
-        map.tile[1][1].sprite = 'p';
-        map.tile[1][1].item = NOTHING;
-    }
-    if (game.numberOfPlayers == 2) {
-        map.tile[1][1].sprite = 'p';
-        map.tile[1][1].item = NOTHING;
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
-    }
-    if (game.numberOfPlayers == 3) {
-        map.tile[1][1].sprite = 'p';
-        map.tile[1][1].item = NOTHING;
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
-        map.tile[game.sizeMapX - 2][1].sprite = 'p';
-        map.tile[game.sizeMapX - 2][1].item = NOTHING;
-    }
-    if (game.numberOfPlayers == 4) {
-        map.tile[1][1].sprite = 'p';
-        map.tile[1][1].item = NOTHING;
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
-        map.tile[game.sizeMapX - 2][1].sprite = 'p';
-        map.tile[game.sizeMapX - 2][1].item = NOTHING;
-        map.tile[1][game.sizeMapY - 2].sprite = 'p';
-        map.tile[1][game.sizeMapY - 2].item = NOTHING;
+    switch (game.numberOfPlayers) {
+        case 1:
+            map.tile[1][1].sprite = 'p';
+            map.tile[1][1].item = NOTHING;
+            break;
+        case 2:
+            map.tile[1][1].sprite = 'p';
+            map.tile[1][1].item = NOTHING;
+            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+            break;
+        case 3:
+            map.tile[1][1].sprite = 'p';
+            map.tile[1][1].item = NOTHING;
+            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+            map.tile[game.sizeMapX - 2][1].sprite = 'p';
+            map.tile[game.sizeMapX - 2][1].item = NOTHING;
+            break;
+        case 4:
+            map.tile[1][1].sprite = 'p';
+            map.tile[1][1].item = NOTHING;
+            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+            map.tile[game.sizeMapX - 2][1].sprite = 'p';
+            map.tile[game.sizeMapX - 2][1].item = NOTHING;
+            map.tile[1][game.sizeMapY - 2].sprite = 'p';
+            map.tile[1][game.sizeMapY - 2].item = NOTHING;
+
     }
 
     for (int i = 1; i < game.sizeMapX - 1; i++) {
@@ -223,7 +225,8 @@ Map initMap(Game game) {
     for (int i = 1; i < game.sizeMapX - 1; i++) {
         for (int j = 1; j < game.sizeMapY - 1; j++) {
             if (map.tile[i][j].sprite == 'm') {
-                if (map.tile[i - 1][j].sprite == 'p' || map.tile[i + 1][j].sprite == 'p' || map.tile[i][j - 1].sprite == 'p' || map.tile[i][j + 1].sprite == 'p') {
+                if (map.tile[i - 1][j].sprite == 'p' || map.tile[i + 1][j].sprite == 'p' ||
+                    map.tile[i][j - 1].sprite == 'p' || map.tile[i][j + 1].sprite == 'p') {
                     map.tile[i][j].sprite = 'e';
                     map.tile[i][j].item = NOTHING;
                 }
@@ -231,15 +234,15 @@ Map initMap(Game game) {
         }
     }
 
-    if (game.teleportZone == 1){
-        map.tile[0][game.sizeMapY/2].sprite = 'e';
-        map.tile[0][game.sizeMapY/2].item = NOTHING;
-        map.tile[game.sizeMapX-1][game.sizeMapY/2].sprite = 'e';
-        map.tile[game.sizeMapX-1][game.sizeMapY/2].item = NOTHING;
-        map.tile[game.sizeMapX/2][0].sprite = 'e';
-        map.tile[game.sizeMapX/2][0].item = NOTHING;
-        map.tile[game.sizeMapX/2][game.sizeMapY-1].sprite = 'e';
-        map.tile[game.sizeMapX/2][game.sizeMapY-1].item = NOTHING;
+    if (game.teleportZone == 1) {
+        map.tile[0][game.sizeMapY / 2].sprite = 'e';
+        map.tile[0][game.sizeMapY / 2].item = NOTHING;
+        map.tile[game.sizeMapX - 1][game.sizeMapY / 2].sprite = 'e';
+        map.tile[game.sizeMapX - 1][game.sizeMapY / 2].item = NOTHING;
+        map.tile[game.sizeMapX / 2][0].sprite = 'e';
+        map.tile[game.sizeMapX / 2][0].item = NOTHING;
+        map.tile[game.sizeMapX / 2][game.sizeMapY - 1].sprite = 'e';
+        map.tile[game.sizeMapX / 2][game.sizeMapY - 1].item = NOTHING;
 
     }
 
