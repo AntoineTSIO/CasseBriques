@@ -26,6 +26,7 @@
     - [02 Novembre](#02-novembre)
     - [05 Novembre](#05-novembre)
     - [07 Novembre](#07-novembre)
+    - [08 Novembre](#07-novembre)
 
 ## Makefile
 
@@ -117,3 +118,8 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Ajout des joueurs sur la map à l'emplacement des spawns
 - création de la fonction de déplacement des joueurs
 - mise à jour du fichier README.md pour le journal
+
+### 08 Novembre
+- Modification Makefile -> ajout SDL
+- Ajout de la librairie SDL
+- Début de l'utilsiation de SDL

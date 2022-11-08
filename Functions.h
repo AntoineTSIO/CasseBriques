@@ -6,6 +6,7 @@
 #include <string.h>
 #include "Structs.h"
 #include "AboutItem.h"
+#include <SDL.h>
 
 #ifndef CASSEBRIQUES_FUNCTIONS_H
 #define CASSEBRIQUES_FUNCTIONS_H
