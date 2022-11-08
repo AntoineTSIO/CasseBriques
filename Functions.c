@@ -363,6 +363,7 @@ void executeMovement(Tile **tile, Player player, int x, int y){
     if(tile[player.x + x][player.y + y].item == NOTHING){
         tile[player.x][player.y].sprite = 'e';
         tile[player.x + x][player.y + y].sprite = 'p';
+        tile[player.x + x][player.y + y].item = PLAYER;
         player.x += x;
         player.y += y;
     }
