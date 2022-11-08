@@ -265,8 +265,6 @@ void displayMap(Game game) {
                 printf("b");
             } else if (game.map.tile[i][j].sprite == 'e' || game.map.tile[i][j].sprite == '_') {
                 printf(" ");
-            } else if(game.map.tile[i][j].sprite == 'u'){
-                printf("u");
             }
         }
         printf("\n");
@@ -352,7 +350,7 @@ Game spawnPlayers(Game game){
                 if(game.map.tile[j][k].sprite == 'p'){
                     game.players[i].x = j;
                     game.players[i].y = k;
-                    game.map.tile[j][k].sprite = 'u';
+                    game.map.tile[j][k].sprite = 'p';
                     break;
                 }
             }
@@ -361,45 +359,34 @@ Game spawnPlayers(Game game){
     return game;
 }
 
+void executeMovement(Tile **tile, Player player, int x, int y){
+    if(tile[player.x + x][player.y + y].item == NOTHING){
+        tile[player.x][player.y].sprite = 'e';
+        tile[player.x + x][player.y + y].sprite = 'p';
+        player.x += x;
+        player.y += y;
+    }
+}
+
 Game playerMovement(Game game) {
-    Player currentPlayer = game.players[game.playerTurn % game.numberOfPlayers];
+    Tile **tile = game.map.tile;
+    Player player = game.players[game.playerTurn % 4];
     char key = keypress();
     switch (key) {
         case 'z':
-            if (game.map.tile[currentPlayer.x - 1][currentPlayer.y].item == NOTHING) {
-                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
-                game.map.tile[currentPlayer.x - 1][currentPlayer.y].sprite = 'u';
-                currentPlayer.x--;
-            }
+            executeMovement(tile, player, -1, 0);
             break;
         case 'q':
-            if (game.map.tile[currentPlayer.x][currentPlayer.y - 1].item == NOTHING) {
-                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
-                game.map.tile[currentPlayer.x][currentPlayer.y - 1].sprite = 'u';
-                currentPlayer.y--;
-            }
+            executeMovement(tile, player, 0, -1);
             break;
         case 's':
-            if (game.map.tile[currentPlayer.x + 1][currentPlayer.y].item == NOTHING) {
-                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
-                game.map.tile[currentPlayer.x + 1][currentPlayer.y].sprite = 'u';
-                currentPlayer.x++;
-            }
+            executeMovement(tile, player, 1, 0);
             break;
         case 'd':
-            if (game.map.tile[currentPlayer.x][currentPlayer.y + 1].item == NOTHING) {
-                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'e';
-                game.map.tile[currentPlayer.x][currentPlayer.y + 1].sprite = 'u';
-                currentPlayer.y++;
-            }
-            break;
-        case 'e':
-                game.map.tile[currentPlayer.x][currentPlayer.y].sprite = 'b';
-                currentPlayer.nbBomb++;
+            executeMovement(tile, player, 0, 1);
             break;
     }
-    game.players[game.playerTurn % game.numberOfPlayers] = currentPlayer;
-    game.playerTurn++;
+    game.players[game.playerTurn % 4] = player;
     return game;
 }
 
