@@ -104,7 +104,7 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 ### 05 Novembre
 - Très gros Refactoring du code
 - mise au propre du code
-- Fusion du trvavail
+- Fusion du travail
 - mise en place de nom de variable plus explicite
 - mise à jour du fichier README.md
 - ajout de la détection de touche du clavier
@@ -122,4 +122,9 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 ### 08 Novembre
 - Modification Makefile -> ajout SDL
 - Ajout de la librairie SDL
-- Début de l'utilsiation de SDL
+- Début de l'utilisation de SDL
+
+### 09 Novembre
+- Ajout des fichiers de la librairie SDL directement dans lr projet
+- Début de l'utilisation de SDL
+- Mise à jour du README.md
