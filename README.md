@@ -29,7 +29,7 @@
     - [08 Novembre](#08-novembre)
     - [09 Novembre](#09-novembre)
     - [11 Novembre](#11-novembre)
-    - [16 Novembre](#09-novembre)
+    - [16 Novembre](#16-novembre)
 
 ## Makefile
 
@@ -128,7 +128,7 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Début de l'utilisation de SDL
 
 ### 09 Novembre
-- Ajout des fichiers de la librairie SDL directement dans lr projet
+- Ajout des fichiers de la librairie SDL directement dans le projet
 - Début de l'utilisation de SDL
 - Mise à jour du README.md
 

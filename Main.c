@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 
     int i = 0;
     while (i < 100) { //Uniquement pour répéter l'action le temps du dev
-        game = playerMovement(game);
+        game = playerAction(game);
         clearScreen();
         displayMap(game);
         i++;

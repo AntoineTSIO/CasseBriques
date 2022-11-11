@@ -21,7 +21,7 @@ void displayMap(Game game);
 void deleteMap(Game game);
 char keypress();
 void clearScreen();
-Game playerMovement(Game game);
+Game playerAction(Game game);
 Game spawnPlayers(Game game);
 
 #endif // CASSEBRIQUES_FUNCTIONS_H

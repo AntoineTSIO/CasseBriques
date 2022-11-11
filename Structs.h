@@ -3,31 +3,25 @@
 
 typedef struct
 {
-    short ID; // BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
-} Item;
-
-typedef struct
-{
     short id;
     short nbBomb;
     short range;
     short life;
     short shield;
-    short passBomb;
     short invincibility;
     short nbKill;
     char color;
     short x, y;
-    short interaction_with_bombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
+    short interactionWithBombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
+    char sprite;
 } Player;
 
 typedef struct
 {
-    short id;
-    short stateBomb;
+    // short id;
+    // short stateBomb; // What's that ?
     short range;
-    short x;
-    short y;
+    short x, y;
     short timer;
     char sprite;
     Player owner;
@@ -35,9 +29,15 @@ typedef struct
 
 typedef struct
 {
+    short ID; // BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
     char sprite;
-    int item;
-    int bomb;
+} Item;
+
+typedef struct
+{
+    Player whoIsHere;
+    Bomb whichBombIsHere;
+    Item whichItemIsHere;
 } Tile;
 
 typedef struct

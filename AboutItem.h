@@ -8,8 +8,8 @@
 #define CASSEBRIQUES_ABOUTITEM_H
 
 // Items
-#define WALL -1
 #define INDESTRUCTIBLE_WALL -2
+#define WALL -1
 #define NOTHING 0
 #define PROBABILITY_OF_NOTHING 1000
 #define BOMB_UP 1
@@ -35,17 +35,22 @@
 #define PLAYER 11
 //#define DUCK 10000       // Eh, why not transform the player into a duck ?
 
-
-// Direction
-#define DONTMOVE 0
+// Movement
+   // Direction
+#define MOVEMENT_KEY_ERROR -1
+#define DONT_MOVE 0
 #define XPLUS 1
 #define XMINUS 2
 #define YPLUS 3
 #define YMINUS 4
-#define EXPLOSION 5
+#define PUT_BOMB 5
+   // Bomb interaction
+#define PIETON 0
+#define BOMB_WALK 1
+#define BOMB_KICK 2
 
-short get_random_item();
-void pick_up_item(Game *game, short which_one);
+short getRandomItem();
+void pickUpItem(Game *game, short whichOne);
 
 /*
 int player_moves(Game *game, short direction, Map *map);

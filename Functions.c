@@ -19,6 +19,8 @@ Player **createPlayers(int nbPlayersWished)
         aPlayer->passBomb = 0;
         aPlayer->invincibility = 0;
         aPlayer->nbKill = 0;
+        aPlayer->interactionWithBombs = 0;
+        aPlayer->sprite = 'p';
         players[indexNbPlayers] = aPlayer;
         idPlayers++;
     }
@@ -341,32 +343,92 @@ Map initMapFromFile(Game game)
     {
         map.tile[i] = malloc(game.sizeMapY * sizeof(Tile));
     }
-    for (int i = 0; i < game.sizeMapX; i++)
+
+    for (int i = 1; i < game.sizeMapX - 1; i++)
     {
-        for (int j = 0; j < game.sizeMapY; j++)
+        for (int j = 1; j < game.sizeMapY - 1; j++)
         {
-            fscanf(file, "%c", &map.tile[i][j].sprite);
-            if (map.tile[i][j].sprite == 'x')
-            {
-                map.tile[i][j].item = INDESTRUCTIBLE_WALL;
-            }
-            else if (map.tile[i][j].sprite == 'm')
-            {
-                map.tile[i][j].item = WALL;
-            }
-            else if (map.tile[i][j].sprite == 'p')
-            {
-                map.tile[i][j].item = NOTHING;
-            }
-            else if (map.tile[i][j].sprite == 'e')
-            {
-                map.tile[i][j].item = NOTHING;
-            }
-            map.tile[i][j].bomb = 0;
+            map.tile[i][j].whoIsHere = NULL;
+            map.tile[i][j].whichBombIsHere = NULL;
+            if (i % 2 == 0 && j % 2 == 0)
+                map.tile[i][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
+            else
+                map.tile[i][j].whichItemIsHere = newItem(WALL);
         }
     }
 
-    fclose(file);
+    for (int i = 0; i < game.sizeMapX; i++)
+    {
+        map.tile[i][0].whoIsHere = NULL;
+        map.tile[i][0].whichBombIsHere = NULL;
+        map.tile[i][0].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
+        map.tile[i][game.sizeMapY - 1].whoIsHere = NULL;
+        map.tile[i][game.sizeMapY - 1].whichBombIsHere = NULL;
+        map.tile[i][0].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
+    }
+    for (int j = 0; j < game.sizeMapY; j++)
+    {
+        map.tile[0][j].whoIsHere = NULL;
+        map.tile[0][j].whichBombIsHere = NULL;
+        map.tile[0][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
+        map.tile[game.sizeMapX - 1][j].whoIsHere = NULL;
+        map.tile[game.sizeMapX - 1][j].whichBombIsHere = NULL;
+        map.tile[game.sizeMapX - 1][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
+    }
+
+    switch (game.numberOfPlayers)
+    {
+    case 4:
+        *map.tile[1][game.sizeMapY - 2].whoIsHere = game.players[3];
+        free(map.tile[1][game.sizeMapY - 2].whichItemIsHere);
+        map.tile[1][game.sizeMapY - 2].whichItemIsHere = NULL;
+        *map.tile[2][game.sizeMapY - 2].whichItemIsHere = NULL;
+        *map.tile[1][game.sizeMapY - 3].whichItemIsHere = NULL;
+        game.players[3].x = 1;
+        game.players[3].x = game.sizeMapY - 2;
+    case 3:
+        *map.tile[game.sizeMapX - 2][1].whoIsHere = game.players[2];
+        free(map.tile[game.sizeMapX - 2][1].whichItemIsHere);
+        map.tile[game.sizeMapX - 2][1].whichItemIsHere = NULL;
+        *map.tile[game.sizeMapX - 3][1].whichItemIsHere = NULL;
+        *map.tile[game.sizeMapX - 2][2].whichItemIsHere = NULL;
+        game.players[2].x = game.sizeMapX - 2;
+        game.players[2].x = 1;
+    case 2:
+        *map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whoIsHere = game.players[1];
+        free(map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whichItemIsHere);
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whichItemIsHere = NULL;
+        *map.tile[game.sizeMapX - 3][game.sizeMapY - 2].whichItemIsHere = NULL;
+        *map.tile[game.sizeMapX - 2][game.sizeMapY - 3].whichItemIsHere = NULL;
+        game.players[1].x = game.sizeMapX - 2;
+        game.players[1].x = game.sizeMapY - 2;
+    case 1:
+        *map.tile[1][1].whoIsHere = game.players[0];
+        free(map.tile[1][1].whichItemIsHere);
+        map.tile[1][1].whichItemIsHere = NULL;
+        *map.tile[2][1].whichItemIsHere = NULL;
+        *map.tile[1][2].whichItemIsHere = NULL;
+        game.players[0].x = 1;
+        game.players[0].x = 1;
+        break;
+    default:
+        break;
+    }
+
+    /*      to be reworked : maybe replace teleportZone with verticalTunnel and horizontalTunnel, or
+             even randomly spawn tunnels depending on map size
+        if (game.teleportZone == 1) {
+            map.tile[0][game.sizeMapY / 2].sprite = 'e';
+            map.tile[0][game.sizeMapY / 2].item = NOTHING;
+            map.tile[game.sizeMapX - 1][game.sizeMapY / 2].sprite = 'e';
+            map.tile[game.sizeMapX - 1][game.sizeMapY / 2].item = NOTHING;
+            map.tile[game.sizeMapX / 2][0].sprite = 'e';
+            map.tile[game.sizeMapX / 2][0].item = NOTHING;
+            map.tile[game.sizeMapX / 2][game.sizeMapY - 1].sprite = 'e';
+            map.tile[game.sizeMapX / 2][game.sizeMapY - 1].item = NOTHING;
+
+        }
+    /**/
     return map;
 }
 
@@ -379,8 +441,21 @@ void displayMap(Game game)
     {
         for (int j = 0; j < game.sizeMapY; ++j)
         {
-            if (game.map.tile[i][j].sprite == 'x')
+            if (game.map.tile[i][j].whichItemIsHere != NULL)
             {
+                printf(game.map.tile[i][j].whichItemIsHere.sprite);
+            }
+            else if (game.map.tile[i][j].whoIsHere != NULL)
+            { // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
+                printf(game.map.tile[i][j].whoIsHere.sprite);
+            }
+            else if (game.map.tile[i][j].whichBombIsHere != NULL)
+            {
+                printf(game.map.tile[i][j].whichBombIsHere.sprite);
+            }
+            else
+                printf(" ");
+            /*if (game.map.tile[i][j].sprite == 'x') {
                 printf("█");
             }
             else if (game.map.tile[i][j].sprite == 'm')
@@ -398,7 +473,7 @@ void displayMap(Game game)
             else if (game.map.tile[i][j].sprite == 'e' || game.map.tile[i][j].sprite == '_')
             {
                 printf(" ");
-            }
+            }*/
         }
         printf("\n");
     }
@@ -458,23 +533,27 @@ char keypress()
     case 122:
         return 'z';
     case 90:
-        return 'Z';
+        return 'z'; // Z
     case 113:
         return 'q';
     case 81:
-        return 'Q';
+        return 'q'; // Q
     case 115:
         return 's';
     case 83:
-        return 'S';
+        return 's'; // S
     case 100:
         return 'd';
     case 68:
-        return 'D';
+        return 'd'; // D
     case 101:
         return 'e';
     case 69:
-        return 'E';
+        return 'e'; // E
+    case 97:
+        return 'a';
+    case 65:
+        return 'a'; // A
     default:
         return ' ';
     }
@@ -541,4 +620,159 @@ void clearScreen()
 {
     printf("\033[2J");
     printf("\033[%d;%dH", 0, 0);
+}
+
+Bomb *createBomb(Player *boomer)
+{
+    Bomb *bomb = malloc(sizeof(Bomb));
+    bomb->range = boomer->range;
+    bomb->x = boomer->x;
+    bomb->y = boomer->y;
+    bomb->timer = 4;
+    bomb->sprite = 'b';
+    bomb->owner = boomer;
+    return bomb;
+}
+
+void bombKick(Game *game, short direction)
+{
+    Bomb *kickMe;
+    Tile *originTile, *destinationTile, *nextTile;
+    int howFarItGoes = 1;
+
+    originTile = game.map->tile[game->currentPlayer.x][game->currentPlayer];
+    nextTile = originTile;
+    kickMe = originTile->whichBombIsHere;
+
+    switch (direction)
+    {
+    case XMINUS:
+        do
+        {
+            destinationTile = nextTile;
+            howFarItGoes++;
+            nextTile = game.map->tile[(game->currentPlayer.x - howFarItGoes) % game->sizeMapX][game->currentPlayer];
+        } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
+        break;
+    case XPLUS:
+        do
+        {
+            destinationTile = nextTile;
+            howFarItGoes++;
+            nextTile = game.map->tile[(game->currentPlayer.x + howFarItGoes) % game->sizeMapX][game->currentPlayer];
+        } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
+        break;
+    case YMINUS:
+        do
+        {
+            destinationTile = nextTile;
+            howFarItGoes++;
+            nextTile = game.map->tile[game->currentPlayer.x][(game->currentPlayer - howFarItGoes) % game->sizeMapY];
+        } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
+        break;
+    case YPLUS:
+        do
+        {
+            destinationTile = nextTile;
+            howFarItGoes++;
+            nextTile = game.map->tile[game->currentPlayer.x][(game->currentPlayer + howFarItGoes) % game->sizeMapY];
+        } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
+        break;
+    default:
+        break;
+    }
+    destinationTile->whichBombIsHere = kickMe;
+    originTile->whichBombIsHere = NULL;
+}
+
+short getPlayerAction()
+{
+    char key = keypress();
+    switch (key)
+    {
+    case 'z':
+        return XMINUS;
+    case 'q':
+        return YMINUS;
+    case 's':
+        return XPLUS;
+    case 'd':
+        return YPLUS;
+    case 'e':
+        return DONT_MOVE;
+    case 'a':
+        return PUT_BOMB;
+    }
+    return MOVEMENT_KEY_ERROR;
+}
+
+void playerAction(Game *game)
+{
+    short direction = MOVEMENT_KEY_ERROR;
+    do
+    {
+        direction = getPlayerAction();
+    } while (direction == MOVEMENT_KEY_ERROR);
+
+    if (direction == DONT_MOVE)
+        return 1;
+
+    Player *mover = game->currentPlayer;
+    short currentX = mover->x, currentY = mover->y, destinationX = mover->x, destinationY = mover->y;
+
+    switch (direction)
+    {
+    case PUT_BOMB:
+        game.map->tile[destinationX][destinationY].whichBombIsHere = createBomb(mover); // createBomb : to be defined // WARNING : Can't put a bomb if there's already a bomb there.
+        return;
+    case DONT_MOVE:
+        break;
+    case XPLUS:
+        destinationX = (destinationX + 1) % game->sizeMapX;
+        break;
+    case XMINUS:
+        destinationX = (destinationX - 1) % game->sizeMapX;
+        break;
+    case YPLUS:
+        destinationY = (destinationY + 1) % game->sizeMapY;
+        break;
+    case YMINUS:
+        destinationY = (destinationY - 1) % game->sizeMapY;
+        break;
+    default:
+        return;
+    }
+
+    Item whichItemIsHere = game.map->tile[destinationX][destinationY]->whichItemIsHere;
+    Bomb whichBombIsHere = game.map->tile[destinationX][destinationY]->whichBombIsHere;
+    if (whichItemIsHere != NULL)
+    {
+        switch (whichItemIsHere.ID)
+        {
+        case INDESTRUCTIBLE_WALL:
+        case WALL:
+            return;
+        default:
+            mover->x = destinationX;
+            mover->y = destinationY;
+            pickUpItem(game, whichItemIsHere);
+            game.map->tile[destinationX][destinationY].whichItemIsHere = NULL;
+            return;
+        }
+    }
+    if (whichBombIsHere != NULL)
+    {
+        switch (mover.interactionWithBombs)
+        {
+        case PIETON:
+            return;
+        case BOMB_WALK:
+            mover->x = destinationX;
+            mover->y = destinationY;
+            return;
+        case BOMB_KICK:
+            bombKick(game, direction);
+            return;
+        }
+    }
 }

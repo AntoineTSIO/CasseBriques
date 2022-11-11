@@ -3,7 +3,7 @@
 #include "Structs.h"
 #include "AboutItem.h"
 
-short get_random_item() {
+short getRandomItem() {
     int total_probability = PROBABILITY_OF_NOTHING +
                             PROBABILITY_OF_BOMB_UP +
                             PROBABILITY_OF_BOMB_DOWN +
@@ -17,35 +17,35 @@ short get_random_item() {
                             PROBABILITY_OF_LIFE_UP;
 
     //srand(time(NULL));    To be put in the function setting the game up. RNG should only be seeded once per game.
-    int which_one = rand() % total_probability;
-    if (which_one < PROBABILITY_OF_NOTHING)
+    int whichOne = rand() % total_probability;
+    if (whichOne < PROBABILITY_OF_NOTHING)
         return NOTHING;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP)
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP)
         return BOMB_UP;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN)
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN)
         return BOMB_DOWN;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP)
         return RANGE_UP;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP + PROBABILITY_OF_RANGE_DOWN)
         return RANGE_DOWN;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP + PROBABILITY_OF_RANGE_DOWN + PROBABILITY_OF_RANGE_AT_MAX)
         return RANGE_AT_MAX;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP + PROBABILITY_OF_RANGE_DOWN + PROBABILITY_OF_RANGE_AT_MAX +
                     PROBABILITY_OF_BOMB_PASS)
         return BOMB_PASS;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP + PROBABILITY_OF_RANGE_DOWN + PROBABILITY_OF_RANGE_AT_MAX +
                     PROBABILITY_OF_BOMB_PASS + PROBABILITY_OF_BOMB_KICK)
         return BOMB_KICK;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP + PROBABILITY_OF_RANGE_DOWN + PROBABILITY_OF_RANGE_AT_MAX +
                     PROBABILITY_OF_BOMB_PASS + PROBABILITY_OF_BOMB_KICK + PROBABILITY_OF_INVINCIBILITY)
         return INVINCIBILITY;
-    if (which_one < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
+    if (whichOne < PROBABILITY_OF_NOTHING + PROBABILITY_OF_BOMB_UP + PROBABILITY_OF_BOMB_DOWN +
                     PROBABILITY_OF_RANGE_UP + PROBABILITY_OF_RANGE_DOWN + PROBABILITY_OF_RANGE_AT_MAX +
                     PROBABILITY_OF_BOMB_PASS + PROBABILITY_OF_BOMB_KICK + PROBABILITY_OF_INVINCIBILITY +
                     PROBABILITY_OF_SHIELD)
@@ -53,8 +53,26 @@ short get_random_item() {
     return LIFE_UP;
 }
 
-void pick_up_item(Game *game, short which_one) {
-    switch (which_one) {
+Item* newItem(short itemId){
+    Item* item = malloc(sizeof(Item));
+    item->id = itemId;
+    switch (itemId)
+    {
+    case INDESTRUCTIBLE_WALL:
+        item->sprite = '█';
+        break;
+    case WALL :
+        item->sprite = '▒';
+        break;
+    default:
+        item->sprite = '0' + itemId;
+        break;
+    }
+    return item;
+}
+
+void pickUpItem(Game *game, short whichOne) {
+    switch (whichOne) {
         case NOTHING:
             return;
         case BOMB_UP:
