@@ -83,7 +83,7 @@ void pickUpItem(Game *game, short whichOne) {
                 game->currentPlayer->nbBomb--;
             return;
         case RANGE_UP:
-            if (game->currentPlayer->range < game->max_range)
+            if (game->currentPlayer->range < game->maxRange)
                 game->currentPlayer->range++;
             return;
         case RANGE_DOWN:
@@ -91,16 +91,16 @@ void pickUpItem(Game *game, short whichOne) {
                 game->currentPlayer->range--;
             return;
         case RANGE_AT_MAX:
-            game->currentPlayer->range = game->max_range;
+            game->currentPlayer->range = game->maxRange;
             return;
         case BOMB_PASS:
-            game->currentPlayer->interaction_with_bombs = 1;
+            game->currentPlayer->interactionWithBombs = 1;
             return;
         case BOMB_KICK:
-            game->currentPlayer->interaction_with_bombs = 2;
+            game->currentPlayer->interactionWithBombs = 2;
             return;
         case INVINCIBILITY:
-            game->currentPlayer->invincibility = 2;
+            game->currentPlayer->invincibilityTimer = 2;
             return;
         case SHIELD:
             game->currentPlayer->shield = 1;

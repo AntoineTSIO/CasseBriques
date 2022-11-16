@@ -12,12 +12,13 @@ Player **createPlayers(int nbPlayersWished)
     {
         Player *aPlayer = malloc(sizeof(Player));
         aPlayer->id = idPlayers;
-        aPlayer->nbBomb = 1;
+        aPlayer->nbBomb = 1;            // to be modified to take in account the number specified when creating the map
+        aPlayer->numberOfBombsLeft = 1; // to be modified to take in account the number specified when creating the map
         aPlayer->range = 1;
         aPlayer->life = 3;
         aPlayer->shield = 0;
         aPlayer->passBomb = 0;
-        aPlayer->invincibility = 0;
+        aPlayer->invincibilityTimer = 0;
         aPlayer->nbKill = 0;
         aPlayer->interactionWithBombs = 0;
         aPlayer->sprite = 'p';
@@ -82,41 +83,49 @@ Game initGame()
                 game.sizeMapX = 11;
                 game.sizeMapY = 11;
                 game.teleportZone = 0;
+                game.maxRange = 5;
                 break;
             case 2:
                 game.sizeMapX = 11;
                 game.sizeMapY = 11;
                 game.teleportZone = 1;
+                game.maxRange = 5;
                 break;
             case 3:
                 game.sizeMapX = 21;
                 game.sizeMapY = 21;
                 game.teleportZone = 0;
+                game.maxRange = 10;
                 break;
             case 4:
                 game.sizeMapX = 21;
                 game.sizeMapY = 21;
                 game.teleportZone = 1;
+                game.maxRange = 10;
                 break;
             case 5:
                 game.sizeMapX = 31;
                 game.sizeMapY = 31;
                 game.teleportZone = 0;
+                game.maxRange = 15;
                 break;
             case 6:
                 game.sizeMapX = 31;
                 game.sizeMapY = 31;
                 game.teleportZone = 1;
+                game.maxRange = 15;
                 break;
             case 7:
                 game.sizeMapX = 41;
                 game.sizeMapY = 41;
                 game.teleportZone = 0;
+                game.maxRange = 20;
                 break;
             case 8:
                 game.sizeMapX = 41;
                 game.sizeMapY = 41;
                 game.teleportZone = 1;
+                game.maxRange = 20;
                 break;
             default:
                 printf("Saisie incorrecte\n");
@@ -718,6 +727,8 @@ short getPlayerAction()
 void playerAction(Game *game)
 {
     Player *mover = game->currentPlayer;
+    if (!mover->life)
+        return;
     short currentX = mover->x, currentY = mover->y, destinationX = mover->x, destinationY = mover->y;
     short direction = MOVEMENT_KEY_ERROR;
     do
@@ -731,10 +742,14 @@ void playerAction(Game *game)
     switch (direction)
     {
     case PUT_BOMB:
-        game.map->tile[destinationX][destinationY].whichBombIsHere = createBomb(game); // createBomb : to be defined // WARNING : Can't put a bomb if there's already a bomb there.
+        if (mover->numberOfBombsLeft)
+        {
+            game.map->tile[destinationX][destinationY].whichBombIsHere = createBomb(game); // createBomb : to be defined // WARNING : Can't put a bomb if there's already a bomb there.
+            mover->numberOfBombsLeft--;
+        }
         return;
     case DONT_MOVE:
-        break;
+        return;
     case XPLUS:
         destinationX = (destinationX + 1) % game->sizeMapX;
         break;
@@ -751,8 +766,8 @@ void playerAction(Game *game)
         return;
     }
 
-    Item whichItemIsHere = game.map->tile[destinationX][destinationY]->whichItemIsHere;
-    Bomb whichBombIsHere = game.map->tile[destinationX][destinationY]->whichBombIsHere;
+    Item whichItemIsHere = game->map->tile[destinationX][destinationY]->whichItemIsHere;
+    Bomb whichBombIsHere = game->map->tile[destinationX][destinationY]->whichBombIsHere;
     if (whichItemIsHere != NULL)
     {
         switch (whichItemIsHere.ID)
@@ -763,8 +778,10 @@ void playerAction(Game *game)
         default:
             mover->x = destinationX;
             mover->y = destinationY;
+            game->map->tile[currentX][currentY].whoIsHere = NULL;
             pickUpItem(game, whichItemIsHere);
-            game.map->tile[destinationX][destinationY].whichItemIsHere = NULL;
+            game->map->tile[destinationX][destinationY].whichItemIsHere = NULL;
+            game->map->tile[destinationX][destinationY].whoIsHere = mover;
             return;
         }
     }
@@ -782,5 +799,22 @@ void playerAction(Game *game)
             bombKick(game, direction);
             return;
         }
+    }
+}
+
+void hitPlayer(Player *dommageCollateral, Game *game)
+{
+    if (dommageCollateral->invincibilityTimer)
+        return;
+    if (dommageCollateral->shield)
+    {
+        dommageCollateral->shield = 0;
+        return;
+    }
+    dommageCollateral->life--;
+    if (!dommageCollateral->life)
+    {
+        game->map->tile[dommageCollateral->x][dommageCollateral->y].whoIsHere = NULL;
+        // Maybe add something so the game knows that player is dead ? Not really needed, but, eh, why not ?
     }
 }

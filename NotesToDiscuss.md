@@ -30,3 +30,6 @@ Number of bombs limit : depends on the timer (as long as we use a turn-based sys
 Additional items : timer up/down ?
 
 When a player plays their turn, print the map half a second to see where players are, then print where bombs explode for one second and then only start next player's turn.
+
+16/11 : 
+check for enum struct-like. May replace all those #define used for the items.

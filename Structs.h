@@ -9,7 +9,7 @@ typedef struct
     short range;
     short life;
     short shield;
-    short invincibility;
+    short invincibilityTimer;
     short nbKill;
     char color;
     short x, y;
@@ -64,7 +64,7 @@ typedef struct
     Player *players;
     short playerTurn;
     Player *currentPlayer;
-    short max_range;
+    short maxRange;
     short teleportZone;
     Map map;
     BombList activeBombs;
