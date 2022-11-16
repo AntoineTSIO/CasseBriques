@@ -7,7 +7,7 @@ help:
 
 run:
 	@echo "Compiling game ..."
-	@gcc main.c Functions.c AboutItem.c -o main -lncurses $(sdl2-config --cflags --libs)
+	@gcc Main.c Functions.c AboutItem.c -o main $(sdl2-config --cflags --libs)
 	@echo "Done."
 	@./main
 	@echo "Cleaning up ..."
@@ -16,7 +16,7 @@ run:
 
 build:
 	@echo "Compiling game ..."
-	@gcc main.c Functions.c AboutItem.c -o main -lncurses $(sdl2-config --cflags --libs)
+	@gcc Main.c Functions.c AboutItem.c -o main $(sdl2-config --cflags --libs)
 	@echo "Done."
 	@echo "Run with 'make play'"
 
