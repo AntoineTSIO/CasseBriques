@@ -21,6 +21,7 @@ Player **createPlayers(int nbPlayersWished)
         aPlayer->nbKill = 0;
         aPlayer->interactionWithBombs = 0;
         aPlayer->sprite = 'p';
+        aPlayer->numberOfBombsLeft = 1;
         players[indexNbPlayers] = aPlayer;
         idPlayers++;
     }
@@ -175,12 +176,20 @@ Game initGame()
             game.multiplayer = 1;
     }
     game.players = *createPlayers(game.numberOfPlayers);
+    game.activeBombs = NULL;
     return game;
 }
 
 void deleteGame(Game game)
 {
     deletePlayers(&game.players, game.numberOfPlayers);
+    while (activeBombs != NULL)
+    {
+        BombList *temp = activeBombs;
+        activeBombs = activeBombs->next;
+        free(temp);
+    }
+    deleteMap(game); // to de defined
 }
 
 void displayStats(Game game)
@@ -708,22 +717,21 @@ short getPlayerAction()
 
 void playerAction(Game *game)
 {
+    Player *mover = game->currentPlayer;
+    short currentX = mover->x, currentY = mover->y, destinationX = mover->x, destinationY = mover->y;
     short direction = MOVEMENT_KEY_ERROR;
     do
     {
         direction = getPlayerAction();
-    } while (direction == MOVEMENT_KEY_ERROR);
+    } while (direction == MOVEMENT_KEY_ERROR || (game.map->tile[currentX][currentY].whichBombIsHere != NULL && direction == PUT_BOMB));
 
     if (direction == DONT_MOVE)
         return 1;
 
-    Player *mover = game->currentPlayer;
-    short currentX = mover->x, currentY = mover->y, destinationX = mover->x, destinationY = mover->y;
-
     switch (direction)
     {
     case PUT_BOMB:
-        game.map->tile[destinationX][destinationY].whichBombIsHere = createBomb(mover); // createBomb : to be defined // WARNING : Can't put a bomb if there's already a bomb there.
+        game.map->tile[destinationX][destinationY].whichBombIsHere = createBomb(game); // createBomb : to be defined // WARNING : Can't put a bomb if there's already a bomb there.
         return;
     case DONT_MOVE:
         break;

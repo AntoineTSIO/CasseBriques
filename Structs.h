@@ -5,6 +5,7 @@ typedef struct
 {
     short id;
     short nbBomb;
+    short numberOfBombsLeft;
     short range;
     short life;
     short shield;
@@ -24,7 +25,7 @@ typedef struct
     short x, y;
     short timer;
     char sprite;
-    Player owner;
+    Player *owner;
 } Bomb;
 
 typedef struct
@@ -49,6 +50,12 @@ typedef struct
 
 typedef struct
 {
+    Bomb *thisBomb;
+    BombList *nextOne;
+} BombList;
+
+typedef struct
+{
     short sizeMapX;
     short sizeMapY;
     short nbBombsPerPlayer;
@@ -60,6 +67,7 @@ typedef struct
     short max_range;
     short teleportZone;
     Map map;
+    BombList activeBombs;
 } Game;
 
 #endif
