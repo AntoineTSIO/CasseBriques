@@ -26,7 +26,10 @@
     - [02 Novembre](#02-novembre)
     - [05 Novembre](#05-novembre)
     - [07 Novembre](#07-novembre)
-    - [08 Novembre](#07-novembre)
+    - [08 Novembre](#08-novembre)
+    - [09 Novembre](#09-novembre)
+    - [11 Novembre](#11-novembre)
+    - [16 Novembre](#09-novembre)
 
 ## Makefile
 
@@ -128,3 +131,17 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Ajout des fichiers de la librairie SDL directement dans lr projet
 - Début de l'utilisation de SDL
 - Mise à jour du README.md
+
+### 11 Novembre
+- Refonte des fonctions d'action des joueurs
+- Modification des structures pour y correspondre
+- Modification des fonctions qui utilisent les structures mises à jour (génération, suppresion, affichage)
+
+### 16 Novembre
+- Suppression des fichiers de la librairie SDL inclus directement dans le projet
+- Passage sur une VM Ubuntu 22.04
+- Début de l'utilisation de SDL
+- Mise à jour du README.md
+- Point sur l'avancée du projet
+- Répartition des dernières taches
+- Ajout d'une deadline supplémentaire pour la mise en place de SDL (17/11/22)
