@@ -7,7 +7,7 @@ help:
 
 run:
 	@echo "Compiling game ..."
-	@gcc Main.c Functions.c AboutItem.c -o main -w -lSDL2
+	@gcc Main.c Functions.c AboutItem.c -o main -w
 	@echo "Done."
 	@./main
 	@echo "Cleaning up ..."

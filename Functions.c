@@ -246,6 +246,40 @@ Map initMap(Game game) {
     return map;
 }
 
+Game initMapFromFile(Game game, char *mapName) {
+    Map map;
+    FILE *file = fopen(mapName, "r");
+    if (file == NULL) {
+        printf("Error opening file");
+        exit(1);
+    }
+    fscanf(file, "%hd", &game.sizeMapX);
+    fscanf(file, "%hd", &game.sizeMapY);
+    map.tile = malloc(game.sizeMapX * sizeof(Tile *));
+    for (int i = 0; i < game.sizeMapX; i++) {
+        map.tile[i] = malloc(game.sizeMapY * sizeof(Tile));
+    }
+    for (int i = 0; i < game.sizeMapX; i++) {
+        for (int j = 0; j < game.sizeMapY; j++) {
+            fscanf(file, "%c", &map.tile[i][j].sprite);
+            if (map.tile[i][j].sprite == 'x') {
+                map.tile[i][j].item = INDESTRUCTIBLE_WALL;
+            } else if (map.tile[i][j].sprite == 'm') {
+                map.tile[i][j].item = WALL;
+            } else if (map.tile[i][j].sprite == 'p') {
+                map.tile[i][j].item = NOTHING;
+            } else if (map.tile[i][j].sprite == 'e') {
+                map.tile[i][j].item = NOTHING;
+            }
+            map.tile[i][j].bomb = 0;
+        }
+    }
+
+    fclose(file);
+    game.map = map;
+    return game;
+}
+
 void displayMap(Game game) {
 // x = █
 // m = ▒
@@ -340,11 +374,11 @@ char keypress() {
     }
 }
 
-Game spawnPlayers(Game game){
-    for(int i = 0; i < game.numberOfPlayers; i++){
-        for(int j = 0; j < game.sizeMapX; j++){
-            for(int k = 0; k < game.sizeMapY; k++){
-                if(game.map.tile[j][k].sprite == 'p'){
+Game spawnPlayers(Game game) {
+    for (int i = 0; i < game.numberOfPlayers; i++) {
+        for (int j = 0; j < game.sizeMapX; j++) {
+            for (int k = 0; k < game.sizeMapY; k++) {
+                if (game.map.tile[j][k].sprite == 'p') {
                     game.players[i].x = j;
                     game.players[i].y = k;
                     game.map.tile[j][k].sprite = 'p';
@@ -356,8 +390,8 @@ Game spawnPlayers(Game game){
     return game;
 }
 
-void executeMovement(Tile **tile, Player player, int x, int y){
-    if(tile[player.x + x][player.y + y].item == NOTHING){
+void executeMovement(Tile **tile, Player player, int x, int y) {
+    if (tile[player.x + x][player.y + y].item == NOTHING) {
         tile[player.x][player.y].sprite = 'e';
         tile[player.x + x][player.y + y].sprite = 'p';
         tile[player.x + x][player.y + y].item = PLAYER;

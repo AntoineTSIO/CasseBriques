@@ -16,6 +16,7 @@ Game initGame();
 void deleteGame(Game game);
 void displayStats(Game game);
 Map initMap(Game game);
+Game initMapFromFile(Game game, char *mapName);
 void displayMap(Game game);
 void deleteMap(Game game);
 char keypress();

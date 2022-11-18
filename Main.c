@@ -1,11 +1,11 @@
-#include "SDL2/SDL.h"
+/*#include "SDL2/SDL.h"*/
 #include <stdio.h>
 #include "Structs.h"
 #include "Functions.h"
 
 int main(int argc, char **argv) {
 
-    SDL_Window *sdlWindow = NULL;
+    /*SDL_Window *sdlWindow = NULL;
     SDL_Renderer *sdlRenderer = NULL;
 
     //SDL version
@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    SDL_RenderPresent(sdlRenderer);
+    SDL_RenderPresent(sdlRenderer);*/
 
     clearScreen();
     printf("Casse Briques\n");
@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
         // printf("c = %d\n", c);
 
     }
-    SDL_DestroyRenderer(sdlRenderer);
+    /*SDL_DestroyRenderer(sdlRenderer);
     SDL_DestroyWindow(sdlWindow);
     SDL_Quit();
-    return EXIT_SUCCESS; //return 0;
+    return EXIT_SUCCESS; //return 0;*/
 }
