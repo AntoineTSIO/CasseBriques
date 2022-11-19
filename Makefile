@@ -7,7 +7,7 @@ help:
 
 run:
 	@echo "Compiling game ..."
-	@gcc Main.c Functions.c AboutItem.c Socket.c -o main -w
+	@gcc Main.c src/Functions/Functions.c src/AboutItem/AboutItem.c src/Socket/Socket.c -o main
 	@echo "Done."
 	@./main
 	@echo "Cleaning up ..."
@@ -16,7 +16,7 @@ run:
 
 build:
 	@echo "Compiling game ..."
-	@gcc Main.c Functions.c AboutItem.c Socket.c -o main -w
+	@gcc Main.c src/Functions/Functions.c src/AboutItem/AboutItem.c src/Socket/Socket.c -o main
 	@echo "Done."
 	@echo "Run with 'make play'"
 

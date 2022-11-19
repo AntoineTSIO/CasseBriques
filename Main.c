@@ -1,11 +1,6 @@
-// #include "src/lib/sdl2/2.24.2/include/SDL2/SDL.h"
 #include <stdio.h>
 #include "Structs.h"
-#include "Functions.h"
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#define PORT 6666
+#include "src/Functions/Functions.h"
 
 int main(int argc, char **argv)
 {
@@ -38,7 +33,7 @@ int main(int argc, char **argv)
     clearScreen();
     printf("Casse Briques\n");
     Game game = initGame();
-    game.map[game->currentMap] = procedurallyInitMap(&game);
+    game.map[game.currentMap] = procedurallyInitMap(&game);
     clearScreen();
 
     displayStats(game);
