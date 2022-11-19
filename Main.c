@@ -1,12 +1,12 @@
-/*#include "SDL2/SDL.h"*/
+// #include "src/lib/sdl2/2.24.2/include/SDL2/SDL.h"
 #include <stdio.h>
 #include "Structs.h"
 #include "Functions.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 
     /*SDL_Window *sdlWindow = NULL;
-    SDL_Renderer *sdlRenderer = NULL;
 
     //SDL version
     SDL_version nb;
@@ -27,15 +27,9 @@ int main(int argc, char **argv) {
     {
         SDL_Log("Unable to initialize window: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
-    }
-    sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_SOFTWARE);
-    if(sdlRenderer == NULL)
-    {
-        SDL_Log("Unable to initialize renderer : %s\n", SDL_GetError());
-        exit(EXIT_FAILURE);
-    }
+    }*/
 
-    SDL_RenderPresent(sdlRenderer);*/
+    SDL_RenderPresent(sdlRenderer);
 
     clearScreen();
     printf("Casse Briques\n");
@@ -48,7 +42,8 @@ int main(int argc, char **argv) {
     displayMap(game);
 
     int i = 0;
-    while (i < 100) { //Uniquement pour répéter l'action le temps du dev
+    while (i < 100)
+    { // Uniquement pour répéter l'action le temps du dev
         game = playerAction(game);
         clearScreen();
         displayMap(game);
@@ -62,10 +57,9 @@ int main(int argc, char **argv) {
         // system("/bin/stty echo");
         // system("/bin/stty cooked");
         // printf("c = %d\n", c);
-
     }
-    /*SDL_DestroyRenderer(sdlRenderer);
-    SDL_DestroyWindow(sdlWindow);
-    SDL_Quit();
-    return EXIT_SUCCESS; //return 0;*/
+
+    /*SDL_Quit();
+    return EXIT_SUCCESS; //*/
+    return 0;
 }
