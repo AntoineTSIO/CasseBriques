@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "bomb.h"
-#include "Structs.h"
+#include "../../Structs.h"
 #include "../AboutItem/AboutItem.h"
 #include "../Functions/Functions.h"
 
@@ -136,6 +135,8 @@ void boom (Bomb* bombToExplode, Game* game, short** boomMap){
 }
 
 void setOffBombs(Game* game){
+    if (game->activeBombs == NULL)
+            return;
     Map* map = &game->map[game->currentMap];
     BombList* bombToDowntime = game->activeBombs;
     while (bombToDowntime != NULL){

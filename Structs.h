@@ -54,16 +54,17 @@ typedef struct
     char *mapName;
 } Map;
 
-typedef struct node
+typedef struct BombList
 {
     Bomb *thisBomb;
-    struct node *nextOne;
+    struct BombList *nextOne;
 } BombList;
 
 typedef struct
 {
     short nbBombsPerPlayer;
     short numberOfPlayers;
+    short numberOfAlivePlayers;
     short numberOfHumanPlayers;
     short multiplayer; // Boolean -> 0 = false, 1 = true
     Player *players;
