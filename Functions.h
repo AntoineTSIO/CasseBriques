@@ -16,7 +16,7 @@ Game initGame();
 void deleteGame(Game game);
 void displayStats(Game game);
 Map initMap(Game game);
-Game initMapFromFile(Game game, char *mapName);
+Map initMapFromFile(Game game);
 void displayMap(Game game);
 void deleteMap(Game game);
 char keypress();
@@ -24,6 +24,4 @@ void clearScreen();
 Game playerMovement(Game game);
 Game spawnPlayers(Game game);
 
-
-
-#endif //CASSEBRIQUES_FUNCTIONS_H
+#endif // CASSEBRIQUES_FUNCTIONS_H

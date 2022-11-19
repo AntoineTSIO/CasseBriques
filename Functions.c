@@ -3,11 +3,13 @@
 //
 #include "Functions.h"
 
-Player **createPlayers(int nbPlayersWished) {
+Player **createPlayers(int nbPlayersWished)
+{
     // Création des players
     Player **players = malloc(nbPlayersWished * sizeof(Player));
     short idPlayers = 1;
-    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers) {
+    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers)
+    {
         Player *aPlayer = malloc(sizeof(Player));
         aPlayer->id = idPlayers;
         aPlayer->nbBomb = 1;
@@ -23,14 +25,17 @@ Player **createPlayers(int nbPlayersWished) {
     return players;
 }
 
-void deletePlayers(Player **players, int nbPlayersWished) {
-    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers) {
+void deletePlayers(Player **players, int nbPlayersWished)
+{
+    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers)
+    {
         free(players[indexNbPlayers]);
     }
     free(players);
 }
 
-Game initGame() {
+Game initGame()
+{
     Game game;
     printf("Initialisation du jeu\n");
     game.numberOfPlayers = 0;
@@ -42,22 +47,34 @@ Game initGame() {
     game.playerTurn = 0;
     game.teleportZone = 0;
 
-    while (game.sizeMapX < 11) {
-        printf("Saisir le numéro de carte :\n");
-        printf("1 - 11x11\n");
-        printf("2 - 11x11 + Zone de téléportation\n");
-        printf("3 - 21x21\n");
-        printf("4 - 21x21 + Zone de téléportation\n");
-        printf("5 - 31x31\n");
-        printf("6 - 31x31 + Zone de téléportation\n");
-        printf("7 - 41x41\n");
-        printf("8 - 41x41 + Zone de téléportation\n");
+    printf("Si vous souhaitez jouer avec des maps pré-définies, tapez 1, sinon tapez 2 pour les charger depuis un fichier\n");
+    int choice = 0;
+    scanf("%d", &choice);
+    while (choice != 1 && choice != 2)
+    {
+        printf("Veuillez entrer 1 ou 2\n");
+        scanf("%d", &choice);
+    }
+    if (choice == 1)
+    {
+        while (game.sizeMapX < 11)
+        {
+            printf("Saisir le numéro de carte :\n");
+            printf("1 - 11x11\n");
+            printf("2 - 11x11 + Zone de téléportation\n");
+            printf("3 - 21x21\n");
+            printf("4 - 21x21 + Zone de téléportation\n");
+            printf("5 - 31x31\n");
+            printf("6 - 31x31 + Zone de téléportation\n");
+            printf("7 - 41x41\n");
+            printf("8 - 41x41 + Zone de téléportation\n");
 
-        char input[256];
-        fgets(input, 256, stdin);
-        int choice = atoi(input);
+            char input[256];
+            fgets(input, 256, stdin);
+            int choice = atoi(input);
 
-        switch (choice) {
+            switch (choice)
+            {
             case 1:
                 game.sizeMapX = 11;
                 game.sizeMapY = 11;
@@ -101,14 +118,52 @@ Game initGame() {
             default:
                 printf("Saisie incorrecte\n");
                 break;
+            }
         }
     }
-    while (game.nbBombsPerPlayer < 1) {
+    else
+    {
+        printf("Saisir le nom du fichier de map\n");
+        char input[256];
+        fgets(input, 256, stdin);
+        strtok(input, "\n");
+        game.map.mapName = input;
+
+        FILE *file = fopen(game.map.mapName, "r");
+        while (file == NULL)
+        {
+            printf("Veuillez saisir le nom complet du fichier de map\n");
+            fgets(input, 256, stdin);
+            strtok(input, "\n");
+            game.map.mapName = input;
+            file = fopen(game.map.mapName, "r");
+        }
+        char *line = NULL;
+        size_t len = 0;
+        ssize_t read;
+        int lineNb = 0;
+        while ((read = getline(&line, &len, file)) != -1)
+        {
+            if (lineNb == 0)
+            {
+                game.sizeMapX = atoi(line);
+            }
+            else if (lineNb == 1)
+            {
+                game.sizeMapY = atoi(line);
+            }
+            lineNb++;
+        }
+        fclose(file);
+    }
+    while (game.nbBombsPerPlayer < 1)
+    {
         printf("Saisir le nombre de bombes par joueur :");
         scanf(" %hd", &game.nbBombsPerPlayer);
         getchar();
     }
-    while (game.numberOfPlayers <= 0 || game.numberOfPlayers > 4) {
+    while (game.numberOfPlayers <= 0 || game.numberOfPlayers > 4)
+    {
         printf("Saisir le nombre de joueurs :");
         scanf(" %hd", &game.numberOfPlayers);
         getchar();
@@ -121,11 +176,13 @@ Game initGame() {
     return game;
 }
 
-void deleteGame(Game game) {
+void deleteGame(Game game)
+{
     deletePlayers(&game.players, game.numberOfPlayers);
 }
 
-void displayStats(Game game) {
+void displayStats(Game game)
+{
     printf("Paramètres de jeu:\n");
     printf("Nombre de joueurs : %d\n", game.numberOfPlayers);
     printf("Nombre de bombes par joueur : %d\n", game.nbBombsPerPlayer);
@@ -136,7 +193,8 @@ void displayStats(Game game) {
     printf("Dimensions de la carte: %d x %d\n", game.sizeMapX, game.sizeMapY);
 }
 
-Map initMap(Game game) {
+Map initMap(Game game)
+{
     /*
     x = indestructible wall
     m = destructible wall
@@ -144,131 +202,164 @@ Map initMap(Game game) {
     p = spawn point
     e = empty
     */
-    Map map;
 
-    map.tile = malloc(game.sizeMapX * sizeof(Tile *));
-    for (int i = 0; i < game.sizeMapX; i++) {
-        map.tile[i] = malloc(game.sizeMapY * sizeof(Tile));
-    }
-
-    for (int i = 0; i < game.sizeMapX; i++) {
-        for (int j = 0; j < game.sizeMapY; j++) {
-            map.tile[i][j].sprite = 'e';
-            map.tile[i][j].item = NOTHING;
-            map.tile[i][j].bomb = 0;
+    game.map.tile = malloc(game.sizeMapX * sizeof(Tile *));
+    if (game.map.file == 0)
+    {
+        for (int i = 0; i < game.sizeMapX; i++)
+        {
+            game.map.tile[i] = malloc(game.sizeMapY * sizeof(Tile));
         }
-    }
 
-    for (int i = 0; i < game.sizeMapX; i++) {
-        map.tile[i][0].sprite = 'x';
-        map.tile[i][game.sizeMapY - 1].sprite = 'x';
-        map.tile[i][0].item = INDESTRUCTIBLE_WALL;
-    }
-    for (int j = 0; j < game.sizeMapY; j++) {
-        map.tile[0][j].sprite = 'x';
-        map.tile[game.sizeMapX - 1][j].sprite = 'x';
-        map.tile[0][j].item = INDESTRUCTIBLE_WALL;
-    }
-
-    for (int i = 1; i < game.sizeMapX - 1; i++) {
-        for (int j = 1; j < game.sizeMapY - 1; j++) {
-            if (i % 2 == 0 && j % 2 == 0) {
-                map.tile[i][j].sprite = 'x';
-                map.tile[i][j].item = INDESTRUCTIBLE_WALL;
+        for (int i = 0; i < game.sizeMapX; i++)
+        {
+            for (int j = 0; j < game.sizeMapY; j++)
+            {
+                game.map.tile[i][j].sprite = 'e';
+                game.map.tile[i][j].item = NOTHING;
+                game.map.tile[i][j].bomb = 0;
             }
         }
-    }
 
-    switch (game.numberOfPlayers) {
-        case 1:
-            map.tile[1][1].sprite = 'p';
-            map.tile[1][1].item = NOTHING;
-            break;
-        case 2:
-            map.tile[1][1].sprite = 'p';
-            map.tile[1][1].item = NOTHING;
-            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
-            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
-            break;
-        case 3:
-            map.tile[1][1].sprite = 'p';
-            map.tile[1][1].item = NOTHING;
-            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
-            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
-            map.tile[game.sizeMapX - 2][1].sprite = 'p';
-            map.tile[game.sizeMapX - 2][1].item = NOTHING;
-            break;
-        case 4:
-            map.tile[1][1].sprite = 'p';
-            map.tile[1][1].item = NOTHING;
-            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
-            map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
-            map.tile[game.sizeMapX - 2][1].sprite = 'p';
-            map.tile[game.sizeMapX - 2][1].item = NOTHING;
-            map.tile[1][game.sizeMapY - 2].sprite = 'p';
-            map.tile[1][game.sizeMapY - 2].item = NOTHING;
-
-    }
-
-    for (int i = 1; i < game.sizeMapX - 1; i++) {
-        for (int j = 1; j < game.sizeMapY - 1; j++) {
-            if (map.tile[i][j].sprite != 'x' && map.tile[i][j].sprite != 'p') {
-                map.tile[i][j].sprite = 'm';
-                map.tile[i][j].item = WALL;
-            }
+        for (int i = 0; i < game.sizeMapX; i++)
+        {
+            game.map.tile[i][0].sprite = 'x';
+            game.map.tile[i][game.sizeMapY - 1].sprite = 'x';
+            game.map.tile[i][0].item = INDESTRUCTIBLE_WALL;
         }
-    }
+        for (int j = 0; j < game.sizeMapY; j++)
+        {
+            game.map.tile[0][j].sprite = 'x';
+            game.map.tile[game.sizeMapX - 1][j].sprite = 'x';
+            game.map.tile[0][j].item = INDESTRUCTIBLE_WALL;
+        }
 
-    for (int i = 1; i < game.sizeMapX - 1; i++) {
-        for (int j = 1; j < game.sizeMapY - 1; j++) {
-            if (map.tile[i][j].sprite == 'm') {
-                if (map.tile[i - 1][j].sprite == 'p' || map.tile[i + 1][j].sprite == 'p' ||
-                    map.tile[i][j - 1].sprite == 'p' || map.tile[i][j + 1].sprite == 'p') {
-                    map.tile[i][j].sprite = 'e';
-                    map.tile[i][j].item = NOTHING;
+        for (int i = 1; i < game.sizeMapX - 1; i++)
+        {
+            for (int j = 1; j < game.sizeMapY - 1; j++)
+            {
+                if (i % 2 == 0 && j % 2 == 0)
+                {
+                    game.map.tile[i][j].sprite = 'x';
+                    game.map.tile[i][j].item = INDESTRUCTIBLE_WALL;
                 }
             }
         }
+
+        switch (game.numberOfPlayers)
+        {
+        case 1:
+            game.map.tile[1][1].sprite = 'p';
+            game.map.tile[1][1].item = NOTHING;
+            break;
+        case 2:
+            game.map.tile[1][1].sprite = 'p';
+            game.map.tile[1][1].item = NOTHING;
+            game.map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+            game.map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+            break;
+        case 3:
+            game.map.tile[1][1].sprite = 'p';
+            game.map.tile[1][1].item = NOTHING;
+            game.map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+            game.map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+            game.map.tile[game.sizeMapX - 2][1].sprite = 'p';
+            game.map.tile[game.sizeMapX - 2][1].item = NOTHING;
+            break;
+        case 4:
+            game.map.tile[1][1].sprite = 'p';
+            game.map.tile[1][1].item = NOTHING;
+            game.map.tile[game.sizeMapX - 2][game.sizeMapY - 2].sprite = 'p';
+            game.map.tile[game.sizeMapX - 2][game.sizeMapY - 2].item = NOTHING;
+            game.map.tile[game.sizeMapX - 2][1].sprite = 'p';
+            game.map.tile[game.sizeMapX - 2][1].item = NOTHING;
+            game.map.tile[1][game.sizeMapY - 2].sprite = 'p';
+            game.map.tile[1][game.sizeMapY - 2].item = NOTHING;
+        }
+
+        for (int i = 1; i < game.sizeMapX - 1; i++)
+        {
+            for (int j = 1; j < game.sizeMapY - 1; j++)
+            {
+                if (game.map.tile[i][j].sprite != 'x' && game.map.tile[i][j].sprite != 'p')
+                {
+                    game.map.tile[i][j].sprite = 'm';
+                    game.map.tile[i][j].item = WALL;
+                }
+            }
+        }
+
+        for (int i = 1; i < game.sizeMapX - 1; i++)
+        {
+            for (int j = 1; j < game.sizeMapY - 1; j++)
+            {
+                if (game.map.tile[i][j].sprite == 'm')
+                {
+                    if (game.map.tile[i - 1][j].sprite == 'p' || game.map.tile[i + 1][j].sprite == 'p' ||
+                        game.map.tile[i][j - 1].sprite == 'p' || game.map.tile[i][j + 1].sprite == 'p')
+                    {
+                        game.map.tile[i][j].sprite = 'e';
+                        game.map.tile[i][j].item = NOTHING;
+                    }
+                }
+            }
+        }
+
+        if (game.teleportZone == 1)
+        {
+            game.map.tile[0][game.sizeMapY / 2].sprite = 'e';
+            game.map.tile[0][game.sizeMapY / 2].item = NOTHING;
+            game.map.tile[game.sizeMapX - 1][game.sizeMapY / 2].sprite = 'e';
+            game.map.tile[game.sizeMapX - 1][game.sizeMapY / 2].item = NOTHING;
+            game.map.tile[game.sizeMapX / 2][0].sprite = 'e';
+            game.map.tile[game.sizeMapX / 2][0].item = NOTHING;
+            game.map.tile[game.sizeMapX / 2][game.sizeMapY - 1].sprite = 'e';
+            game.map.tile[game.sizeMapX / 2][game.sizeMapY - 1].item = NOTHING;
+        }
+
+        return game.map;
     }
-
-    if (game.teleportZone == 1) {
-        map.tile[0][game.sizeMapY / 2].sprite = 'e';
-        map.tile[0][game.sizeMapY / 2].item = NOTHING;
-        map.tile[game.sizeMapX - 1][game.sizeMapY / 2].sprite = 'e';
-        map.tile[game.sizeMapX - 1][game.sizeMapY / 2].item = NOTHING;
-        map.tile[game.sizeMapX / 2][0].sprite = 'e';
-        map.tile[game.sizeMapX / 2][0].item = NOTHING;
-        map.tile[game.sizeMapX / 2][game.sizeMapY - 1].sprite = 'e';
-        map.tile[game.sizeMapX / 2][game.sizeMapY - 1].item = NOTHING;
-
+    else
+    {
+        return initMapFromFile(game);
     }
-
-    return map;
 }
 
-Game initMapFromFile(Game game, char *mapName) {
+Map initMapFromFile(Game game)
+{
     Map map;
-    FILE *file = fopen(mapName, "r");
-    if (file == NULL) {
+    FILE *file = fopen(game.map.mapName, "r");
+    if (file == NULL)
+    {
         printf("Error opening file");
         exit(1);
     }
     fscanf(file, "%hd", &game.sizeMapX);
     fscanf(file, "%hd", &game.sizeMapY);
     map.tile = malloc(game.sizeMapX * sizeof(Tile *));
-    for (int i = 0; i < game.sizeMapX; i++) {
+    for (int i = 0; i < game.sizeMapX; i++)
+    {
         map.tile[i] = malloc(game.sizeMapY * sizeof(Tile));
     }
-    for (int i = 0; i < game.sizeMapX; i++) {
-        for (int j = 0; j < game.sizeMapY; j++) {
+    for (int i = 0; i < game.sizeMapX; i++)
+    {
+        for (int j = 0; j < game.sizeMapY; j++)
+        {
             fscanf(file, "%c", &map.tile[i][j].sprite);
-            if (map.tile[i][j].sprite == 'x') {
+            if (map.tile[i][j].sprite == 'x')
+            {
                 map.tile[i][j].item = INDESTRUCTIBLE_WALL;
-            } else if (map.tile[i][j].sprite == 'm') {
+            }
+            else if (map.tile[i][j].sprite == 'm')
+            {
                 map.tile[i][j].item = WALL;
-            } else if (map.tile[i][j].sprite == 'p') {
+            }
+            else if (map.tile[i][j].sprite == 'p')
+            {
                 map.tile[i][j].item = NOTHING;
-            } else if (map.tile[i][j].sprite == 'e') {
+            }
+            else if (map.tile[i][j].sprite == 'e')
+            {
                 map.tile[i][j].item = NOTHING;
             }
             map.tile[i][j].bomb = 0;
@@ -276,25 +367,36 @@ Game initMapFromFile(Game game, char *mapName) {
     }
 
     fclose(file);
-    game.map = map;
-    return game;
+    return map;
 }
 
-void displayMap(Game game) {
-// x = █
-// m = ▒
-// p =
-    for (int i = 0; i < game.sizeMapX; ++i) {
-        for (int j = 0; j < game.sizeMapY; ++j) {
-            if (game.map.tile[i][j].sprite == 'x') {
+void displayMap(Game game)
+{
+    // x = █
+    // m = ▒
+    // p =
+    for (int i = 0; i < game.sizeMapX; ++i)
+    {
+        for (int j = 0; j < game.sizeMapY; ++j)
+        {
+            if (game.map.tile[i][j].sprite == 'x')
+            {
                 printf("█");
-            } else if (game.map.tile[i][j].sprite == 'm') {
+            }
+            else if (game.map.tile[i][j].sprite == 'm')
+            {
                 printf("▒");
-            } else if (game.map.tile[i][j].sprite == 'p') {
+            }
+            else if (game.map.tile[i][j].sprite == 'p')
+            {
                 printf("p");
-            } else if (game.map.tile[i][j].sprite == 'b') {
+            }
+            else if (game.map.tile[i][j].sprite == 'b')
+            {
                 printf("b");
-            } else if (game.map.tile[i][j].sprite == 'e' || game.map.tile[i][j].sprite == '_') {
+            }
+            else if (game.map.tile[i][j].sprite == 'e' || game.map.tile[i][j].sprite == '_')
+            {
                 printf(" ");
             }
         }
@@ -302,8 +404,10 @@ void displayMap(Game game) {
     }
 }
 
-void deleteMap(Game game) {
-    for (int i = 0; i < game.sizeMapX; i++) {
+void deleteMap(Game game)
+{
+    for (int i = 0; i < game.sizeMapX; i++)
+    {
         free(game.map.tile[i]);
     }
     free(game.map.tile);
@@ -339,8 +443,9 @@ void deleteMap(Game game) {
 //     }
 // }
 
-//detect key pressed
-char keypress() {
+// detect key pressed
+char keypress()
+{
     system("/bin/stty raw");
     int c;
     system("/bin/stty -echo");
@@ -348,37 +453,43 @@ char keypress() {
     system("/bin/stty echo");
     system("/bin/stty cooked");
 
-    switch (c) {
-        case 122:
-            return 'z';
-        case 90:
-            return 'Z';
-        case 113:
-            return 'q';
-        case 81:
-            return 'Q';
-        case 115:
-            return 's';
-        case 83:
-            return 'S';
-        case 100:
-            return 'd';
-        case 68:
-            return 'D';
-        case 101:
-            return 'e';
-        case 69:
-            return 'E';
-        default:
-            return ' ';
+    switch (c)
+    {
+    case 122:
+        return 'z';
+    case 90:
+        return 'Z';
+    case 113:
+        return 'q';
+    case 81:
+        return 'Q';
+    case 115:
+        return 's';
+    case 83:
+        return 'S';
+    case 100:
+        return 'd';
+    case 68:
+        return 'D';
+    case 101:
+        return 'e';
+    case 69:
+        return 'E';
+    default:
+        return ' ';
     }
 }
 
-Game spawnPlayers(Game game) {
-    for (int i = 0; i < game.numberOfPlayers; i++) {
-        for (int j = 0; j < game.sizeMapX; j++) {
-            for (int k = 0; k < game.sizeMapY; k++) {
-                if (game.map.tile[j][k].sprite == 'p') {
+Game spawnPlayers(Game game)
+{
+    for (int i = 0; i < game.numberOfPlayers; i++)
+    {
+        for (int j = 0; j < game.sizeMapX; j++)
+        {
+            for (int k = 0; k < game.sizeMapY; k++)
+            {
+                if (game.map.tile[j][k].sprite == 'p')
+                {
                     game.players[i].x = j;
                     game.players[i].y = k;
                     game.map.tile[j][k].sprite = 'p';
@@ -390,8 +501,10 @@ Game spawnPlayers(Game game) {
     return game;
 }
 
-void executeMovement(Tile **tile, Player player, int x, int y) {
-    if (tile[player.x + x][player.y + y].item == NOTHING) {
+void executeMovement(Tile **tile, Player player, int x, int y)
+{
+    if (tile[player.x + x][player.y + y].item == NOTHING)
+    {
         tile[player.x][player.y].sprite = 'e';
         tile[player.x + x][player.y + y].sprite = 'p';
         tile[player.x + x][player.y + y].item = PLAYER;
@@ -400,29 +513,32 @@ void executeMovement(Tile **tile, Player player, int x, int y) {
     }
 }
 
-Game playerMovement(Game game) {
+Game playerMovement(Game game)
+{
     Tile **tile = game.map.tile;
     Player player = game.players[game.playerTurn % 4];
     char key = keypress();
-    switch (key) {
-        case 'z':
-            executeMovement(tile, player, -1, 0);
-            break;
-        case 'q':
-            executeMovement(tile, player, 0, -1);
-            break;
-        case 's':
-            executeMovement(tile, player, 1, 0);
-            break;
-        case 'd':
-            executeMovement(tile, player, 0, 1);
-            break;
+    switch (key)
+    {
+    case 'z':
+        executeMovement(tile, player, -1, 0);
+        break;
+    case 'q':
+        executeMovement(tile, player, 0, -1);
+        break;
+    case 's':
+        executeMovement(tile, player, 1, 0);
+        break;
+    case 'd':
+        executeMovement(tile, player, 0, 1);
+        break;
     }
     game.players[game.playerTurn % 4] = player;
     return game;
 }
 
-void clearScreen() {
+void clearScreen()
+{
     printf("\033[2J");
     printf("\033[%d;%dH", 0, 0);
 }

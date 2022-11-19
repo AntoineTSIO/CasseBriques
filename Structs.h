@@ -1,11 +1,13 @@
 #ifndef structs_h
 #define structs_h
 
-typedef struct {
-    short ID; //BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
+typedef struct
+{
+    short ID; // BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
 } Item;
 
-typedef struct {
+typedef struct
+{
     short id;
     short nbBomb;
     short range;
@@ -19,7 +21,8 @@ typedef struct {
     short interaction_with_bombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
 } Player;
 
-typedef struct {
+typedef struct
+{
     short id;
     short stateBomb;
     short range;
@@ -30,17 +33,22 @@ typedef struct {
     Player owner;
 } Bomb;
 
-typedef struct {
+typedef struct
+{
     char sprite;
     int item;
     int bomb;
 } Tile;
 
-typedef struct {
+typedef struct
+{
     Tile **tile;
+    short file;
+    char *mapName;
 } Map;
 
-typedef struct {
+typedef struct
+{
     short sizeMapX;
     short sizeMapY;
     short nbBombsPerPlayer;
@@ -48,7 +56,7 @@ typedef struct {
     short multiplayer; // Boolean -> 0 = false, 1 = true
     Player *players;
     short playerTurn;
-    Player* currentPlayer;
+    Player *currentPlayer;
     short max_range;
     short teleportZone;
     Map map;
