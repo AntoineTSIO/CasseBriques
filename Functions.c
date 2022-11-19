@@ -397,37 +397,45 @@ Map initMapFromFile(Game game)
     switch (game.numberOfPlayers)
     {
     case 4:
-        *map.tile[1][game.sizeMapY - 2].whoIsHere = game.players[3];
+        map.tile[1][game.sizeMapY - 2].whoIsHere = game.players[3];
         free(map.tile[1][game.sizeMapY - 2].whichItemIsHere);
         map.tile[1][game.sizeMapY - 2].whichItemIsHere = NULL;
-        *map.tile[2][game.sizeMapY - 2].whichItemIsHere = NULL;
-        *map.tile[1][game.sizeMapY - 3].whichItemIsHere = NULL;
+        free(map.tile[2][game.sizeMapY - 2].whichItemIsHere);
+        map.tile[2][game.sizeMapY - 2].whichItemIsHere = NULL;
+        free(map.tile[1][game.sizeMapY - 3].whichItemIsHere);
+        map.tile[1][game.sizeMapY - 3].whichItemIsHere = NULL;
         game.players[3].x = 1;
-        game.players[3].x = game.sizeMapY - 2;
+        game.players[3].y = game.sizeMapY - 2;
     case 3:
-        *map.tile[game.sizeMapX - 2][1].whoIsHere = game.players[2];
+        map.tile[game.sizeMapX - 2][1].whoIsHere = game.players[2];
         free(map.tile[game.sizeMapX - 2][1].whichItemIsHere);
         map.tile[game.sizeMapX - 2][1].whichItemIsHere = NULL;
-        *map.tile[game.sizeMapX - 3][1].whichItemIsHere = NULL;
-        *map.tile[game.sizeMapX - 2][2].whichItemIsHere = NULL;
+        free(map.tile[game.sizeMapX - 3][1].whichItemIsHere);
+        map.tile[game.sizeMapX - 3][1].whichItemIsHere = NULL;
+        free(map.tile[game.sizeMapX - 2][2].whichItemIsHere);
+        map.tile[game.sizeMapX - 2][2].whichItemIsHere = NULL;
         game.players[2].x = game.sizeMapX - 2;
-        game.players[2].x = 1;
+        game.players[2].y = 1;
     case 2:
-        *map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whoIsHere = game.players[1];
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whoIsHere = game.players[1];
         free(map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whichItemIsHere);
         map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whichItemIsHere = NULL;
-        *map.tile[game.sizeMapX - 3][game.sizeMapY - 2].whichItemIsHere = NULL;
-        *map.tile[game.sizeMapX - 2][game.sizeMapY - 3].whichItemIsHere = NULL;
+        free(map.tile[game.sizeMapX - 3][game.sizeMapY - 2].whichItemIsHere);
+        map.tile[game.sizeMapX - 3][game.sizeMapY - 2].whichItemIsHere = NULL;
+        free(map.tile[game.sizeMapX - 2][game.sizeMapY - 3].whichItemIsHere);
+        map.tile[game.sizeMapX - 2][game.sizeMapY - 3].whichItemIsHere = NULL;
         game.players[1].x = game.sizeMapX - 2;
-        game.players[1].x = game.sizeMapY - 2;
+        game.players[1].y = game.sizeMapY - 2;
     case 1:
-        *map.tile[1][1].whoIsHere = game.players[0];
+        map.tile[1][1].whoIsHere = game.players[0];
         free(map.tile[1][1].whichItemIsHere);
         map.tile[1][1].whichItemIsHere = NULL;
-        *map.tile[2][1].whichItemIsHere = NULL;
-        *map.tile[1][2].whichItemIsHere = NULL;
+        free(map.tile[2][1].whichItemIsHere);
+        map.tile[2][1].whichItemIsHere = NULL;
+        free(map.tile[1][2].whichItemIsHere);
+        map.tile[1][2].whichItemIsHere = NULL;
         game.players[0].x = 1;
-        game.players[0].x = 1;
+        game.players[0].y = 1;
         break;
     default:
         break;
