@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Structs.h"
+#include "../../Structs.h"
 #include "AboutItem.h"
 
 short getRandomItem() {
@@ -55,14 +55,16 @@ short getRandomItem() {
 
 Item* newItem(short itemId){
     Item* item = malloc(sizeof(Item));
-    item->id = itemId;
+    item->ID = itemId;
     switch (itemId)
     {
     case INDESTRUCTIBLE_WALL:
-        item->sprite = '█';
+        // item->sprite = '█';
+        item->sprite = 'x';
         break;
     case WALL :
-        item->sprite = '▒';
+        // item->sprite = '▒';
+        item->sprite = 'm';
         break;
     default:
         item->sprite = '0' + itemId;
@@ -83,7 +85,7 @@ void pickUpItem(Game *game, short whichOne) {
                 game->currentPlayer->nbBomb--;
             return;
         case RANGE_UP:
-            if (game->currentPlayer->range < game->maxRange)
+            if (game->currentPlayer->range < game->map[game->currentMap].maxRange)
                 game->currentPlayer->range++;
             return;
         case RANGE_DOWN:
@@ -91,7 +93,7 @@ void pickUpItem(Game *game, short whichOne) {
                 game->currentPlayer->range--;
             return;
         case RANGE_AT_MAX:
-            game->currentPlayer->range = game->maxRange;
+            game->currentPlayer->range = game->map[game->currentMap].maxRange;
             return;
         case BOMB_PASS:
             game->currentPlayer->interactionWithBombs = 1;

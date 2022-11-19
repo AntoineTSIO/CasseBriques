@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bomb.h"
-#include "AboutItem.h"
-#include "Functions.h"
+#include "Structs.h"
+#include "../AboutItem/AboutItem.h"
+#include "../Functions/Functions.h"
 
 
 BombList* newBombNode(Bomb* bomb){
@@ -12,7 +13,7 @@ BombList* newBombNode(Bomb* bomb){
    return newNode;
 }
 
-Bomb* createBomb(Game* game){
+Bomb* newBomb(Game* game){
    Bomb* bomb = malloc(sizeof(Bomb));
    bomb->range = game->currentPlayer->range;
    bomb->x = game->currentPlayer->x;

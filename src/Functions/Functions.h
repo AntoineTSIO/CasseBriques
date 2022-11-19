@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Structs.h"
-#include "AboutItem.h"
+#include "../../Structs.h"
+#include "../AboutItem/AboutItem.h"
 
 #ifndef CASSEBRIQUES_FUNCTIONS_H
 #define CASSEBRIQUES_FUNCTIONS_H
@@ -22,9 +22,9 @@ void deleteMap(Game *game);
 void deleteGame(Game *game);
 char keypress();
 void clearScreen();
-void bombKick(Game* game, short direction);
+void bombKick(Game *game, short direction);
 short getPlayerAction();
-void playerAction(Game* game);
-void hitPlayer(Player* dommageCollateral, Game* game);
+void playerAction(Game *game);
+void hitPlayer(Player *dommageCollateral, Game *game);
 
 #endif // CASSEBRIQUES_FUNCTIONS_H

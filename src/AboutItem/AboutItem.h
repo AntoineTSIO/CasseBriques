@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "Structs.h"
+#include "../../Structs.h"
 
 
 #ifndef CASSEBRIQUES_ABOUTITEM_H
@@ -47,7 +47,7 @@
    // Bomb interaction
 #define PIETON 0
 #define BOMB_WALK 1
-#define BOMB_KICK 2
+#define BOMB_KICKING 2
 
 short getRandomItem();
 Item* newItem(short itemId);
