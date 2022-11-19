@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include "Structs.h"
 #include "Functions.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#define PORT 6666
 
 int main(int argc, char **argv)
 {

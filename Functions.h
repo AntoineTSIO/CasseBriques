@@ -10,15 +10,16 @@
 #ifndef CASSEBRIQUES_FUNCTIONS_H
 #define CASSEBRIQUES_FUNCTIONS_H
 
-Player **createPlayers(int nbPlayersWished);
-void deletePlayers(Player **players, int nbPlayersWished);
+int chooseGameType();
+Player **createPlayers(int nbPlayersWished, int startingNumberOfBombs);
+void deletePlayers(Player *players, int nbPlayersWished);
 Game initGame();
-void deleteGame(Game game);
 void displayStats(Game game);
-Map initMap(Game game);
-Map initMapFromFile(Game game);
-void displayMap(Game game);
-void deleteMap(Game game);
+Map procedurallyInitMap(Game *game);
+void displayMap(Game *game);
+void deleteTile(Tile *tile);
+void deleteMap(Game *game);
+void deleteGame(Game *game);
 char keypress();
 void clearScreen();
 Game playerAction(Game game);
