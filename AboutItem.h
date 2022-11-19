@@ -50,6 +50,7 @@
 #define BOMB_KICK 2
 
 short getRandomItem();
+Item* newItem(short itemId);
 void pickUpItem(Game *game, short whichOne);
 
 /*

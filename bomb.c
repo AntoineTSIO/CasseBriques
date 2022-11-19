@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "bomb.h"
+#include "AboutItem.h"
+#include "Functions.h"
 
-
-typedef struct {
-    Bomb* thisBomb;
-    BombList* nextOne;
-} BombList;
 
 BombList* newBombNode(Bomb* bomb){
    BombList* newNode = malloc(sizeof(BombList));
@@ -35,64 +33,11 @@ Bomb* createBomb(Game* game){
    return bomb;
 }
 
-void setOffBombs(Game* game){
-   
-   BombList* bombToDowntime = game->activeBombs;
-   while (bombToDowntime != NULL){
-      bombToDowntime->timer--;
-      bombToDowntime = bombToDowntime->nextOne;
-   }
-
-   short** boomMap = malloc(game.sizeMapX * sizeof(short *));
-   for (int i = 0; i < game.sizeMapX; i++) {
-      boomMap[i] = malloc(game.sizeMapY * sizeof(short));
-      for (int j = 0; j < game.sizeMapY; j++){
-         boomMap[i][j] = 0;
-      }
-   }
-
-   // The boomMap has two uses : avoid item drop by walls to be destroyed the same turn they poped in and 
-   // keeping the player from taking multiple damage in one turn. It checks which will be cleansed by fire,  
-   // then it makes things actually go BOOM.
-   for (int i = 0; i < game.sizeMapX; i++){
-      for (int j = 0; j < game.sizeMapY; j++){
-         if (boomMap[i][j] == 1){
-            continue;
-         }
-         Bomb* currentTileBomb = game->map->tile[i][j].whichBombIsHere;
-         if (currentTileBomb != NULL && currentTileBomb->timer <= 0){
-            boom(currentTileBomb, game, boomMap);
-         }
-      }
-   }
-
-   // Display of explosions goes here
-   
-   for (int i = 0; i < game.sizeMapX; i++){
-      for (int j = 0; j < game.sizeMapY; j++){
-         if (boomMap[i][j] == 1){
-            if(game->map->tile[i][j].whoIsHere != NULL){
-               hitPlayer(game->map->tile[i][j].whoIsHere, game);
-            }
-            if(game->map->tile[i][j].whichtemIsHere != NULL){
-               if(game->map->tile[i][j].whichtemIsHere->ID == WALL){
-                  free(game->map->tile[i][j].whichtemIsHere);
-                  game->map->tile[i][j].whichtemIsHere = newItem(getRandomItem());;
-               }else{
-                  free(game->map->tile[i][j].whichtemIsHere);
-                  game->map->tile[i][j].whichtemIsHere = NULL;
-               }
-            }
-         }
-      }
-   }
-}
-
-void boom (Bomb* bombToExplode, Game* game, Short** boomMap){
+void boom (Bomb* bombToExplode, Game* game, short** boomMap){
    boomMap[bombToExplode->x][bombToExplode->y] = 1;
-
+    Map* map = &game->map[game->currentMap];
    // The 4 next loops are just one done for each direction.
-   // The flame of the exmplosion goes up to one wall (and destructs it if able) or up to range, whichever the less.
+   // The flame of the explosion goes up to one wall (and destructs it if able) or up to range, whichever the less.
    // It sets off other bombs it touches and destroys all items in its path.
    int i = 1;
    while (i <= bombToExplode->range){
@@ -179,7 +124,8 @@ void boom (Bomb* bombToExplode, Game* game, Short** boomMap){
    if (nextBombInList->thisBomb->x == bombToExplode->x && nextBombInList->thisBomb->y == bombToExplode->y){
       game->activeBombs = nextBombInList->nextOne;
    }
-   while (!(nextBombInList->nextOne->thisBomb->x == bombToExplode->x && nextBombInList->nextOne->thisBomb->y == bombToExplode->y)){    // No need to check if NULL. At least this bomb is here.
+   while (!(nextBombInList->nextOne->thisBomb->x == bombToExplode->x && nextBombInList->nextOne->thisBomb->y == bombToExplode->y)){
+       // No need to check if NULL. This bomb can't not be in the list. Y'know, like checking if VIPs in the club are on the list.
       nextBombInList = nextBombInList->nextOne;
    }
    BombList* temp = nextBombInList->nextOne;

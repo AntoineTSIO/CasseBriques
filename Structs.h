@@ -36,13 +36,18 @@ typedef struct
 
 typedef struct
 {
-    Player whoIsHere;
-    Bomb whichBombIsHere;
-    Item whichItemIsHere;
+    Player *whoIsHere;
+    Bomb *whichBombIsHere;
+    Item *whichItemIsHere;
 } Tile;
 
 typedef struct
 {
+    short sizeMapX;
+    short sizeMapY;
+    short maxRange;
+    short numberOfVerticalTunnels;
+    short numberOfHorizontalTunnels;
     Tile **tile;
     short file;
     char *mapName;
@@ -56,17 +61,14 @@ typedef struct node
 
 typedef struct
 {
-    short sizeMapX;
-    short sizeMapY;
     short nbBombsPerPlayer;
     short numberOfPlayers;
     short multiplayer; // Boolean -> 0 = false, 1 = true
     Player *players;
     short playerTurn;
     Player *currentPlayer;
-    short maxRange;
-    short teleportZone;
-    Map map;
+    short currentMap;
+    Map *map;
     BombList *activeBombs;
 } Game;
 

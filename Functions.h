@@ -22,7 +22,9 @@ void deleteMap(Game *game);
 void deleteGame(Game *game);
 char keypress();
 void clearScreen();
-Game playerAction(Game game);
-Game spawnPlayers(Game game);
+void bombKick(Game* game, short direction);
+short getPlayerAction();
+void playerAction(Game* game);
+void hitPlayer(Player* dommageCollateral, Game* game);
 
 #endif // CASSEBRIQUES_FUNCTIONS_H

@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     clearScreen();
     printf("Casse Briques\n");
     Game game = initGame();
-    game.map = initMap(game);
+    game.map[game->currentMap] = procedurallyInitMap(&game);
     clearScreen();
 
     displayStats(game);
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     int i = 0;
     while (i < 100)
     { // Uniquement pour répéter l'action le temps du dev
-        game = playerAction(game);
+        playerAction(&game);
         clearScreen();
         displayMap(game);
         i++;
