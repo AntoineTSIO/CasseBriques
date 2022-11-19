@@ -48,10 +48,10 @@ typedef struct
     char *mapName;
 } Map;
 
-typedef struct
+typedef struct node
 {
     Bomb *thisBomb;
-    BombList *nextOne;
+    struct node *nextOne;
 } BombList;
 
 typedef struct
@@ -67,7 +67,7 @@ typedef struct
     short maxRange;
     short teleportZone;
     Map map;
-    BombList activeBombs;
+    BombList *activeBombs;
 } Game;
 
 #endif

@@ -188,13 +188,13 @@ Game initGame()
     return game;
 }
 
-void deleteGame(Game game)
+void deleteGame(Game *game)
 {
-    deletePlayers(&game.players, game.numberOfPlayers);
-    while (activeBombs != NULL)
+    deletePlayers(game->players, game->numberOfPlayers);
+    while (game->activeBombs != NULL)
     {
-        BombList *temp = activeBombs;
-        activeBombs = activeBombs->next;
+        BombList *temp = game->activeBombs;
+        game->activeBombs = game->activeBombs->next;
         free(temp);
     }
     deleteMap(game); // to de defined
@@ -504,13 +504,25 @@ void displayMap(Game game)
     }
 }
 
-void deleteMap(Game game)
+void deleteTile(Tile *tile)
 {
-    for (int i = 0; i < game.sizeMapX; i++)
+    free(&tile->whichItemIsHere);
+    free(&tile->whoIsHere);
+    free(tile);
+}
+
+void deleteMap(Game *game)
+{
+    for (int i = 0; i < game->sizeMapX; i++)
     {
-        free(game.map.tile[i]);
+        for (int j = 0; j < game->sizeMapY; j++)
+        {
+            deleteTile(&game->map.tile[i][j]);
+        }
+
+        free(game->map.tile[i]);
     }
-    free(game.map.tile);
+    free(game->map.tile);
 }
 
 // void boom(Bomb *bombToExplode, Game game, Map *map) {
@@ -600,6 +612,7 @@ Game spawnPlayers(Game game){
     }
     return game;
 }
+*/
 
 void executeMovement(Tile **tile, Player player, int x, int y)
 {

@@ -38,7 +38,6 @@ int main(int argc, char **argv)
     clearScreen();
 
     displayStats(game);
-    spawnPlayers(game);
     displayMap(game);
 
     int i = 0;
