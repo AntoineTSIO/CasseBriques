@@ -64,6 +64,7 @@ typedef struct
 {
     short nbBombsPerPlayer;
     short numberOfPlayers;
+    short numberOfHumanPlayers;
     short multiplayer; // Boolean -> 0 = false, 1 = true
     Player *players;
     short playerTurn;
