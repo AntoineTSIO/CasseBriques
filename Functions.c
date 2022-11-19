@@ -6,7 +6,7 @@
 Player **createPlayers(int nbPlayersWished)
 {
     // Création des players
-    Player **players = malloc(nbPlayersWished * sizeof(Player));
+    Player **players = malloc(nbPlayersWished * sizeof(Player *));
     short idPlayers = 1;
     for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers)
     {
@@ -17,7 +17,6 @@ Player **createPlayers(int nbPlayersWished)
         aPlayer->range = 1;
         aPlayer->life = 3;
         aPlayer->shield = 0;
-        aPlayer->passBomb = 0;
         aPlayer->invincibilityTimer = 0;
         aPlayer->nbKill = 0;
         aPlayer->interactionWithBombs = 0;
@@ -585,16 +584,12 @@ char keypress()
     }
 }
 
-Game spawnPlayers(Game game)
-{
-    for (int i = 0; i < game.numberOfPlayers; i++)
-    {
-        for (int j = 0; j < game.sizeMapX; j++)
-        {
-            for (int k = 0; k < game.sizeMapY; k++)
-            {
-                if (game.map.tile[j][k].sprite == 'p')
-                {
+/*
+Game spawnPlayers(Game game){
+    for(int i = 0; i < game.numberOfPlayers; i++){
+        for(int j = 0; j < game.sizeMapX; j++){
+            for(int k = 0; k < game.sizeMapY; k++){
+                if(game.map.tile[j][k].sprite == 'p'){
                     game.players[i].x = j;
                     game.players[i].y = k;
                     game.map.tile[j][k].sprite = 'p';
