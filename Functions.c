@@ -38,12 +38,12 @@ int chooseGameType()
     }
 }
 
-Player **createPlayers(int nbPlayersWished, int startingNumberOfBombs)
+Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int startingNumberOfBombs)
 {
     // Création des players
-    Player **players = malloc(nbPlayersWished * sizeof(Player *));
+    Player **players = malloc(numberOfPlayersWished * sizeof(Player *));
     short idPlayers = 1;
-    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers)
+    for (int indexNbPlayers = 0; indexNbPlayers < numberOfPlayersWished; ++indexNbPlayers)
     {
         Player *aPlayer = malloc(sizeof(Player));
         aPlayer->id = idPlayers;
@@ -57,6 +57,7 @@ Player **createPlayers(int nbPlayersWished, int startingNumberOfBombs)
         aPlayer->interactionWithBombs = 0;
         aPlayer->sprite = 'p';
         aPlayer->numberOfBombsLeft = 1;
+        aPlayer->isHuman = (indexNbPlayers < numberOfHumanPlayers);
         players[indexNbPlayers] = aPlayer;
         idPlayers++;
     }
@@ -101,27 +102,37 @@ Game initGame()
         char *ipAddr = scanf(" %hd", &ipAddr);
         clientStart(ipAddr);
     case 4:
+        game.multiplayer = 1;
         while (game.nbBombsPerPlayer < 1)
         {
             printf("Saisir le nombre de bombes par joueur :");
             scanf(" %hd", &game.nbBombsPerPlayer);
             getchar();
         }
-        while (game.numberOfPlayers <= 0 || game.numberOfPlayers > 4)
+        while (game.numberOfHumanPlayers <= 0 || game.numberOfHumanPlayers > 4)
         {
-            printf("Saisir le nombre de joueurs :");
-            scanf(" %hd", &game.numberOfPlayers);
+            printf("Saisir le nombre de joueurs humains :");
+            scanf(" %hd", &game.numberOfHumanPlayers);
             getchar();
-            if (game.numberOfPlayers <= 0 || game.numberOfPlayers > 4)
-                printf("Le nombre de joueurs doit être compris entre 1 et 4\n");
-            if (game.numberOfPlayers > 1)
-                game.multiplayer = 1;
+            if (game.numberOfHumanPlayers <= 1 || game.numberOfHumanPlayers > 4)
+                printf("Le nombre de joueurs humains doit être compris entre 1 et 4\n");
+        }
+        if (game.numberOfHumanPlayers < 4)
+        {
+            while (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4)
+            {
+                printf("Saisir le nombre de joueurs total :");
+                scanf(" %hd", &game.numberOfPlayers);
+                getchar();
+                if (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4)
+                    printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game.numberOfHumanPlayers);
+            }
         }
     default:
         printf("Saisie incorrecte\n");
         break;
     }
-    game.players = *createPlayers(game.numberOfPlayers, game.nbBombsPerPlayer);
+    game.players = *createPlayers(game.numberOfPlayers, game.numberOfHumanPlayers, game.nbBombsPerPlayer);
     game.activeBombs = NULL;
     return game;
 }
@@ -266,9 +277,10 @@ Map procedurallyInitMap(Game *game)
         map.tile[i] = malloc(map.sizeMapY * sizeof(Tile));
     }
 
-    for (int i = 1; i < game.sizeMapX - 1; i++)
+    // Center
+    for (int i = 1; i < map.sizeMapX - 1; i++)
     {
-        for (int j = 1; j < game.sizeMapY - 1; j++)
+        for (int j = 1; j < map.sizeMapY - 1; j++)
         {
             map.tile[i][j].whoIsHere = NULL;
             map.tile[i][j].whichBombIsHere = NULL;
@@ -278,7 +290,7 @@ Map procedurallyInitMap(Game *game)
                 map.tile[i][j].whichItemIsHere = newItem(WALL);
         }
     }
-
+    // Borders
     for (int i = 0; i < map.sizeMapX; i++)
     {
         map.tile[i][0].whoIsHere = NULL;
@@ -297,49 +309,49 @@ Map procedurallyInitMap(Game *game)
         map.tile[map.sizeMapX - 1][j].whichBombIsHere = NULL;
         map.tile[map.sizeMapX - 1][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
     }
-
-    switch (game.numberOfPlayers)
+    // Players
+    switch (game->numberOfPlayers)
     {
     case 4:
-        map.tile[1][game.sizeMapY - 2].whoIsHere = game.players[3];
-        free(map.tile[1][game.sizeMapY - 2].whichItemIsHere);
-        map.tile[1][game.sizeMapY - 2].whichItemIsHere = NULL;
-        free(map.tile[2][game.sizeMapY - 2].whichItemIsHere);
-        map.tile[2][game.sizeMapY - 2].whichItemIsHere = NULL;
-        free(map.tile[1][game.sizeMapY - 3].whichItemIsHere);
-        map.tile[1][game.sizeMapY - 3].whichItemIsHere = NULL;
-        game.players[3].x = 1;
-        game.players[3].y = game.sizeMapY - 2;
+        map.tile[1][map.sizeMapY - 2].whoIsHere = &game->players[3];
+        free(map.tile[1][map.sizeMapY - 2].whichItemIsHere);
+        map.tile[1][map.sizeMapY - 2].whichItemIsHere = NULL;
+        free(map.tile[2][map.sizeMapY - 2].whichItemIsHere);
+        map.tile[2][map.sizeMapY - 2].whichItemIsHere = NULL;
+        free(map.tile[1][map.sizeMapY - 3].whichItemIsHere);
+        map.tile[1][map.sizeMapY - 3].whichItemIsHere = NULL;
+        game->players[3].x = 1;
+        game->players[3].y = map.sizeMapY - 2;
     case 3:
-        map.tile[game.sizeMapX - 2][1].whoIsHere = game.players[2];
-        free(map.tile[game.sizeMapX - 2][1].whichItemIsHere);
-        map.tile[game.sizeMapX - 2][1].whichItemIsHere = NULL;
-        free(map.tile[game.sizeMapX - 3][1].whichItemIsHere);
-        map.tile[game.sizeMapX - 3][1].whichItemIsHere = NULL;
-        free(map.tile[game.sizeMapX - 2][2].whichItemIsHere);
-        map.tile[game.sizeMapX - 2][2].whichItemIsHere = NULL;
-        game.players[2].x = game.sizeMapX - 2;
-        game.players[2].y = 1;
+        map.tile[map.sizeMapX - 2][1].whoIsHere = &game->players[2];
+        free(map.tile[map.sizeMapX - 2][1].whichItemIsHere);
+        map.tile[map.sizeMapX - 2][1].whichItemIsHere = NULL;
+        free(map.tile[map.sizeMapX - 3][1].whichItemIsHere);
+        map.tile[map.sizeMapX - 3][1].whichItemIsHere = NULL;
+        free(map.tile[map.sizeMapX - 2][2].whichItemIsHere);
+        map.tile[map.sizeMapX - 2][2].whichItemIsHere = NULL;
+        game->players[2].x = map.sizeMapX - 2;
+        game->players[2].y = 1;
     case 2:
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whoIsHere = game.players[1];
-        free(map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whichItemIsHere);
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 2].whichItemIsHere = NULL;
-        free(map.tile[game.sizeMapX - 3][game.sizeMapY - 2].whichItemIsHere);
-        map.tile[game.sizeMapX - 3][game.sizeMapY - 2].whichItemIsHere = NULL;
-        free(map.tile[game.sizeMapX - 2][game.sizeMapY - 3].whichItemIsHere);
-        map.tile[game.sizeMapX - 2][game.sizeMapY - 3].whichItemIsHere = NULL;
-        game.players[1].x = game.sizeMapX - 2;
-        game.players[1].y = game.sizeMapY - 2;
+        map.tile[map.sizeMapX - 2][map.sizeMapY - 2].whoIsHere = &game->players[1];
+        free(map.tile[map.sizeMapX - 2][map.sizeMapY - 2].whichItemIsHere);
+        map.tile[map.sizeMapX - 2][map.sizeMapY - 2].whichItemIsHere = NULL;
+        free(map.tile[map.sizeMapX - 3][map.sizeMapY - 2].whichItemIsHere);
+        map.tile[map.sizeMapX - 3][map.sizeMapY - 2].whichItemIsHere = NULL;
+        free(map.tile[map.sizeMapX - 2][map.sizeMapY - 3].whichItemIsHere);
+        map.tile[map.sizeMapX - 2][map.sizeMapY - 3].whichItemIsHere = NULL;
+        game->players[1].x = map.sizeMapX - 2;
+        game->players[1].y = map.sizeMapY - 2;
     case 1:
-        map.tile[1][1].whoIsHere = game.players[0];
+        map.tile[1][1].whoIsHere = &game->players[0];
         free(map.tile[1][1].whichItemIsHere);
         map.tile[1][1].whichItemIsHere = NULL;
         free(map.tile[2][1].whichItemIsHere);
         map.tile[2][1].whichItemIsHere = NULL;
         free(map.tile[1][2].whichItemIsHere);
         map.tile[1][2].whichItemIsHere = NULL;
-        game.players[0].x = 1;
-        game.players[0].y = 1;
+        game->players[0].x = 1;
+        game->players[0].y = 1;
         break;
     default:
         break;

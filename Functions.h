@@ -11,7 +11,7 @@
 #define CASSEBRIQUES_FUNCTIONS_H
 
 int chooseGameType();
-Player **createPlayers(int nbPlayersWished, int startingNumberOfBombs);
+Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int startingNumberOfBombs);
 void deletePlayers(Player *players, int nbPlayersWished);
 Game initGame();
 void displayStats(Game game);

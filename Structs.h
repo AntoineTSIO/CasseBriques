@@ -15,6 +15,7 @@ typedef struct
     short x, y;
     short interactionWithBombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
     char sprite;
+    short isHuman;
 } Player;
 
 typedef struct
