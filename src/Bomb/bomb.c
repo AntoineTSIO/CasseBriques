@@ -184,7 +184,9 @@ void setOffBombs(Game *game){
    int sizeY = map->sizeMapY;
     printf("BOOOOOOMMAPPP 0.5\n");
     printf("X:%d Y:%d\n", sizeX, sizeY);
-    printf("BOOOOMMAPPP 1");
+    //////////  Impossible de savoir pourquoi, mais on a une segfault juste au print suivant. C'est pourtant un print basique, sans rien de particulier.
+    //          Du coup, pour le moment, impossible d'avoir des explosions.
+    /*printf("BOOOOMMAPPP 1");
     printf("%p", boomMap);
     printf("BOOOOMMAPPP 2");
    for (int i = 0; i < sizeX; i++){
