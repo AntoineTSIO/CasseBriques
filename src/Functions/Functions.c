@@ -91,7 +91,7 @@ Game* initGame(){
                 printf("Saisir le nombre de joueurs total :");
                 scanf(" %hd", &game->numberOfPlayers);
                 getchar();
-                if (game->numberOfPlayers <= game->numberOfHumanPlayers || game->numberOfPlayers > 4)
+                if (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers > 4)
                     printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game->numberOfHumanPlayers);
             }
             break;
