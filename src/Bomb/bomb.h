@@ -11,6 +11,8 @@ BombList *newBombNode(Bomb *bomb);
 
 Bomb *newBomb(Game *game);
 
+void displayBoomMap(Game *game, short** boomMap);
+
 void setOffBombs(Game *game);
 
 void boom(Bomb *bombToExplode, Game *game, short **boomMap);

@@ -33,6 +33,29 @@ Bomb *newBomb(Game *game){
    return bomb;
 }
 
+void displayBoomMap(Game *game, short** boomMap){
+    displayPlayerStats(game);
+    for (int i = 0; i < game->map[game->currentMap].sizeMapX; ++i){
+        for (int j = 0; j < game->map[game->currentMap].sizeMapY; ++j){
+            if (boomMap[i][j]){
+                printf("F");
+            }
+            if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
+                printf("%c", game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite);
+            }
+            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){ // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
+                printf("%c", game->map[game->currentMap].tile[i][j].whoIsHere->sprite);
+            }
+            else if (game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
+                printf("%c", game->map[game->currentMap].tile[i][j].whichBombIsHere->sprite);
+            }
+            else
+                printf(" ");
+        }
+        printf("\n");
+    }
+}
+
 void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    boomMap[bombToExplode->x][bombToExplode->y] = 1;
    Map *map = &game->map[game->currentMap];
@@ -42,7 +65,7 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    int i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
-      if (boomMap[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && currentItem->ID == WALL)){
+      if (boomMap[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
@@ -62,7 +85,7 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY].whichItemIsHere;
-      if (boomMap[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY] == 1 && !(currentItem != NULL && currentItem->ID == WALL)){
+      if (boomMap[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
@@ -80,7 +103,7 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
-      if (boomMap[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && currentItem->ID == WALL)){
+      if (boomMap[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
@@ -98,7 +121,7 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY].whichItemIsHere;
-      if (boomMap[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY] == 1 && !(currentItem != NULL && currentItem->ID == WALL)){
+      if (boomMap[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
@@ -149,7 +172,9 @@ void setOffBombs(Game *game){
          boomMap[i][j] = 0;
       }
    }
-
+   printf("debug15\n");
+   printf("%p\n", &map->sizeMapX);
+   printf("%d\n", map->sizeMapX);
    // The boomMap has two uses : avoid item drop by walls to be destroyed the same turn they poped in and
    // keeping the player from taking multiple damage in one turn. It checks which tile will be cleansed by
    // fire, then it makes things actually go BOOM.
@@ -169,15 +194,22 @@ void setOffBombs(Game *game){
          if (boomMap[i][j] == 1){
             continue;
          }
+         printf("debug16");
          Bomb *currentTileBomb = map->tile[i][j].whichBombIsHere;
          if (currentTileBomb != NULL && currentTileBomb->timer <= 0){
+             printf("debug17");
             boom(currentTileBomb, game, boomMap);
+             printf("debug18");
          }
       }
    }
 
-   // Display of explosions goes here
+   // Display of explosions
+   clearScreen();
+   displayBoomMap(game, boomMap);
+   sleep(1);
 
+   // Everything goes BOOM !
    for (int i = 0; i < map->sizeMapX; i++){
       for (int j = 0; j < map->sizeMapY; j++){
          if (boomMap[i][j] == 1){
@@ -188,7 +220,6 @@ void setOffBombs(Game *game){
                if (map->tile[i][j].whichItemIsHere->ID == WALL){
                   free(map->tile[i][j].whichItemIsHere);
                   map->tile[i][j].whichItemIsHere = newItem(getRandomItem());
-                  ;
                }
                else{
                   free(map->tile[i][j].whichItemIsHere);

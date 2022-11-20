@@ -54,6 +54,8 @@ short getRandomItem(){
 }
 
 Item *newItem(short itemId){
+    if (itemId == NOTHING)
+        return NULL;
     Item *item = malloc(sizeof(Item));
     item->ID = itemId;
     switch (itemId){

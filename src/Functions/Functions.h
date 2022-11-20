@@ -13,8 +13,10 @@
 int chooseGameType();
 Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers);
 void deletePlayers(Player **players, int nbPlayersWished);
-Game initGame();
-void displayStats(Game* game);
+Game* initGame();
+void displayGameStats(Game* game);
+void displayMapStats(Game* game);
+void displayPlayerStats(Game* game);
 Map procedurallyInitMap(Game *game, short isRandomlyDefined);
 void displayMap(Game *game);
 void deleteTile(Tile *tile);
@@ -24,7 +26,10 @@ char keypress();
 void clearScreen();
 void bombKick(Game *game, short direction);
 short getPlayerAction();
+void botAction (Game* game);
 void playerAction(Game *game);
 void hitPlayer(Player *dommageCollateral, Game *game);
+void nextMap(Game* game);
+Map initMapFromFile(Game *game, char *mapName);
 
 #endif // CASSEBRIQUES_FUNCTIONS_H
