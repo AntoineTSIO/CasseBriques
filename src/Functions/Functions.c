@@ -124,11 +124,11 @@ Game* initGame(){
                     printf("Le nombre de joueurs humains doit être compris entre 1 et 4\n");
             }
             if (game->numberOfHumanPlayers < 4){
-                while (game->numberOfPlayers <= game->numberOfHumanPlayers || game->numberOfPlayers > 4){
+                while (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers > 4){
                     printf("Saisir le nombre de joueurs total :");
                     scanf(" %hd", &game->numberOfPlayers);
                     getchar();
-                    if (game->numberOfPlayers <= game->numberOfHumanPlayers || game->numberOfPlayers > 4)
+                    if (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers > 4)
                         printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game->numberOfHumanPlayers);
                 }
             }
