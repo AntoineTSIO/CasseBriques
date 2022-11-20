@@ -566,7 +566,103 @@ short getPlayerAction(){
 }
 
 void botAction(Game* game){
-    //Pas le temps de l'implémenter, mais j'ai toute l'IA conçue sur papier. Je vais juste mettre ça ici histoire
+    //Pas le temps de l'implémenter, mais j'ai toute l'IA conçue sur papier.
+    // Je vais juste mettre les grande lignes et bricoler un truc en 20mn.
+
+    // check if puts a bomb : for each tile that a bomb could touch, check if there is another player at 2 tiles or less.
+    //          If yes, put a bomb.
+    //          If no, check if laying a bomb would destroy a wall.
+    //              If yes, lay a bomb.
+
+    // check if move :
+    //      Check if tile is dangerous.
+    //          If yes, check safetiness of adjacent tile.
+    //              If multiple adjacent safetiles, move forward if has bombs left, otherwise move away.
+    //          If no, for each tile that a bomb could touch, check if there is another player at 2 tiles or less.
+    //              If yes, put a bomb.
+    //              If no, check if laying a bomb would destroy a wall.
+    //                  If yes, lay a bomb.
+    //                  If no, check there is safe adjacent tiles.
+    //                      If yes, do a A* to check if there is a way to a target, with a distance limit (maybe range + 2 tiles ?).
+    //                          If yes, move forward if has bombs left, otherwise move away.
+    //                          If no, go towards the nearest Item (search the nearest tiles, then expand the search up to a distance (maybe 4 to 5 tiles), kinda like a reverted A*).
+    //                              If no Item in range, move randomly (any direction or don't move).
+    //                      If no, don't move.
+
+    Map *map = &game->map[game->currentMap];
+    Player *mover = game->currentPlayer;
+
+    short currentX = mover->x, currentY = mover->y, destinationX = mover->x, destinationY = mover->y;
+    short direction = MOVEMENT_KEY_ERROR;
+    do{
+        direction = rand() % 6;
+        printf("%d\n", direction);
+    } while (direction == MOVEMENT_KEY_ERROR || (map->tile[currentX][currentY].whichBombIsHere != NULL && direction == PUT_BOMB));
+    switch (direction){
+        case PUT_BOMB:
+            if (mover->numberOfBombsLeft){
+                Bomb *whichBomb = newBomb(game);
+                map->tile[destinationX][destinationY].whichBombIsHere = whichBomb;
+                mover->numberOfBombsLeft--;
+            }
+            return;
+        case DONT_MOVE:
+            return;
+        case XPLUS:
+            destinationX = (destinationX + 1) % map->sizeMapX;
+            break;
+        case XMINUS:
+            destinationX = (destinationX - 1) % map->sizeMapX;
+            break;
+        case YPLUS:
+            destinationY = (destinationY + 1) % map->sizeMapY;
+            break;
+        case YMINUS:
+            destinationY = (destinationY - 1) % map->sizeMapY;
+            break;
+        default:
+            return;
+    }
+    printf("%d, %d\n", destinationX, destinationY);
+
+    Item *whichItemIsHere = map->tile[destinationX][destinationY].whichItemIsHere;
+    Bomb *whichBombIsHere = map->tile[destinationX][destinationY].whichBombIsHere;
+    if (whichItemIsHere != NULL){
+
+        switch (whichItemIsHere->ID){
+            case INDESTRUCTIBLE_WALL:
+            case WALL:
+                return;
+            default:
+                mover->x = destinationX;
+                mover->y = destinationY;
+                map->tile[currentX][currentY].whoIsHere = NULL;
+                pickUpItem(game, whichItemIsHere->ID);
+                map->tile[destinationX][destinationY].whichItemIsHere = NULL;
+                map->tile[destinationX][destinationY].whoIsHere = mover;
+                return;
+        }
+    }
+    else if (whichBombIsHere != NULL){
+        switch (mover->interactionWithBombs){
+            case PIETON:
+                return;
+            case BOMB_WALK:
+                mover->x = destinationX;
+                mover->y = destinationY;
+                return;
+            case BOMB_KICKING:
+                bombKick(game, direction);
+                return;
+        }
+    }
+    else {
+        mover->x = destinationX;
+        mover->y = destinationY;
+        map->tile[currentX][currentY].whoIsHere = NULL;
+        map->tile[destinationX][destinationY].whoIsHere = mover;
+        return;
+    }
 }
 
 void playerAction(Game *game){
