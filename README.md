@@ -64,7 +64,6 @@ Enfin, la dernière étape pour lancer le jeu est uniquement de suivre le [Makef
     - [19 Novembre](#19-novembre)
     - [20 Novembre](#20-novembre)
   - [Licence](#licence)
-- [](#)
 
 ## Makefile
 
@@ -72,31 +71,41 @@ Enfin, la dernière étape pour lancer le jeu est uniquement de suivre le [Makef
 
 Exécutez la commande suivante pour compiler, nettoyer et jouer au jeu.
 
-`make run`
+```makefile
+make run
+```
 
 ### Compilation
 
 Exécutez la commande suivante pour compiler le projet :
 
-`make build`
+```makefile
+make build
+```
 
 ### Nettoyage
 
 Exécutez la commande suivante pour nettoyer le projet :
 
-`make clean`
+```makefile
+make clean
+```
 
 ### Jouer
 
 Exécutez la commande suivante pour jouer au jeu :
 
-`make play`
+```makefile
+make play
+```
 
 ### voir les commandes disponibles
 
 Exécutez la commande suivante pour voir les commandes disponibles :
 
-`make help`
+```makefile
+make help
+```
 
 ## Journal
 
