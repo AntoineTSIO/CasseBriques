@@ -16,6 +16,18 @@ de bombes possédées, etc...
 
 * [Sujet du Casse Briques](/docs/Sujet_Casse_Briques.pdf)
 
+## Installation
+
+Pour que l'affichage graphique puisse fonctionner, il est nécessaire d'installer le package Dev de GTK 3 avec la commande suivante : 
+```bash
+sudo apt-get install libgtk-3-dev
+```
+Une fois cela fait, vous avez juste à vous rendre dans le projet avec la commande :
+```bash
+cd CasseBriques/
+```
+Enfin, la dernière étape pour lancer le jeu est uniquement de suivre le [Makefile](#makefile)
+
 ## Membres du groupe
 
 - [Gabriel BONJOUR](https://github.com/Elbub)
@@ -27,6 +39,7 @@ de bombes possédées, etc...
 - [Casse Briques Groupe 7](#casse-briques-groupe-7)
   - [Présentation du jeu](#présentation-du-jeu)
   - [Documentation](#documentation)
+  - [Installation](#installation)
   - [Membres du groupe](#membres-du-groupe)
   - [Table des matières](#table-des-matières)
   - [Makefile](#makefile)
