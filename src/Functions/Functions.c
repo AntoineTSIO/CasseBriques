@@ -225,7 +225,6 @@ void displayPlayerStats(Game* game){
     printf("Nombre de victoires : %d\n", game->currentPlayer->numberOfVictories);
     printf("Commandes pour jouer:\ne = ne rien faire | a = poser une bombe | d = ➜ | s = ⬇ | q = ⬅ | z = ⬆\n");
     if(game->map[game->currentMap].tile[game->currentPlayer->x][game->currentPlayer->y].whichBombIsHere != NULL) printf("Attention, vous avez une bombe à vos pieds!\n");
-    //printf("debug11\n");
 }
 
 Map procedurallyInitMap(Game *game, short isRandomlyDefined){
