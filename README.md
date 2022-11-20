@@ -1,6 +1,7 @@
 # Casse Briques Groupe 7
 [![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
-[![C](https://img.shields.io/badge/c-11-%2300599C.svg?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
+[![C](https://img.shields.io/badge/C-11-%2300599C.svg?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
+[![GitHub](https://img.shields.io/badge/Projet-GitHub-%23121011.svg?style=flat-square&logo=github&logoColor=white)](https://github.com/AntoineTSIO/CasseBriques)
 ## Présentation du jeu
 
 “Casse Briques” est un jeu dont le but est d’exploser ses ennemis et de gagner la bataille en
