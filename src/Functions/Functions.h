@@ -11,10 +11,10 @@
 #define CASSEBRIQUES_FUNCTIONS_H
 
 int chooseGameType();
-Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int startingNumberOfBombs);
+Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers);
 void deletePlayers(Player **players, int nbPlayersWished);
 Game initGame();
-void displayStats(Game game);
+void displayStats(Game* game);
 Map procedurallyInitMap(Game *game, short isRandomlyDefined);
 void displayMap(Game *game);
 void deleteTile(Tile *tile);

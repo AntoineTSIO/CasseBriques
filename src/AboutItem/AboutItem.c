@@ -3,8 +3,7 @@
 #include "../../Structs.h"
 #include "AboutItem.h"
 
-short getRandomItem()
-{
+short getRandomItem(){
     int total_probability = PROBABILITY_OF_NOTHING +
                             PROBABILITY_OF_BOMB_UP +
                             PROBABILITY_OF_BOMB_DOWN +
@@ -54,12 +53,10 @@ short getRandomItem()
     return LIFE_UP;
 }
 
-Item *newItem(short itemId)
-{
+Item *newItem(short itemId){
     Item *item = malloc(sizeof(Item));
     item->ID = itemId;
-    switch (itemId)
-    {
+    switch (itemId){
     case INDESTRUCTIBLE_WALL:
         // item->sprite = '█';
         item->sprite = 'x';
@@ -75,10 +72,8 @@ Item *newItem(short itemId)
     return item;
 }
 
-void pickUpItem(Game *game, short whichOne)
-{
-    switch (whichOne)
-    {
+void pickUpItem(Game *game, short whichOne){
+    switch (whichOne){
     case NOTHING:
         return;
     case BOMB_UP:

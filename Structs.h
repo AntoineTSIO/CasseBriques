@@ -4,7 +4,7 @@
 typedef struct
 {
     short id;
-    short nbBomb;
+    short totalNumberOfBombs;
     short numberOfBombsLeft;
     short range;
     short life;

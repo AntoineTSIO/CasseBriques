@@ -7,8 +7,7 @@
 #include "src/Socket/Socket.h"
 #include "src/Functions/Functions.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
     srand(time(NULL));
 
     clearScreen();
@@ -20,8 +19,7 @@ int main(int argc, char **argv)
     displayMap(&game);
 
     int i = 0;
-    while (i < 100)
-    { // Uniquement pour répéter l'action le temps du dev
+    while (i < 100){ // Uniquement pour répéter l'action le temps du dev
         playerAction(&game);
         clearScreen();
         displayMap(&game);

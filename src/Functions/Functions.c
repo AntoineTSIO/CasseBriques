@@ -45,8 +45,8 @@ Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers){
         aPlayer->id = idPlayers;
         aPlayer->x = 0;
         aPlayer->y = 0;
-        aPlayer->nbBomb = startingNumberOfBombs;            // to be modified to take in account the number specified when creating the map
-        aPlayer->numberOfBombsLeft = startingNumberOfBombs; // to be modified to take in account the number specified when creating the map
+        aPlayer->totalNumberOfBombs = 1;            // to be modified to take in account the number specified when creating the map
+        aPlayer->numberOfBombsLeft = 1; // to be modified to take in account the number specified when creating the map
         aPlayer->range = 1;
         aPlayer->life = 3;
         aPlayer->shield = 0;
@@ -78,7 +78,6 @@ Game initGame(){
     game.multiplayer = 0;
     game.players = NULL;
     game.currentPlayer = NULL;
-    game.nbBombsPerPlayer = 0;
     game.playerTurn = 0;
     game.numberOfMaps = 0;
     game.currentMap = 0;
@@ -122,7 +121,7 @@ Game initGame(){
         }
         break;
     }
-    game.players = createPlayers(game.numberOfPlayers, game.numberOfHumanPlayers, game.nbBombsPerPlayer);
+    game.players = createPlayers(game.numberOfPlayers, game.numberOfHumanPlayers);
 
     while (!game.numberOfMaps || game.numberOfMaps > MAX_NUMBER_OF_MAPS){
         printf("Saisir le nombre de carte jouées :");
@@ -174,13 +173,13 @@ Game initGame(){
 
 void displayStats(Game* game){
     printf("Paramètres de jeu:\n");
-    printf("Nombre de joueurs : %d\n", game.numberOfPlayers);
-    printf("Nombre de bombes par joueur : %d\n", game.nbBombsPerPlayer);
-    if (game.multiplayer == 1)
+    printf("Nombre de joueurs : %d\n", game->numberOfPlayers);
+    printf("Nombre de bombes par joueur : %d\n", game->map[game->currentMap].initialNumberOfBombsPerPlayer);
+    if (game->multiplayer == 1)
         printf("Mode: multiplayer\n");
     else
         printf("Mode: solo\n");
-    printf("Dimensions de la carte: %d x %d\n", game.map[game.currentMap].sizeMapX, game.map[game.currentMap].sizeMapY);
+    printf("Dimensions de la carte: %d x %d\n", game->map[game->currentMap].sizeMapX, game->map[game->currentMap].sizeMapY);
 }
 
 Map procedurallyInitMap(Game *game, short isRandomlyDefined){
@@ -205,6 +204,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
         map.sizeMapY = rand() % 39 + 11;
         map.numberOfHorizontalTunnels = rand() % ((map.sizeMapX - 1) / 5);
         map.numberOfVerticalTunnels = rand() % ((map.sizeMapY - 1) / 5);
+        map.initialNumberOfBombsPerPlayer = rand() % 3;
     }
     else{
         while (map.initialNumberOfBombsPerPlayer < 1){
@@ -218,7 +218,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
             printf("Saisir la hauteur de carte souhaitée (min: 11 | max: 51) :");
             scanf(" %hd", &map.sizeMapX);
             getchar();
-            if (map.sizeMapX < 7)
+            if (map.sizeMapX < 11)
                 printf("Carte trop petite.\n");
             if (map.sizeMapX > 51)
                 printf("Carte trop grande.\n");
@@ -227,7 +227,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
             printf("Saisir la largeur de carte souhaitée (min: 11 | max: 51) :");
             scanf(" %hd", &map.sizeMapY);
             getchar();
-            if (map.sizeMapY < 7)
+            if (map.sizeMapY < 11)
                 printf("Carte trop petite.\n");
             if (map.sizeMapY > 51)
                 printf("Carte trop grande.\n");
@@ -323,6 +323,8 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
         map.tile[1][map.sizeMapY - 3].whichItemIsHere = NULL;
         game->players[3]->x = 1;
         game->players[3]->y = map.sizeMapY - 2;
+        game->players[3]->totalNumberOfBombs = map.initialNumberOfBombsPerPlayer;
+        game->players[3]->numberOfBombsLeft = map.initialNumberOfBombsPerPlayer;
     case 3:
         map.tile[map.sizeMapX - 2][1].whoIsHere = game->players[2];
         free(map.tile[map.sizeMapX - 2][1].whichItemIsHere);
@@ -333,6 +335,8 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
         map.tile[map.sizeMapX - 2][2].whichItemIsHere = NULL;
         game->players[2]->x = map.sizeMapX - 2;
         game->players[2]->y = 1;
+        game->players[2]->totalNumberOfBombs = map.initialNumberOfBombsPerPlayer;
+        game->players[2]->numberOfBombsLeft = map.initialNumberOfBombsPerPlayer;
     case 2:
         map.tile[map.sizeMapX - 2][map.sizeMapY - 2].whoIsHere = game->players[1];
         free(map.tile[map.sizeMapX - 2][map.sizeMapY - 2].whichItemIsHere);
@@ -343,6 +347,8 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
         map.tile[map.sizeMapX - 2][map.sizeMapY - 3].whichItemIsHere = NULL;
         game->players[1]->x = map.sizeMapX - 2;
         game->players[1]->y = map.sizeMapY - 2;
+        game->players[1]->totalNumberOfBombs = map.initialNumberOfBombsPerPlayer;
+        game->players[1]->numberOfBombsLeft = map.initialNumberOfBombsPerPlayer;
     case 1:
         map.tile[1][1].whoIsHere = game->players[0];
         free(map.tile[1][1].whichItemIsHere);
@@ -353,6 +359,8 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
         map.tile[1][2].whichItemIsHere = NULL;
         game->players[0]->x = 1;
         game->players[0]->y = 1;
+        game->players[0]->totalNumberOfBombs = map.initialNumberOfBombsPerPlayer;
+        game->players[0]->numberOfBombsLeft = map.initialNumberOfBombsPerPlayer;
         break;
     default:
         break;
