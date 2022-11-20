@@ -10,15 +10,17 @@
 #include <unistd.h>
 #define PORT 6666
 
-int serverStart(){
+int serverStart()
+{
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
-    char buffer[1024] = { 0 };
+    char buffer[1024] = {0};
     char *hello = "Hello from server";
 
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
         perror("Socket failed");
         exit(EXIT_FAILURE);
     }
@@ -26,7 +28,8 @@ int serverStart(){
     // Forcefully attaching Socket to the port 6666
     if (setsockopt(server_fd, SOL_SOCKET,
                    SO_REUSEADDR | SO_REUSEPORT, &opt,
-                   sizeof(opt))) {
+                   sizeof(opt)))
+    {
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
@@ -35,20 +38,20 @@ int serverStart(){
     address.sin_port = htons(PORT);
 
     // Forcefully attaching Socket to the port 6666
-    if (bind(server_fd, (struct sockaddr*)&address,
-             sizeof(address))
-        < 0) {
+    if (bind(server_fd, (struct sockaddr *)&address,
+             sizeof(address)) < 0)
+    {
         perror("bind failed");
         exit(EXIT_FAILURE);
     }
-    if (listen(server_fd, 3) < 0) {
+    if (listen(server_fd, 3) < 0)
+    {
         perror("listen");
         exit(EXIT_FAILURE);
     }
-    if ((new_socket
-                 = accept(server_fd, (struct sockaddr*)&address,
-                          (socklen_t*)&addrlen))
-        < 0) {
+    if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
+                             (socklen_t *)&addrlen)) < 0)
+    {
         perror("accept");
         exit(EXIT_FAILURE);
     }
@@ -64,21 +67,25 @@ int serverStart(){
     return 0;
 }
 
-void closeServer(int new_socket){
+void closeServer(int new_socket)
+{
     close(new_socket);
 }
 
-void shutdownServer(int server_fd){
+void shutdownServer(int server_fd)
+{
     shutdown(server_fd, SHUT_RDWR);
 }
 
-int clientStart(char *ipAddr){
+int clientStart(char *ipAddr)
+{
     int sock = 0, valread, client_fd;
     struct sockaddr_in serv_addr;
-    char* hello = "Hello from client";
-    char buffer[1024] = { 0 };
+    char *hello = "Hello from client";
+    char buffer[1024] = {0};
 
-    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
         printf("\n Socket creation error \n");
         return -1;
     }
@@ -88,17 +95,16 @@ int clientStart(char *ipAddr){
 
     // Convert IPv4 and IPv6 addresses from text to binary
     // form
-    if (inet_pton(AF_INET, &ipAddr, &serv_addr.sin_addr)
-        <= 0) {
+    if (inet_pton(AF_INET, &ipAddr, &serv_addr.sin_addr) <= 0)
+    {
         printf(
-                "\nInvalid address/ Address not supported \n");
+            "\nInvalid address/ Address not supported \n");
         return -1;
     }
 
-    if ((client_fd
-                 = connect(sock, (struct sockaddr*)&serv_addr,
-                           sizeof(serv_addr)))
-        < 0) {
+    if ((client_fd = connect(sock, (struct sockaddr *)&serv_addr,
+                             sizeof(serv_addr))) < 0)
+    {
         printf("\nConnection Failed \n");
         return -1;
     }
@@ -112,6 +118,7 @@ int clientStart(char *ipAddr){
     return 0;
 }
 
-void closeClient(int client_fd){
+void closeClient(int client_fd)
+{
     close(client_fd);
 }

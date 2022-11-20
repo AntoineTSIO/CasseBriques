@@ -20,8 +20,6 @@ typedef struct
 
 typedef struct
 {
-    // short id;
-    // short stateBomb; // What's that ?
     short range;
     short x, y;
     short timer;
@@ -51,7 +49,6 @@ typedef struct
     short numberOfVerticalTunnels;
     short numberOfHorizontalTunnels;
     Tile **tile;
-    short file;
     char *mapName;
 } Map;
 

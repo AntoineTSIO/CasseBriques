@@ -7,12 +7,12 @@
 #ifndef bomb_h
 #define bomb_h
 
-BombList* newBombNode(Bomb* bomb);
+BombList *newBombNode(Bomb *bomb);
 
-Bomb* newBomb(Game* game);
+Bomb *newBomb(Game *game);
 
-void setOffBombs(Game* game);
+void setOffBombs(Game *game);
 
-void boom (Bomb* bombToExplode, Game* game, short** boomMap);
+void boom(Bomb *bombToExplode, Game *game, short **boomMap);
 
 #endif

@@ -11,4 +11,4 @@ void shutdownServer(int server_fd);
 int clientStart(char *ipAddr);
 void closeClient(int client_fd);
 
-#endif //CASSEBRIQUES_SOCKET_H
+#endif // CASSEBRIQUES_SOCKET_H

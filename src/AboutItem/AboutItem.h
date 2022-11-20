@@ -3,10 +3,8 @@
 #include <time.h>
 #include "../../Structs.h"
 
-
 #ifndef CASSEBRIQUES_ABOUTITEM_H
 #define CASSEBRIQUES_ABOUTITEM_H
-
 
 // Generic stuff
 #define NOPE 0
@@ -40,7 +38,7 @@
 //#define DUCK 10000       // Eh, why not transform the player into a duck ?
 
 // Movement
-   // Direction
+// Direction
 #define MOVEMENT_KEY_ERROR -1
 #define DONT_MOVE 0
 #define XPLUS 1
@@ -48,7 +46,7 @@
 #define YPLUS 3
 #define YMINUS 4
 #define PUT_BOMB 5
-   // Bomb interaction
+// Bomb interaction
 #define PIETON 0
 #define BOMB_WALK 1
 #define BOMB_KICKING 2
@@ -59,7 +57,7 @@
 #define RANDOMLY_DEFINED 1
 
 short getRandomItem();
-Item* newItem(short itemId);
+Item *newItem(short itemId);
 void pickUpItem(Game *game, short whichOne);
 
 /*
