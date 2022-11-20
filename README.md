@@ -182,6 +182,15 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Répartition des dernières taches
 - Ajout d'une deadline supplémentaire pour la mise en place de SDL (17/11/22)
 
+### 16 Novembre
+- Suppression des fichiers de la librairie SDL inclus directement dans le projet
+- Passage sur une VM Ubuntu 22.04
+- Début de l'utilisation de SDL
+- Mise à jour du README.md
+- Point sur l'avancée du projet
+- Répartition des dernières taches
+- Ajout d'une deadline supplémentaire pour la mise en place de SDL (17/11/22)
+
 ### 19 Novembre
 - Refractor du code
 - Debug du code
