@@ -51,6 +51,7 @@ de bombes possédées, etc...
     - [19 Novembre](#19-novembre)
     - [20 Novembre](#20-novembre)
   - [Licence](#licence)
+- [](#)
 >>>>>>> d438748 (feat: Update README.md)
 
 ## Makefile
@@ -182,3 +183,7 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 
 ## Licence
 Voir le fichier [LICENSE.md](LICENSE.md) fourni.
+
+
+#
+[(Back to top)](#casse-briques-groupe-7)
