@@ -23,9 +23,13 @@ int chooseGameType(){
         case 1:
             return 1;
         case 2:
-            return 2;
+            printf("socket non fonctionnel, veuillez choisir un autre mode de jeu");
+            choice = 0;
+            break;
         case 3:
-            return 3;
+            printf("socket non fonctionnel, veuillez choisir un autre mode de jeu");
+            choice = 0;
+            break;
         case 4:
             return 4;
         default:

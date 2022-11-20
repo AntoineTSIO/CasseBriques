@@ -95,7 +95,7 @@ int clientStart(char *ipAddr)
 
     // Convert IPv4 and IPv6 addresses from text to binary
     // form
-    if (inet_pton(AF_INET, &ipAddr, &serv_addr.sin_addr) <= 0)
+    if (inet_pton(AF_INET, ipAddr, &serv_addr.sin_addr) <= 0)
     {
         printf(
             "\nInvalid address/ Address not supported \n");
