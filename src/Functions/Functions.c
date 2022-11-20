@@ -571,7 +571,9 @@ short getPlayerAction(){
     return MOVEMENT_KEY_ERROR;
 }
 
-void botAction(Game* game){}
+void botAction(Game* game){
+    //Pas le temps de l'implémenter, mais j'ai toute l'IA conçue sur papier. Je vais juste mettre ça ici histoire
+}
 
 void playerAction(Game *game){
     Map *map = &game->map[game->currentMap];
