@@ -142,12 +142,14 @@ Game initGame()
             }
             game.numberOfPlayers = 4;
             game.numberOfHumanPlayers = 2;
+            game.multiplayer = 1;
             break;
         case 3:
-            /*char ipAddr;
+            game.multiplayer = 1;
+            char ipAddr;
             printf("Saisir l'adresse IP du serveur à rejoindre' :");
-            scanf(" %c", &ipAddr);
-            clientStart(ipAddr);*/
+            scanf("%s", &ipAddr);
+            clientStart(&ipAddr);
             break;
         case 4:
             game.multiplayer = 1;
