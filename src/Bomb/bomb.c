@@ -153,8 +153,19 @@ void setOffBombs(Game *game){
    // The boomMap has two uses : avoid item drop by walls to be destroyed the same turn they poped in and
    // keeping the player from taking multiple damage in one turn. It checks which tile will be cleansed by
    // fire, then it makes things actually go BOOM.
-   for (int i = 0; i < map->sizeMapX; i++){
-      for (int j = 0; j < map->sizeMapY; j++){
+
+   printf("BOOOOMMAPPP 0\n");
+   int sizeX = map->sizeMapX;
+   int sizeY = map->sizeMapY;
+    printf("BOOOOOOMMAPPP 0.5\n");
+    printf("X:%d Y:%d\n", sizeX, sizeY);
+    printf("BOOOOMMAPPP 1");
+    printf("%p", boomMap);
+    printf("BOOOOMMAPPP 2");
+   for (int i = 0; i < sizeX; i++){
+        printf("debug19");
+      for (int j = 0; j < sizeY; j++){
+         printf("debug20");
          if (boomMap[i][j] == 1){
             continue;
          }

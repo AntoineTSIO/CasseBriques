@@ -18,7 +18,7 @@ int chooseGameType(){
         char input[256];
         fgets(input, 256, stdin);
         choice = atoi(input);
-        printf("%d", choice);
+        printf("debug choice: %d\n", choice);
         switch (choice){
         case 1:
             return 1;
