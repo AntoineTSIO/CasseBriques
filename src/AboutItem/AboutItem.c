@@ -77,11 +77,13 @@ void pickUpItem(Game *game, short whichOne){
     case NOTHING:
         return;
     case BOMB_UP:
-        game->currentPlayer->nbBomb++;
+        game->currentPlayer->totalNumberOfBombs++;
+        game->currentPlayer->numberOfBombsLeft++;
         return;
     case BOMB_DOWN:
-        if (game->currentPlayer->nbBomb > 1)
-            game->currentPlayer->nbBomb--;
+        if (game->currentPlayer->totalNumberOfBombs > 1)
+            game->currentPlayer->totalNumberOfBombs--;
+            game->currentPlayer->numberOfBombsLeft--;
         return;
     case RANGE_UP:
         if (game->currentPlayer->range < game->map[game->currentMap].maxRange)

@@ -15,9 +15,10 @@ int main(int argc, char **argv){
     Game game = initGame();
     clearScreen();
 
-    displayStats(game);
+    displayStats(&game);
+    printf("debug1\n");
     displayMap(&game);
-
+    printf("debug2\n");
     int i = 0;
     while (i < 100){ // Uniquement pour répéter l'action le temps du dev
         playerAction(&game);

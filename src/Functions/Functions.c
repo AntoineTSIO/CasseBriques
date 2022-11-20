@@ -89,41 +89,48 @@ Game initGame(){
 
     int gameType = chooseGameType();
     switch (gameType){
-    case 1:
-        game.numberOfPlayers = 4;
-        game.numberOfHumanPlayers = 1;
-        break;
-    case 2:
-        game.numberOfPlayers = 4;
-        game.numberOfHumanPlayers = 2;
-        game.multiplayer = 1;
-        break;
-    case 3:
-        game.multiplayer = 1;
-        char ipAddr;
-        printf("Saisir l'adresse IP du serveur à rejoindre' :");
-        scanf("%s", &ipAddr);
-        clientStart(&ipAddr);
-        break;
-    case 4:
-        game.multiplayer = 1;
-        while (game.numberOfHumanPlayers <= 0 || game.numberOfHumanPlayers > 4){
-            printf("Saisir le nombre de joueurs humains :");
-            scanf(" %hd", &game.numberOfHumanPlayers);
-            getchar();
-            if (game.numberOfHumanPlayers <= 1 || game.numberOfHumanPlayers > 4)
-                printf("Le nombre de joueurs humains doit être compris entre 1 et 4\n");
-        }
-        if (game.numberOfHumanPlayers < 4){
-            while (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4){
-                printf("Saisir le nombre de joueurs total :");
-                scanf(" %hd", &game.numberOfPlayers);
+        case 1:
+            game.numberOfPlayers = 4;
+            game.numberOfHumanPlayers = 1;
+            break;
+        case 2:
+            /*
+             * game.numberOfPlayers = 4;
+             * game.numberOfHumanPlayers = 2;
+             * game.multiplayer = 1;
+             * break;
+             */
+            printf("socket non fonctionnel, veuillez choisir un autre mode de jeu");
+            break;
+        case 3:
+            /*
+             * game.multiplayer = 1;
+             * char ipAddr;
+             * printf("Saisir l'adresse IP du serveur à rejoindre' :");
+             * scanf("%s", &ipAddr);
+             * clientStart(&ipAddr);
+             */
+            printf("socket non fonctionnel, veuillez choisir un autre mode de jeu");
+            break;
+        case 4:
+            game.multiplayer = 1;
+            while (game.numberOfHumanPlayers <= 1 || game.numberOfHumanPlayers > 4){
+                printf("Saisir le nombre de joueurs humains :");
+                scanf(" %hd", &game.numberOfHumanPlayers);
                 getchar();
-                if (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4)
-                    printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game.numberOfHumanPlayers);
+                if (game.numberOfHumanPlayers <= 1 || game.numberOfHumanPlayers > 4)
+                    printf("Le nombre de joueurs humains doit être compris entre 1 et 4\n");
             }
-        }
-        break;
+            if (game.numberOfHumanPlayers < 4){
+                while (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4){
+                    printf("Saisir le nombre de joueurs total :");
+                    scanf(" %hd", &game.numberOfPlayers);
+                    getchar();
+                    if (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4)
+                        printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game.numberOfHumanPlayers);
+                }
+            }
+            break;
     }
     game.players = createPlayers(game.numberOfPlayers, game.numberOfHumanPlayers);
 
@@ -136,6 +143,7 @@ Game initGame(){
         if (game.numberOfMaps > MAX_NUMBER_OF_MAPS)
             printf("Ça fait trop de cartes, là. On n'est pas dans un TCG !\n");
     }
+    game.map = malloc(game.numberOfMaps * sizeof(Map*));
     int mapTypes[MAX_NUMBER_OF_MAPS];
     for (int i = 0; i < game.numberOfMaps; i++){
         mapTypes[i] = 0;
@@ -148,6 +156,7 @@ Game initGame(){
                 printf("Choix incorrect\n");
         }
     }
+
     short mapsChecked[MAX_NUMBER_OF_MAPS];
     for (int i = 0; i < MAX_NUMBER_OF_MAPS; i++){
         mapsChecked[i] = NOPE;
@@ -158,6 +167,7 @@ Game initGame(){
             checkIndex = rand() % game.numberOfMaps;
         } while (mapsChecked[checkIndex] == YUP);
         mapsChecked[checkIndex] = YUP;
+
         switch (mapTypes[checkIndex]){
         case 1:
             // game.map[i] = initMapFromFile(&game);   // to be uncommented when we'll have initMapFromFile()
@@ -171,11 +181,14 @@ Game initGame(){
         default:
             break;
         }
+
     }
+
     return game;
 }
 
 void displayStats(Game* game){
+
     printf("Paramètres de jeu:\n");
     printf("Nombre de joueurs : %d\n", game->numberOfPlayers);
     printf("Nombre de bombes par joueur : %d\n", game->map[game->currentMap].initialNumberOfBombsPerPlayer);
@@ -184,9 +197,10 @@ void displayStats(Game* game){
     else
         printf("Mode: solo\n");
     printf("Dimensions de la carte: %d x %d\n", game->map[game->currentMap].sizeMapX, game->map[game->currentMap].sizeMapY);
-}
+}   // debug OK
 
 Map procedurallyInitMap(Game *game, short isRandomlyDefined){
+
     /*
     x = indestructible wall
     m = destructible wall
@@ -371,12 +385,13 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
     }
 
     return map;
-}
+}    // debug OK
 
 void displayMap(Game *game){
     // x = █
     // m = ▒
     // p =
+    printf("debug3\n");
     for (int i = 0; i < game->map[game->currentMap].sizeMapX; ++i){
         for (int j = 0; j < game->map[game->currentMap].sizeMapY; ++j){
             if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
