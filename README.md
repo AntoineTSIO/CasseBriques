@@ -65,7 +65,6 @@ Enfin, la dernière étape pour lancer le jeu est uniquement de suivre le [Makef
     - [20 Novembre](#20-novembre)
   - [Licence](#licence)
 - [](#)
->>>>>>> d438748 (feat: Update README.md)
 
 ## Makefile
 
@@ -172,15 +171,6 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Refonte des fonctions d'action des joueurs
 - Modification des structures pour y correspondre
 - Modification des fonctions qui utilisent les structures mises à jour (génération, suppresion, affichage)
-
-### 16 Novembre
-- Suppression des fichiers de la librairie SDL inclus directement dans le projet
-- Passage sur une VM Ubuntu 22.04
-- Début de l'utilisation de SDL
-- Mise à jour du README.md
-- Point sur l'avancée du projet
-- Répartition des dernières taches
-- Ajout d'une deadline supplémentaire pour la mise en place de SDL (17/11/22)
 
 ### 16 Novembre
 - Suppression des fichiers de la librairie SDL inclus directement dans le projet
