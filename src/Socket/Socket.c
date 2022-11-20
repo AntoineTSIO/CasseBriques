@@ -72,7 +72,7 @@ void shutdownServer(int server_fd){
     shutdown(server_fd, SHUT_RDWR);
 }
 
-int clientStart(char ipAddr){
+int clientStart(char *ipAddr){
     int sock = 0, valread, client_fd;
     struct sockaddr_in serv_addr;
     char* hello = "Hello from client";

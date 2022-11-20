@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "Structs.h"
 #include "src/Bomb/bomb.h"
 #include "src/AboutItem/AboutItem.h"
@@ -7,6 +9,7 @@
 
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
 
     /*SDL_Window *sdlWindow = NULL;
 

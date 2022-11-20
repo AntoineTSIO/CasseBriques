@@ -70,6 +70,7 @@ typedef struct
     Player *players;
     short playerTurn;
     Player *currentPlayer;
+    short numberOfMaps;
     short currentMap;
     Map *map;
     BombList *activeBombs;

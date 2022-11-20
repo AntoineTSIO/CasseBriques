@@ -6,6 +6,9 @@ help:
 	@echo "make clean - remove all generated files"
 
 run:
+	@echo "Cleaning up ..."
+	@rm main
+	@echo "Done."
 	@echo "Compiling game ..."
 	@gcc Main.c src/Functions/Functions.c src/AboutItem/AboutItem.c src/Bomb/bomb.c src/Socket/Socket.c -o main
 	@echo "Done."

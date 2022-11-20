@@ -15,7 +15,7 @@ Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int 
 void deletePlayers(Player *players, int nbPlayersWished);
 Game initGame();
 void displayStats(Game game);
-Map procedurallyInitMap(Game *game);
+Map procedurallyInitMap(Game *game, short isRandomlyDefined);
 void displayMap(Game *game);
 void deleteTile(Tile *tile);
 void deleteMap(Game *game);

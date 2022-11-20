@@ -7,6 +7,11 @@
 #ifndef CASSEBRIQUES_ABOUTITEM_H
 #define CASSEBRIQUES_ABOUTITEM_H
 
+
+// Generic stuff
+#define NOPE 0
+#define YUP 1
+
 // Items
 #define INDESTRUCTIBLE_WALL -2
 #define WALL -1
@@ -32,7 +37,6 @@
 #define PROBABILITY_OF_SHIELD 50
 #define LIFE_UP 10
 #define PROBABILITY_OF_LIFE_UP 90
-#define PLAYER 11
 //#define DUCK 10000       // Eh, why not transform the player into a duck ?
 
 // Movement
@@ -48,6 +52,11 @@
 #define PIETON 0
 #define BOMB_WALK 1
 #define BOMB_KICKING 2
+
+// Maps
+#define MAX_NUMBER_OF_MAPS 7
+#define USER_DEFINED 0
+#define RANDOMLY_DEFINED 1
 
 short getRandomItem();
 Item* newItem(short itemId);
