@@ -639,37 +639,111 @@ void hitPlayer(Player *dommageCollateral, Game *game){
     }
 }
 
-/*
-Game initMapFromFile(Game game, char *mapName) {
+void nextMap(Game* game){
+    game->currentMap++;
+    game->playerTurn = 0;
+    game->currentPlayer = game->players[0];
+    game->numberOfAlivePlayers = game->numberOfPlayers;
+    switch (game->numberOfPlayers){
+        case 4:
+            game->players[3]->range = 1;
+            game->players[3]->shield = 0;
+            game->players[3]->invincibilityTimer = 0;
+            game->players[3]->x = 1;
+            game->players[3]->y = game->map[game->currentMap].sizeMapY - 2;
+            game->players[3]->totalNumberOfBombs = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[3]->numberOfBombsLeft = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[3]->interactionWithBombs = NOTHING;
+        case 3:
+            game->players[2]->range = 1;
+            game->players[2]->shield = 0;
+            game->players[2]->invincibilityTimer = 0;
+            game->players[2]->x = game->map[game->currentMap].sizeMapX - 2;
+            game->players[2]->y = 1;
+            game->players[2]->totalNumberOfBombs = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[2]->numberOfBombsLeft = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[2]->interactionWithBombs = NOTHING;
+        case 2:
+            game->players[1]->range = 1;
+            game->players[1]->shield = 0;
+            game->players[1]->invincibilityTimer = 0;
+            game->players[1]->x = game->map[game->currentMap].sizeMapX - 2;
+            game->players[1]->y = game->map[game->currentMap].sizeMapY - 2;
+            game->players[1]->totalNumberOfBombs = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[1]->numberOfBombsLeft = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[1]->interactionWithBombs = NOTHING;
+        case 1:
+            game->players[1]->range = 1;
+            game->players[1]->shield = 0;
+            game->players[1]->invincibilityTimer = 0;
+            game->players[0]->x = 1;
+            game->players[0]->y = 1;
+            game->players[0]->totalNumberOfBombs = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[0]->numberOfBombsLeft = game->map[game->currentMap].initialNumberOfBombsPerPlayer;
+            game->players[0]->interactionWithBombs = NOTHING;
+            break;
+        default:
+            break;
+    }
+    // to be completed
+    // don't forget to first treat the case where there is no next Map
+/**/}
+
+
+Map initMapFromFile(Game *game, char *mapName){
     Map map;
-    FILE *file = fopen(mapName, "r");
-    if (file == NULL) {
-        printf("Error opening file");
+    FILE *mapFile = fopen(mapName, "r");
+    if (mapFile == NULL)
+    {
+        printf("Error : couldn't open map file %s", mapName);
         exit(1);
     }
-    fscanf(file, "%hd", &game.map[game.currentMap].sizeMapX);
-    fscanf(file, "%hd", &game.map[game.currentMap].sizeMapY);
-    map[game->currentMap].tile = malloc(game.map[game.currentMap].sizeMapX * sizeof(Tile *));
-    for (int i = 0; i < game.map[game.currentMap].sizeMapX; i++) {
-        map[game->currentMap].tile[i] = malloc(game.map[game.currentMap].sizeMapY * sizeof(Tile));
-    }
-    for (int i = 0; i < game.map[game.currentMap].sizeMapX; i++) {
-        for (int j = 0; j < game.map[game.currentMap].sizeMapY; j++) {
-            fscanf(file, "%c", &map[game->currentMap].tile[i][j].sprite);
-            if (map[game->currentMap].tile[i][j].sprite == 'x') {
-                map[game->currentMap].tile[i][j].item = INDESTRUCTIBLE_WALL;
-            } else if (map[game->currentMap].tile[i][j].sprite == 'm') {
-                map[game->currentMap].tile[i][j].item = WALL;
-            } else if (map[game->currentMap].tile[i][j].sprite == 'p') {
-                map[game->currentMap].tile[i][j].item = NOTHING;
-            } else if (map[game->currentMap].tile[i][j].sprite == 'e') {
-                map[game->currentMap].tile[i][j].item = NOTHING;
-            }
-            map[game->currentMap].tile[i][j].bomb = 0;
+    char *line = malloc(sizeof(char) * 100);
+    fgets(line, 100, mapFile);
+    map.sizeMapX = atoi(strtok(line, " "));
+    map.sizeMapY = atoi(strtok(NULL, " "));
+    map.tile = malloc(sizeof(Tile *) * map.sizeMapX);
+
+    for (int i = 0; i < map.sizeMapX; i++)
+    {
+        map.tile[i] = malloc(sizeof(Tile) * map.sizeMapY);
+        for (int j = 0; j < map.sizeMapY; j++)
+        {
+            map.tile[i][j].whichBombIsHere = NULL;
+            map.tile[i][j].whichItemIsHere = NULL;
+            map.tile[i][j].whoIsHere = NULL;
         }
     }
-    fclose(file);
-    game.map = map;
-    return game;
+    short idPlayerToPlace = 0;
+    for (int i = 0; i < map.sizeMapX; i++){
+        fgets(line, 100, mapFile);
+        for (int j = 0; j < map.sizeMapY; j++)
+        {
+            switch (line[j])
+            {
+                case 'x':
+                    map.tile[i][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
+                    break;
+                case 'p':
+                    if (idPlayerToPlace <= game->numberOfPlayers){
+                        map.tile[i][j].whoIsHere = game->players[idPlayerToPlace];
+                        map.tile[i][j].whoIsHere->x = i;
+                        map.tile[i][j].whoIsHere->y = j;
+                        idPlayerToPlace++;
+                    }
+                    break;
+                case 'm':
+                    map.tile[i][j].whichItemIsHere = newItem(WALL);
+                    break;
+                case 'e':
+                case '_':
+                    map.tile[i][j].whichItemIsHere = newItem(NOTHING);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    fclose(mapFile);
+    return map;
 }
-*/
