@@ -1,10 +1,6 @@
-//
-// Created by Nicolas Pierrot on 26/10/2022.
-//
 #include "Functions.h"
 #include "../Bomb/bomb.h"
 #include "../AboutItem/AboutItem.h"
-#include "../Socket/Socket.h"
 
 int chooseGameType(){
     int choice = 0;
@@ -18,7 +14,6 @@ int chooseGameType(){
         char input[256];
         fgets(input, 256, stdin);
         choice = atoi(input);
-        printf("debug choice: %d\n", choice);
         switch (choice){
         case 1:
             return 1;
@@ -459,7 +454,7 @@ void deleteGame(Game *game){
         game->activeBombs = game->activeBombs->nextOne;
         free(temp);
     }
-    deleteMap(game); // to de defined
+    deleteMap(game);
 }
 
 // detect key pressed

@@ -1,6 +1,3 @@
-//
-// Created by Antoine TOUZART on 19/11/22.
-//
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <stdio.h>

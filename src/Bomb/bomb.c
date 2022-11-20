@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "../../Structs.h"
 #include "../AboutItem/AboutItem.h"
 #include "../Functions/Functions.h"

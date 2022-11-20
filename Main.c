@@ -4,7 +4,6 @@
 #include "Structs.h"
 #include "src/Bomb/bomb.h"
 #include "src/AboutItem/AboutItem.h"
-#include "src/Socket/Socket.h"
 #include "src/Functions/Functions.h"
 
 int main(int argc, char **argv){
@@ -42,14 +41,7 @@ int main(int argc, char **argv){
         }
         nextMap(game);
     }
-    /*int i = 0;
-    while (i < 100){ // Uniquement pour répéter l'action le temps du dev
-
-        clearScreen();
-        displayMap(game);
-        i++;
-        printf("i = %d\n", i);
-    }*/
+    deleteGame(game);
 
     return 0;
 }

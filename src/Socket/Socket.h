@@ -1,7 +1,3 @@
-//
-// Created by Antoine TOUZART on 19/11/22.
-//
-
 #ifndef CASSEBRIQUES_SOCKET_H
 #define CASSEBRIQUES_SOCKET_H
 

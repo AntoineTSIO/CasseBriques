@@ -11,7 +11,6 @@ typedef struct
     short shield;
     short invincibilityTimer;
     short numberOfVictories;
-    //char color;
     short x, y;
     short interactionWithBombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
     char sprite;
