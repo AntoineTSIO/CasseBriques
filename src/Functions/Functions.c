@@ -6,11 +6,9 @@
 #include "../AboutItem/AboutItem.h"
 #include "../Socket/Socket.h"
 
-int chooseGameType()
-{
+int chooseGameType(){
     int choice = 0;
-    while (choice < 1)
-    {
+    while (choice < 1){
         printf("Menu principal\n");
         printf("1 - Démarrer en solo\n");
         printf("2 - Héberger une partie\n");
@@ -21,8 +19,7 @@ int chooseGameType()
         fgets(input, 256, stdin);
         choice = atoi(input);
         printf("%d", choice);
-        switch (choice)
-        {
+        switch (choice){
         case 1:
             return 1;
         case 2:
@@ -39,13 +36,11 @@ int chooseGameType()
     }
 }
 
-Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int startingNumberOfBombs)
-{
+Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers){
     // Création des players
     Player **players = malloc(numberOfPlayersWished * sizeof(Player *));
     short idPlayers = 1;
-    for (int indexNbPlayers = 0; indexNbPlayers < numberOfPlayersWished; ++indexNbPlayers)
-    {
+    for (int indexNbPlayers = 0; indexNbPlayers < numberOfPlayersWished; ++indexNbPlayers){
         Player *aPlayer = malloc(sizeof(Player));
         aPlayer->id = idPlayers;
         aPlayer->x = 0;
@@ -67,17 +62,14 @@ Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int 
     return players;
 }
 
-void deletePlayers(Player **players, int nbPlayersWished)
-{
-    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers)
-    {
+void deletePlayers(Player **players, int nbPlayersWished){
+    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers){
         free(players[indexNbPlayers]);
     }
     free(players);
 }
 
-Game initGame()
-{
+Game initGame(){
     Game game;
     printf("Initialisation du jeu\n");
     game.numberOfPlayers = 0;
@@ -93,26 +85,12 @@ Game initGame()
     game.activeBombs = NULL;
 
     int gameType = chooseGameType();
-    switch (gameType)
-    {
+    switch (gameType){
     case 1:
-        while (game.nbBombsPerPlayer < 1)
-        {
-            printf("Saisir le nombre de bombes :");
-            scanf(" %hd", &game.nbBombsPerPlayer);
-            getchar();
-        }
         game.numberOfPlayers = 4;
         game.numberOfHumanPlayers = 1;
         break;
     case 2:
-        serverStart();
-        while (game.nbBombsPerPlayer < 1)
-        {
-            printf("Saisir le nombre de bombes :");
-            scanf(" %hd", &game.nbBombsPerPlayer);
-            getchar();
-        }
         game.numberOfPlayers = 4;
         game.numberOfHumanPlayers = 2;
         game.multiplayer = 1;
@@ -126,24 +104,15 @@ Game initGame()
         break;
     case 4:
         game.multiplayer = 1;
-        while (game.nbBombsPerPlayer < 1)
-        {
-            printf("Saisir le nombre de bombes par joueur :");
-            scanf(" %hd", &game.nbBombsPerPlayer);
-            getchar();
-        }
-        while (game.numberOfHumanPlayers <= 0 || game.numberOfHumanPlayers > 4)
-        {
+        while (game.numberOfHumanPlayers <= 0 || game.numberOfHumanPlayers > 4){
             printf("Saisir le nombre de joueurs humains :");
             scanf(" %hd", &game.numberOfHumanPlayers);
             getchar();
             if (game.numberOfHumanPlayers <= 1 || game.numberOfHumanPlayers > 4)
                 printf("Le nombre de joueurs humains doit être compris entre 1 et 4\n");
         }
-        if (game.numberOfHumanPlayers < 4)
-        {
-            while (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4)
-            {
+        if (game.numberOfHumanPlayers < 4){
+            while (game.numberOfPlayers <= game.numberOfHumanPlayers || game.numberOfPlayers > 4){
                 printf("Saisir le nombre de joueurs total :");
                 scanf(" %hd", &game.numberOfPlayers);
                 getchar();
@@ -155,8 +124,7 @@ Game initGame()
     }
     game.players = createPlayers(game.numberOfPlayers, game.numberOfHumanPlayers, game.nbBombsPerPlayer);
 
-    while (!game.numberOfMaps || game.numberOfMaps > MAX_NUMBER_OF_MAPS)
-    {
+    while (!game.numberOfMaps || game.numberOfMaps > MAX_NUMBER_OF_MAPS){
         printf("Saisir le nombre de carte jouées :");
         scanf(" %hd", &game.numberOfMaps);
         getchar();
@@ -166,12 +134,10 @@ Game initGame()
             printf("Ça fait trop de cartes, là. On n'est pas dans un TCG !\n");
     }
     int mapTypes[MAX_NUMBER_OF_MAPS];
-    for (int i = 0; i < game.numberOfMaps; i++)
-    {
+    for (int i = 0; i < game.numberOfMaps; i++){
         mapTypes[i] = 0;
         printf("Pour chaque carte, choisissez un type de carte.\n");
-        while (mapTypes[i] < 1 || mapTypes[i] > 3)
-        {
+        while (mapTypes[i] < 1 || mapTypes[i] > 3){
             printf("1. Charger une carte existante\n2. Générer une carte en choisissant ses paramètres\n3. Générer une carte aléatoire.\n");
             scanf(" %d", &mapTypes[i]);
             getchar();
@@ -180,20 +146,16 @@ Game initGame()
         }
     }
     short mapsChecked[MAX_NUMBER_OF_MAPS];
-    for (int i = 0; i < MAX_NUMBER_OF_MAPS; i++)
-    {
+    for (int i = 0; i < MAX_NUMBER_OF_MAPS; i++){
         mapsChecked[i] = NOPE;
     }
-    for (int i = 0; i < game.numberOfMaps; i++)
-    {
+    for (int i = 0; i < game.numberOfMaps; i++){
         short checkIndex;
-        do
-        {
+        do{
             checkIndex = rand() % game.numberOfMaps;
         } while (mapsChecked[checkIndex] == YUP);
         mapsChecked[checkIndex] = YUP;
-        switch (mapTypes[checkIndex])
-        {
+        switch (mapTypes[checkIndex]){
         case 1:
             // game.map[i] = initMapFromFile(&game);   // to be uncommented when we'll have initMapFromFile()
             break;
@@ -210,8 +172,7 @@ Game initGame()
     return game;
 }
 
-void displayStats(Game game)
-{
+void displayStats(Game* game){
     printf("Paramètres de jeu:\n");
     printf("Nombre de joueurs : %d\n", game.numberOfPlayers);
     printf("Nombre de bombes par joueur : %d\n", game.nbBombsPerPlayer);
@@ -222,8 +183,7 @@ void displayStats(Game game)
     printf("Dimensions de la carte: %d x %d\n", game.map[game.currentMap].sizeMapX, game.map[game.currentMap].sizeMapY);
 }
 
-Map procedurallyInitMap(Game *game, short isRandomlyDefined)
-{
+Map procedurallyInitMap(Game *game, short isRandomlyDefined){
     /*
     x = indestructible wall
     m = destructible wall
@@ -240,18 +200,22 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
     map.numberOfVerticalTunnels = 0;
 
     // Get the map dimensions
-    if (isRandomlyDefined)
-    {
+    if (isRandomlyDefined){
         map.sizeMapX = rand() % 39 + 11;
         map.sizeMapY = rand() % 39 + 11;
         map.numberOfHorizontalTunnels = rand() % ((map.sizeMapX - 1) / 5);
         map.numberOfVerticalTunnels = rand() % ((map.sizeMapY - 1) / 5);
     }
-    else
-    {
-        while (map.sizeMapX < 11 || map.sizeMapX > 51)
-        {
-            printf("Saisir la hauteur de carte souhaitée (min: 7 | max: 51) :");
+    else{
+        while (map.initialNumberOfBombsPerPlayer < 1){
+            printf("Saisir le nombre initial de bombes par joueur :");
+            scanf(" %hd", &map.initialNumberOfBombsPerPlayer);
+            getchar();
+            if (map.initialNumberOfBombsPerPlayer < 1)
+                printf("Il en faut au moins une.\n");
+        }
+        while (map.sizeMapX < 11 || map.sizeMapX > 51){
+            printf("Saisir la hauteur de carte souhaitée (min: 11 | max: 51) :");
             scanf(" %hd", &map.sizeMapX);
             getchar();
             if (map.sizeMapX < 7)
@@ -259,9 +223,8 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
             if (map.sizeMapX > 51)
                 printf("Carte trop grande.\n");
         }
-        while (map.sizeMapY < 11 || map.sizeMapY > 51)
-        {
-            printf("Saisir la largeur de carte souhaitée (min: 7 | max: 51) :");
+        while (map.sizeMapY < 11 || map.sizeMapY > 51){
+            printf("Saisir la largeur de carte souhaitée (min: 11 | max: 51) :");
             scanf(" %hd", &map.sizeMapY);
             getchar();
             if (map.sizeMapY < 7)
@@ -269,16 +232,14 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
             if (map.sizeMapY > 51)
                 printf("Carte trop grande.\n");
         }
-        do
-        {
+        do{
             printf("Saisir le nombre de tunnels horizontaux souhaité :");
             scanf(" %hd", &map.numberOfHorizontalTunnels);
             getchar();
             if (map.numberOfHorizontalTunnels > (int)((map.sizeMapX - 1) / 5))
                 printf("Eh, pas trop, non plus ! C'est pas un gruyère !\n");
         } while (map.numberOfHorizontalTunnels > (int)((map.sizeMapX - 1) / 5));
-        do
-        {
+        do{
             printf("Saisir le nombre de tunnels verticaux souhaité :");
             scanf(" %hd", &map.numberOfVerticalTunnels);
             getchar();
@@ -290,15 +251,12 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
     // Initialize the map and its tiles
     map.maxRange = map.sizeMapX < map.sizeMapY ? (map.sizeMapX - 1) / 2 : (map.sizeMapY - 1) / 2;
     map.tile = malloc(map.sizeMapX * sizeof(Tile *));
-    for (int i = 0; i < map.sizeMapX; i++)
-    {
+    for (int i = 0; i < map.sizeMapX; i++){
         map.tile[i] = malloc(map.sizeMapY * sizeof(Tile));
     }
     // Center
-    for (int i = 1; i < map.sizeMapX - 1; i++)
-    {
-        for (int j = 1; j < map.sizeMapY - 1; j++)
-        {
+    for (int i = 1; i < map.sizeMapX - 1; i++){
+        for (int j = 1; j < map.sizeMapY - 1; j++){
             map.tile[i][j].whoIsHere = NULL;
             map.tile[i][j].whichBombIsHere = NULL;
             if (i % 2 == 0 && j % 2 == 0 && i != map.sizeMapX - 2 && j != map.sizeMapY - 2)
@@ -308,8 +266,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
         }
     }
     // Borders
-    for (int i = 0; i < map.sizeMapX; i++)
-    {
+    for (int i = 0; i < map.sizeMapX; i++){
         map.tile[i][0].whoIsHere = NULL;
         map.tile[i][0].whichBombIsHere = NULL;
         map.tile[i][0].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
@@ -317,8 +274,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
         map.tile[i][map.sizeMapY - 1].whichBombIsHere = NULL;
         map.tile[i][map.sizeMapY - 1].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
     }
-    for (int j = 1; j < map.sizeMapY - 1; j++)
-    {
+    for (int j = 1; j < map.sizeMapY - 1; j++){
         map.tile[0][j].whoIsHere = NULL;
         map.tile[0][j].whichBombIsHere = NULL;
         map.tile[0][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
@@ -327,16 +283,13 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
         map.tile[map.sizeMapX - 1][j].whichItemIsHere = newItem(INDESTRUCTIBLE_WALL);
     }
     // Tunnels
-    if (map.numberOfHorizontalTunnels)
-    {
-        for (int i = 0; i < map.numberOfHorizontalTunnels; i++)
-        {
+    if (map.numberOfHorizontalTunnels){
+        for (int i = 0; i < map.numberOfHorizontalTunnels; i++){
             free(map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels)][0].whichItemIsHere);
             map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels)][0].whichItemIsHere = newItem(WALL);
             free(map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels) - 1][0].whichItemIsHere);
             map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels) - 1][0].whichItemIsHere = newItem(WALL);
-            if (rand() % 2)
-            {
+            if (rand() % 2){
                 free(map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels)][map.sizeMapY - 1].whichItemIsHere);
                 map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels)][map.sizeMapY - 1].whichItemIsHere = newItem(WALL);
                 free(map.tile[(int)((0.5 + i) * map.sizeMapX / map.numberOfHorizontalTunnels) - 1][map.sizeMapY - 1].whichItemIsHere);
@@ -344,16 +297,13 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
             }
         }
     }
-    if (map.numberOfVerticalTunnels)
-    {
-        for (int i = 0; i < map.numberOfVerticalTunnels; i++)
-        {
+    if (map.numberOfVerticalTunnels){
+        for (int i = 0; i < map.numberOfVerticalTunnels; i++){
             free(map.tile[0][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels)].whichItemIsHere);
             map.tile[0][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels)].whichItemIsHere = newItem(WALL);
             free(map.tile[0][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels) - 1].whichItemIsHere);
             map.tile[0][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels) - 1].whichItemIsHere = newItem(WALL);
-            if (rand() % 2)
-            {
+            if (rand() % 2){
                 free(map.tile[map.sizeMapX - 1][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels)].whichItemIsHere);
                 map.tile[map.sizeMapX - 1][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels)].whichItemIsHere = newItem(WALL);
                 free(map.tile[map.sizeMapX - 1][(int)((0.5 + i) * map.sizeMapY / map.numberOfVerticalTunnels) - 1].whichItemIsHere);
@@ -362,8 +312,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
         }
     }
     // Players
-    switch (game->numberOfPlayers)
-    {
+    switch (game->numberOfPlayers){
     case 4:
         map.tile[1][map.sizeMapY - 2].whoIsHere = game->players[3];
         free(map.tile[1][map.sizeMapY - 2].whichItemIsHere);
@@ -412,25 +361,19 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined)
     return map;
 }
 
-void displayMap(Game *game)
-{
+void displayMap(Game *game){
     // x = █
     // m = ▒
     // p =
-    for (int i = 0; i < game->map[game->currentMap].sizeMapX; ++i)
-    {
-        for (int j = 0; j < game->map[game->currentMap].sizeMapY; ++j)
-        {
-            if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL)
-            {
+    for (int i = 0; i < game->map[game->currentMap].sizeMapX; ++i){
+        for (int j = 0; j < game->map[game->currentMap].sizeMapY; ++j){
+            if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
                 printf("%c", game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite);
             }
-            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL)
-            { // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
+            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){ // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
                 printf("%c", game->map[game->currentMap].tile[i][j].whoIsHere->sprite);
             }
-            else if (game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL)
-            {
+            else if (game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
                 printf("%c", game->map[game->currentMap].tile[i][j].whichBombIsHere->sprite);
             }
             else
@@ -451,19 +394,15 @@ void displayMap(Game *game)
     }
 }
 
-void deleteTile(Tile *tile)
-{
+void deleteTile(Tile *tile){
     free(tile->whichItemIsHere);
     free(tile->whoIsHere);
     free(tile);
 }
 
-void deleteMap(Game *game)
-{
-    for (int i = 0; i < game->map[game->currentMap].sizeMapX; i++)
-    {
-        for (int j = 0; j < game->map[game->currentMap].sizeMapY; j++)
-        {
+void deleteMap(Game *game){
+    for (int i = 0; i < game->map[game->currentMap].sizeMapX; i++){
+        for (int j = 0; j < game->map[game->currentMap].sizeMapY; j++){
             deleteTile(&game->map[game->currentMap].tile[i][j]);
         }
 
@@ -472,11 +411,9 @@ void deleteMap(Game *game)
     free(game->map[game->currentMap].tile);
 }
 
-void deleteGame(Game *game)
-{
+void deleteGame(Game *game){
     deletePlayers(game->players, game->numberOfPlayers);
-    while (game->activeBombs != NULL)
-    {
+    while (game->activeBombs != NULL){
         BombList *temp = game->activeBombs;
         game->activeBombs = game->activeBombs->nextOne;
         free(temp);
@@ -485,8 +422,7 @@ void deleteGame(Game *game)
 }
 
 // detect key pressed
-char keypress()
-{
+char keypress(){
     system("/bin/stty raw");
     int c;
     system("/bin/stty -echo");
@@ -494,8 +430,7 @@ char keypress()
     system("/bin/stty echo");
     system("/bin/stty cooked");
 
-    switch (c)
-    {
+    switch (c){
     case 122:
         return 'z';
     case 90:
@@ -525,14 +460,12 @@ char keypress()
     }
 }
 
-void clearScreen()
-{
+void clearScreen(){
     printf("\033[2J");
     printf("\033[%d;%dH", 0, 0);
 }
 
-void bombKick(Game *game, short direction)
-{
+void bombKick(Game *game, short direction){
     Bomb *kickMe;
     Tile *originTile, *destinationTile, *nextTile;
     int howFarItGoes = 1;
@@ -541,35 +474,30 @@ void bombKick(Game *game, short direction)
     nextTile = originTile;
     kickMe = originTile->whichBombIsHere;
 
-    switch (direction)
-    {
+    switch (direction){
     case XMINUS:
-        do
-        {
+        do{
             destinationTile = nextTile;
             howFarItGoes++;
             nextTile = &game->map[game->currentMap].tile[(game->currentPlayer->x - howFarItGoes) % game->map[game->currentMap].sizeMapX][game->currentPlayer->y];
         } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
         break;
     case XPLUS:
-        do
-        {
+        do{
             destinationTile = nextTile;
             howFarItGoes++;
             nextTile = &game->map[game->currentMap].tile[(game->currentPlayer->x + howFarItGoes) % game->map[game->currentMap].sizeMapX][game->currentPlayer->y];
         } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
         break;
     case YMINUS:
-        do
-        {
+        do{
             destinationTile = nextTile;
             howFarItGoes++;
             nextTile = &game->map[game->currentMap].tile[game->currentPlayer->x][(game->currentPlayer->y - howFarItGoes) % game->map[game->currentMap].sizeMapY];
         } while (nextTile->whichBombIsHere == NULL && nextTile->whichItemIsHere == NULL && nextTile->whoIsHere == NULL);
         break;
     case YPLUS:
-        do
-        {
+        do{
             destinationTile = nextTile;
             howFarItGoes++;
             nextTile = &game->map[game->currentMap].tile[game->currentPlayer->x][(game->currentPlayer->y + howFarItGoes) % game->map[game->currentMap].sizeMapY];
@@ -582,11 +510,9 @@ void bombKick(Game *game, short direction)
     originTile->whichBombIsHere = NULL;
 }
 
-short getPlayerAction()
-{
+short getPlayerAction(){
     char key = keypress();
-    switch (key)
-    {
+    switch (key){
     case 'z':
         return XMINUS;
     case 'q':
@@ -603,24 +529,20 @@ short getPlayerAction()
     return MOVEMENT_KEY_ERROR;
 }
 
-void playerAction(Game *game)
-{
+void playerAction(Game *game){
     Map *map = &game->map[game->currentMap];
     Player *mover = game->currentPlayer;
     if (!mover->life)
         return;
     short currentX = mover->x, currentY = mover->y, destinationX = mover->x, destinationY = mover->y;
     short direction = MOVEMENT_KEY_ERROR;
-    do
-    {
+    do{
         direction = getPlayerAction();
     } while (direction == MOVEMENT_KEY_ERROR || (map->tile[currentX][currentY].whichBombIsHere != NULL && direction == PUT_BOMB));
 
-    switch (direction)
-    {
+    switch (direction){
     case PUT_BOMB:
-        if (mover->numberOfBombsLeft)
-        {
+        if (mover->numberOfBombsLeft){
             Bomb *whichBomb = newBomb(game);
             map->tile[destinationX][destinationY].whichBombIsHere = whichBomb; // createBomb : to be defined // WARNING : Can't put a bomb if there's already a bomb there.
             mover->numberOfBombsLeft--;
@@ -646,10 +568,8 @@ void playerAction(Game *game)
 
     Item *whichItemIsHere = map->tile[destinationX][destinationY].whichItemIsHere;
     Bomb *whichBombIsHere = map->tile[destinationX][destinationY].whichBombIsHere;
-    if (whichItemIsHere != NULL)
-    {
-        switch (whichItemIsHere->ID)
-        {
+    if (whichItemIsHere != NULL){
+        switch (whichItemIsHere->ID){
         case INDESTRUCTIBLE_WALL:
         case WALL:
             return;
@@ -663,10 +583,8 @@ void playerAction(Game *game)
             return;
         }
     }
-    else if (whichBombIsHere != NULL)
-    {
-        switch (mover->interactionWithBombs)
-        {
+    else if (whichBombIsHere != NULL){
+        switch (mover->interactionWithBombs){
         case PIETON:
             return;
         case BOMB_WALK:
@@ -680,18 +598,15 @@ void playerAction(Game *game)
     }
 }
 
-void hitPlayer(Player *dommageCollateral, Game *game)
-{
+void hitPlayer(Player *dommageCollateral, Game *game){
     if (dommageCollateral->invincibilityTimer)
         return;
-    if (dommageCollateral->shield)
-    {
+    if (dommageCollateral->shield){
         dommageCollateral->shield = 0;
         return;
     }
     dommageCollateral->life--;
-    if (!dommageCollateral->life)
-    {
+    if (!dommageCollateral->life){
         game->map[game->currentMap].tile[dommageCollateral->x][dommageCollateral->y].whoIsHere = NULL;
         // Maybe add something so the game knows that player is dead ? Not really needed, but, eh, why not ?
     }
