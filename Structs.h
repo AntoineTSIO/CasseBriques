@@ -71,6 +71,7 @@ typedef struct
     short currentMap;
     Map *map;
     BombList *activeBombs;
+
 } Game;
 
 #endif
