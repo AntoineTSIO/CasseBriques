@@ -204,7 +204,7 @@ void setOffBombs(Game *game){
              printf("debug18");
          }
       }
-   }
+   }*/
 
    // Display of explosions
    clearScreen();
