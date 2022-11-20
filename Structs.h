@@ -3,63 +3,74 @@
 
 typedef struct
 {
-    short ID; // BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
-} Item;
-
-typedef struct
-{
     short id;
-    short nbBomb;
+    short totalNumberOfBombs;
+    short numberOfBombsLeft;
     short range;
     short life;
     short shield;
-    short passBomb;
-    short invincibility;
+    short invincibilityTimer;
     short nbKill;
     char color;
     short x, y;
-    short interaction_with_bombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
+    short interactionWithBombs; // 0 is default, 1 is bomb walking and 2 is bomb kicking
+    char sprite;
+    short isHuman;
 } Player;
 
 typedef struct
 {
-    short id;
-    short stateBomb;
     short range;
-    short x;
-    short y;
+    short x, y;
     short timer;
     char sprite;
-    Player owner;
+    Player *owner;
 } Bomb;
 
 typedef struct
 {
+    short ID; // BOMB_UP, RANGE_AT_MAX, SHIELD, whatever
     char sprite;
-    int item;
-    int bomb;
+} Item;
+
+typedef struct
+{
+    Player *whoIsHere;
+    Bomb *whichBombIsHere;
+    Item *whichItemIsHere;
 } Tile;
 
 typedef struct
 {
+    short initialNumberOfBombsPerPlayer;
+    short sizeMapX;
+    short sizeMapY;
+    short maxRange;
+    short numberOfVerticalTunnels;
+    short numberOfHorizontalTunnels;
     Tile **tile;
-    short file;
     char *mapName;
 } Map;
 
+typedef struct BombList
+{
+    Bomb *thisBomb;
+    struct BombList *nextOne;
+} BombList;
+
 typedef struct
 {
-    short sizeMapX;
-    short sizeMapY;
-    short nbBombsPerPlayer;
     short numberOfPlayers;
+    short numberOfAlivePlayers;
+    short numberOfHumanPlayers;
     short multiplayer; // Boolean -> 0 = false, 1 = true
-    Player *players;
+    Player **players;
     short playerTurn;
     Player *currentPlayer;
-    short max_range;
-    short teleportZone;
-    Map map;
+    short numberOfMaps;
+    short currentMap;
+    Map *map;
+    BombList *activeBombs;
 } Game;
 
 #endif

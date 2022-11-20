@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "Structs.h"
-
+#include "../../Structs.h"
 
 #ifndef CASSEBRIQUES_ABOUTITEM_H
 #define CASSEBRIQUES_ABOUTITEM_H
 
+// Generic stuff
+#define NOPE 0
+#define YUP 1
+
 // Items
-#define WALL -1
 #define INDESTRUCTIBLE_WALL -2
+#define WALL -1
 #define NOTHING 0
 #define PROBABILITY_OF_NOTHING 1000
 #define BOMB_UP 1
@@ -32,20 +35,30 @@
 #define PROBABILITY_OF_SHIELD 50
 #define LIFE_UP 10
 #define PROBABILITY_OF_LIFE_UP 90
-#define PLAYER 11
 //#define DUCK 10000       // Eh, why not transform the player into a duck ?
 
-
+// Movement
 // Direction
-#define DONTMOVE 0
+#define MOVEMENT_KEY_ERROR -1
+#define DONT_MOVE 0
 #define XPLUS 1
 #define XMINUS 2
 #define YPLUS 3
 #define YMINUS 4
-#define EXPLOSION 5
+#define PUT_BOMB 5
+// Bomb interaction
+#define PIETON 0
+#define BOMB_WALK 1
+#define BOMB_KICKING 2
 
-short get_random_item();
-void pick_up_item(Game *game, short which_one);
+// Maps
+#define MAX_NUMBER_OF_MAPS 7
+#define USER_DEFINED 0
+#define RANDOMLY_DEFINED 1
+
+short getRandomItem();
+Item *newItem(short itemId);
+void pickUpItem(Game *game, short whichOne);
 
 /*
 int player_moves(Game *game, short direction, Map *map);

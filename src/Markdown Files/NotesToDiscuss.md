@@ -8,10 +8,7 @@ Offer a possibility to have a custom-seeded game.
 Discuss whether invincibility + shield prevents the shield from depleting.
 
 
-Keys/actions : 4 directions, bomb AND do_nothing.
-
-
-Will we put a limmit to how much bombs we get ?
+Will we put a limit to how much bombs we get ?
 
 
 max_range : do we put a limit or not ? If yes, Game struct need one more attribute,
@@ -25,3 +22,14 @@ Additionnal objects that might be funny :
  - Teleport
  - Spawn a random bomb with random stats
  - Ghost (Pass through walls and objects, can't be touched by bombs. Maybe 4 or 5 turns ?)
+
+
+
+11/11 :
+Number of bombs limit : depends on the timer (as long as we use a turn-based system)
+Additional items : timer up/down ?
+
+When a player plays their turn, print the map half a second to see where players are, then print where bombs explode for one second and then only start next player's turn.
+
+16/11 : 
+check for enum struct-like. May replace all those #define used for the items.

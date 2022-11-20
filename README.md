@@ -1,4 +1,32 @@
 # Casse Briques Groupe 7
+[![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04-E95420?style=flat-square&logo=ubuntu&logoColor=white)](https://releases.ubuntu.com/22.04/)
+[![C](https://img.shields.io/badge/c-11-%2300599C.svg?style=flat-square&logo=c&logoColor=white)](https://en.wikipedia.org/wiki/C11_(C_standard_revision))
+## Présentation du jeu
+
+“Casse Briques” est un jeu dont le but est d’exploser ses ennemis et de gagner la bataille en
+restant le dernier en vie. Le plateau de jeu comporte des murs destructibles et d’autres
+indestructibles.
+
+Les personnages peuvent se déplacer dans les espaces libres et déposer des bombes dans le
+but de détruire des murs ou d’exploser leurs adversaires. Certains objets aléatoires peuvent
+apparaître lors de la destruction d’un mur et ainsi augmenter la portée de la bombe, le nombre
+de bombes possédées, etc...
+
+## Documentation
+
+* [Sujet du Casse Briques](/docs/Sujet_Casse_Briques.pdf)
+
+## Installation
+
+Pour que l'affichage graphique puisse fonctionner, il est nécessaire d'installer le package Dev de GTK 3 avec la commande suivante : 
+```bash
+sudo apt-get install libgtk-3-dev
+```
+Une fois cela fait, vous avez juste à vous rendre dans le projet avec la commande :
+```bash
+cd CasseBriques/
+```
+Enfin, la dernière étape pour lancer le jeu est uniquement de suivre le [Makefile](#makefile)
 
 ## Membres du groupe
 
@@ -9,6 +37,9 @@
 ## Table des matières
 
 - [Casse Briques Groupe 7](#casse-briques-groupe-7)
+  - [Présentation du jeu](#présentation-du-jeu)
+  - [Documentation](#documentation)
+  - [Installation](#installation)
   - [Membres du groupe](#membres-du-groupe)
   - [Table des matières](#table-des-matières)
   - [Makefile](#makefile)
@@ -29,7 +60,11 @@
     - [08 Novembre](#08-novembre)
     - [09 Novembre](#09-novembre)
     - [11 Novembre](#11-novembre)
-    - [16 Novembre](#09-novembre)
+    - [16 Novembre](#16-novembre)
+    - [19 Novembre](#19-novembre)
+    - [20 Novembre](#20-novembre)
+  - [Licence](#licence)
+- [](#)
 
 ## Makefile
 
@@ -128,7 +163,7 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Début de l'utilisation de SDL
 
 ### 09 Novembre
-- Ajout des fichiers de la librairie SDL directement dans lr projet
+- Ajout des fichiers de la librairie SDL directement dans le projet
 - Début de l'utilisation de SDL
 - Mise à jour du README.md
 
@@ -145,3 +180,22 @@ Exécutez la commande suivante pour voir les commandes disponibles :
 - Point sur l'avancée du projet
 - Répartition des dernières taches
 - Ajout d'une deadline supplémentaire pour la mise en place de SDL (17/11/22)
+
+### 19 Novembre
+- Refractor du code
+- Debug du code
+- Début implémentation socket
+
+### 20 Novembre
+- Refractor du code
+- Debug du code
+- Suite implémentation socket
+- Mise à jour du README
+- Ajout du sujet dans le dossier docs
+
+## Licence
+Voir le fichier [LICENSE.md](LICENSE.md) fourni.
+
+
+#
+[(Back to top)](#casse-briques-groupe-7)
