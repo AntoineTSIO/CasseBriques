@@ -191,12 +191,12 @@ make help
 - Ajout d'une deadline supplémentaire pour la mise en place de SDL (17/11/22)
 
 ### 19 Novembre
-- Refractor du code
+- Refactor du code
 - Debug du code
 - Début implémentation socket
 
 ### 20 Novembre
-- Refractor du code
+- Refactor du code
 - Debug du code
 - Suite implémentation socket
 - Mise à jour du README
