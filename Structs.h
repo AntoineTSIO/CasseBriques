@@ -44,6 +44,7 @@ typedef struct
 
 typedef struct
 {
+    short initialNumberOfBombsPerPlayer;
     short sizeMapX;
     short sizeMapY;
     short maxRange;
@@ -62,12 +63,11 @@ typedef struct BombList
 
 typedef struct
 {
-    short nbBombsPerPlayer;
     short numberOfPlayers;
     short numberOfAlivePlayers;
     short numberOfHumanPlayers;
     short multiplayer; // Boolean -> 0 = false, 1 = true
-    Player *players;
+    Player **players;
     short playerTurn;
     Player *currentPlayer;
     short numberOfMaps;

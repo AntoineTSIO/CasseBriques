@@ -12,7 +12,7 @@
 
 int chooseGameType();
 Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers, int startingNumberOfBombs);
-void deletePlayers(Player *players, int nbPlayersWished);
+void deletePlayers(Player **players, int nbPlayersWished);
 Game initGame();
 void displayStats(Game game);
 Map procedurallyInitMap(Game *game, short isRandomlyDefined);
