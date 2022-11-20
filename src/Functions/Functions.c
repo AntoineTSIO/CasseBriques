@@ -577,7 +577,7 @@ void botAction(Game* game){
     // check if move :
     //      Check if tile is dangerous.
     //          If yes, check safetiness of adjacent tile.
-    //              If multiple adjacent safetiles, move forward if has bombs left, otherwise move away.
+    //              If multiple adjacent safe tiles, move forward if has bombs left, otherwise move away.
     //          If no, for each tile that a bomb could touch, check if there is another player at 2 tiles or less.
     //              If yes, put a bomb.
     //              If no, check if laying a bomb would destroy a wall.
