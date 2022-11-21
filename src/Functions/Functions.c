@@ -218,7 +218,7 @@ void displayPlayerStats(Game* game){
     printf("Tours d'invicibilité restants : %d\n", game->currentPlayer->invincibilityTimer / game->numberOfPlayers);
     printf("Nombre de bombes restantes : %d/%d\n", game->currentPlayer->numberOfBombsLeft, game->currentPlayer->totalNumberOfBombs);
     printf("Nombre de victoires : %d\n", game->currentPlayer->numberOfVictories);
-    printf("Commandes pour jouer:\ne = ne rien faire | a = poser une bombe | d = ➜ | s = ⬇ | q = ⬅ | z = ⬆\n");
+    printf("Commandes pour jouer:\ne = ne rien faire | a = poser une bombe ( \u24B7 ) | d = \u25B6 | s = \u25BC | q = \u25C0 | z = \u25B2\n");
     if(game->map[game->currentMap].tile[game->currentPlayer->x][game->currentPlayer->y].whichBombIsHere != NULL) printf("Attention, vous avez une bombe à vos pieds!\n");
 }
 
