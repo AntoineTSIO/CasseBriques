@@ -36,16 +36,39 @@ void displayBoomMap(Game *game, short** boomMap){
     for (int i = 0; i < game->map[game->currentMap].sizeMapX; ++i){
         for (int j = 0; j < game->map[game->currentMap].sizeMapY; ++j){
             if (boomMap[i][j]){
-                printf("F");
+                printf("\033[0;31m");
+                printf("\u25CE");
+                printf("\033[0m");
             }
-            if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
-                printf("%c", game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite);
+            else if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
+                char tempSprite = game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite;
+                switch (tempSprite){
+                    case 'x':
+                        printf("\u25A3");
+                        break;
+                    case 'm':
+                        printf("\u25A8");
+                        break;
+                    case 'e':
+                    case '_':
+                        printf(" ");
+                        break;
+                    default:
+                        printf("%c", tempSprite);
+                        break;
+                }
             }
             else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){ // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
-                printf("%c", game->map[game->currentMap].tile[i][j].whoIsHere->sprite);
+                if(game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
+                    printf("\033[0;31m");
+                    printf("\uA66A");
+                    printf("\033[0m");
+                }
+                else
+                    printf("\uA66A");
             }
             else if (game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
-                printf("%c", game->map[game->currentMap].tile[i][j].whichBombIsHere->sprite);
+                printf("\u24B7");
             }
             else
                 printf(" ");
