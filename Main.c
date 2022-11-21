@@ -19,7 +19,6 @@ int main(int argc, char **argv){
     Game* game = initGame();
     clearScreen();
     displayGameStats(game);
-    //printf("debug2\n");
     for (; game->currentMap < game->numberOfMaps; game->currentMap++){
         displayMapStats(game);
 

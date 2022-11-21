@@ -63,9 +63,9 @@ Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers){
 }
 
 void deletePlayers(Player **players, int nbPlayersWished){
-    for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers){
+    /*for (int indexNbPlayers = 0; indexNbPlayers < nbPlayersWished; ++indexNbPlayers){
         free(players[indexNbPlayers]);
-    }
+    }*/
     free(players);
 }
 
@@ -86,14 +86,14 @@ Game* initGame(){
     int gameType = chooseGameType();
     switch (gameType){
         case 1:
-            game->numberOfPlayers = 4;
+            game->numberOfPlayers = 0;
             game->numberOfHumanPlayers = 1;
-            while (game->numberOfPlayers <= game->numberOfHumanPlayers || game->numberOfPlayers > 4){
+            while (game->numberOfPlayers < 2 || game->numberOfPlayers > 4){
                 printf("Saisir le nombre de joueurs total :");
                 scanf(" %hd", &game->numberOfPlayers);
                 getchar();
-                if (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers > 4)
-                    printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game->numberOfHumanPlayers);
+                if (game->numberOfPlayers < 2 || game->numberOfPlayers > 4)
+                    printf("Le nombre de joueurs total doit être compris entre 2 et 4\n");
             }
             break;
         case 2:
@@ -117,21 +117,23 @@ Game* initGame(){
             break;
         case 4:
             game->multiplayer = 1;
-            while (game->numberOfHumanPlayers <= 1 || game->numberOfHumanPlayers > 4){
+            while (game->numberOfHumanPlayers < 1 || game->numberOfHumanPlayers > 4){
                 printf("Saisir le nombre de joueurs humains :");
                 scanf(" %hd", &game->numberOfHumanPlayers);
                 getchar();
-                if (game->numberOfHumanPlayers <= 1 || game->numberOfHumanPlayers > 4)
+                if (game->numberOfHumanPlayers < 1 || game->numberOfHumanPlayers > 4)
                     printf("Le nombre de joueurs humains doit être compris entre 1 et 4\n");
             }
             if (game->numberOfHumanPlayers < 4){
-                while (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers > 4){
+                while (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers < 2 || game->numberOfPlayers > 4){
                     printf("Saisir le nombre de joueurs total :");
                     scanf(" %hd", &game->numberOfPlayers);
                     getchar();
-                    if (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers > 4)
-                        printf("Le nombre de joueurs total doit être compris entre %d et 4\n", game->numberOfHumanPlayers);
+                    if (game->numberOfPlayers < game->numberOfHumanPlayers || game->numberOfPlayers < 2 || game->numberOfPlayers > 4)
+                        printf("Le nombre de joueurs total doit être compris entre %d et 4\n", (game->numberOfHumanPlayers < 2 ? 2 : game->numberOfHumanPlayers));
                 }
+            } else {
+                game->numberOfPlayers = 4;
             }
             break;
     }
@@ -221,7 +223,6 @@ void displayPlayerStats(Game* game){
     printf("Nombre de victoires : %d\n", game->currentPlayer->numberOfVictories);
     printf("Range de la bombe : %d\n", game->currentPlayer->range);
     printf("Commandes pour jouer:\ne = ne rien faire | a = poser une bombe ( \u0E4F ) | d = \u25B6 | s = \u25BC | q = \u25C0 | z = \u25B2\n");
-    if(game->map[game->currentMap].tile[game->currentPlayer->x][game->currentPlayer->y].whichBombIsHere != NULL) printf("Attention, vous avez une bombe à vos pieds!\n");
 }
 
 Map procedurallyInitMap(Game *game, short isRandomlyDefined){
@@ -247,7 +248,7 @@ Map procedurallyInitMap(Game *game, short isRandomlyDefined){
         map.sizeMapY = rand() % 39 + 11;
         map.numberOfHorizontalTunnels = rand() % ((map.sizeMapX - 1) / 5);
         map.numberOfVerticalTunnels = rand() % ((map.sizeMapY - 1) / 5);
-        map.initialNumberOfBombsPerPlayer = rand() % 3;
+        map.initialNumberOfBombsPerPlayer = 1 + rand() % 3;
     }
     else{
         while (map.initialNumberOfBombsPerPlayer < 1){
@@ -420,10 +421,14 @@ void displayMap(Game *game){
                 char tempSprite = game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite;
                 switch (tempSprite){
                     case 'x':
+                        colorYellow();
                         printf("\u25A3");
+                        colorReset();
                         break;
                     case 'm':
+                        colorGreen();
                         printf("\u25A8");
+                        colorReset();
                         break;
                     case 'e':
                     case '_':
@@ -436,7 +441,7 @@ void displayMap(Game *game){
             }
             else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){
                 short playerId;
-                for(int k = 0; k < game->numberOfPlayers; k++){
+                for(int k = 0; k != game->numberOfPlayers; k++){
                     if(game->players[k]->x == i && game->players[k]->y == j){
                         playerId = game->players[k]->id;
                     }
@@ -473,6 +478,7 @@ void displayMap(Game *game){
 
 void deleteTile(Tile *tile){
     free(tile->whichItemIsHere);
+    free(tile->whichBombIsHere);
     free(tile->whoIsHere);
     free(tile);
 }
@@ -489,13 +495,13 @@ void deleteMap(Game *game){
 }
 
 void deleteGame(Game *game){
+    deleteMap(game);
     deletePlayers(game->players, game->numberOfPlayers);
     while (game->activeBombs != NULL){
         BombList *temp = game->activeBombs;
         game->activeBombs = game->activeBombs->nextOne;
         free(temp);
     }
-    deleteMap(game);
 }
 
 // detect key pressed

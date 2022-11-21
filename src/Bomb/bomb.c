@@ -45,10 +45,14 @@ void displayBoomMap(Game *game, short** boomMap){
                 char tempSprite = game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite;
                 switch (tempSprite){
                     case 'x':
+                        colorYellow();
                         printf("\u25A3");
+                        colorReset();
                         break;
                     case 'm':
+                        colorGreen();
                         printf("\u25A8");
+                        colorReset();
                         break;
                     case 'e':
                     case '_':
@@ -61,7 +65,7 @@ void displayBoomMap(Game *game, short** boomMap){
             }
             else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){
                 short playerId;
-                for(int k = 0; k < game->numberOfPlayers; k++){
+                for(int k = 0; k != game->numberOfPlayers; k++){
                     if(game->players[k]->x == i && game->players[k]->y == j){
                         playerId = game->players[k]->id;
                     }
