@@ -75,7 +75,7 @@ void displayBoomMap(Game *game, short** boomMap){
                 }
                 switch (playerId){
                     case 1:
-                        colorBlue();
+                        colorPurple();
                         break;
                     case 2:
                         colorRed();
@@ -108,18 +108,18 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    // It sets off other bombs it touches and destroys all items in its path.
    int i = 1;
    while (i <= bombToExplode->range){
-      Item *currentItem = map->tile[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
-      if (boomMap[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+      Item *currentItem = map->tile[((bombToExplode->x + i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
+      if (boomMap[((bombToExplode->x + i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
-      if (map->tile[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y].whichBombIsHere != NULL){
-         boom(map->tile[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y].whichBombIsHere, game, boomMap);
+      if (map->tile[((bombToExplode->x + i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y].whichBombIsHere != NULL){
+         boom(map->tile[((bombToExplode->x + i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y].whichBombIsHere, game, boomMap);
       }
       else{
          if (currentItem != NULL && currentItem->ID == INDESTRUCTIBLE_WALL)
             break;
-         boomMap[(bombToExplode->x + i) % map->sizeMapX][bombToExplode->y] = 1;
+         boomMap[((bombToExplode->x + i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y] = 1;
          if (currentItem != NULL && currentItem->ID == WALL)
             break;
       }
@@ -127,51 +127,51 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
    }
    i = 1;
    while (i <= bombToExplode->range){
-      Item *currentItem = map->tile[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY].whichItemIsHere;
-      if (boomMap[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+      Item *currentItem = map->tile[bombToExplode->x][((bombToExplode->y + i) + map->sizeMapY) % map->sizeMapY].whichItemIsHere;
+      if (boomMap[bombToExplode->x][((bombToExplode->y + i) + map->sizeMapY) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
-      if (map->tile[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY].whichBombIsHere != NULL){
-         boom(map->tile[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY].whichBombIsHere, game, boomMap);
+      if (map->tile[bombToExplode->x][((bombToExplode->y + i) + map->sizeMapY) % map->sizeMapY].whichBombIsHere != NULL){
+         boom(map->tile[bombToExplode->x][((bombToExplode->y + i) + map->sizeMapY) % map->sizeMapY].whichBombIsHere, game, boomMap);
       }
       if (currentItem != NULL && currentItem->ID == INDESTRUCTIBLE_WALL)
          break;
-      boomMap[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY] = 1;
+      boomMap[bombToExplode->x][((bombToExplode->y + i) + map->sizeMapY) % map->sizeMapY] = 1;
       if (currentItem != NULL && currentItem->ID == WALL)
          break;
       i++;
    }
    i = 1;
    while (i <= bombToExplode->range){
-      Item *currentItem = map->tile[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
-      if (boomMap[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+      Item *currentItem = map->tile[((bombToExplode->x - i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
+      if (boomMap[((bombToExplode->x - i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
-      if (map->tile[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y].whichBombIsHere != NULL){
-         boom(map->tile[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y].whichBombIsHere, game, boomMap);
+      if (map->tile[((bombToExplode->x - i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y].whichBombIsHere != NULL){
+         boom(map->tile[((bombToExplode->x - i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y].whichBombIsHere, game, boomMap);
       }
       if (currentItem != NULL && currentItem->ID == INDESTRUCTIBLE_WALL)
          break;
-      boomMap[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y] = 1;
+      boomMap[((bombToExplode->x - i) + map->sizeMapX) % map->sizeMapX][bombToExplode->y] = 1;
       if (currentItem != NULL && currentItem->ID == WALL)
          break;
       i++;
    }
    i = 1;
    while (i <= bombToExplode->range){
-      Item *currentItem = map->tile[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY].whichItemIsHere;
-      if (boomMap[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+      Item *currentItem = map->tile[bombToExplode->x][((bombToExplode->y - i) + map->sizeMapY) % map->sizeMapY].whichItemIsHere;
+      if (boomMap[bombToExplode->x][((bombToExplode->y - i) + map->sizeMapY) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
          i++;
          continue;
       }
-      if (map->tile[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY].whichBombIsHere != NULL){
-         boom(map->tile[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY].whichBombIsHere, game, boomMap);
+      if (map->tile[bombToExplode->x][((bombToExplode->y - i) + map->sizeMapY) % map->sizeMapY].whichBombIsHere != NULL){
+         boom(map->tile[bombToExplode->x][((bombToExplode->y - i) + map->sizeMapY) % map->sizeMapY].whichBombIsHere, game, boomMap);
       }
       if (currentItem != NULL && currentItem->ID == INDESTRUCTIBLE_WALL)
          break;
-      boomMap[bombToExplode->x + i][(bombToExplode->y - i) % map->sizeMapY] = 1;
+      boomMap[bombToExplode->x][((bombToExplode->y - i) + map->sizeMapY) % map->sizeMapY] = 1;
       if (currentItem != NULL && currentItem->ID == WALL)
          break;
       i++;
@@ -240,7 +240,6 @@ void setOffBombs(Game *game){
          if (currentTileBomb != NULL && currentTileBomb->timer <= 0){
             
             boom(currentTileBomb, game, boomMap);
-            printf("debug18\n");
          }
       }
    }/**/
@@ -249,7 +248,6 @@ void setOffBombs(Game *game){
    clearScreen();
    displayBoomMap(game, boomMap);
    sleep(1);
-
    // Everything goes BOOM !
    for (int i = 0; i < map->sizeMapX; i++){
       for (int j = 0; j < map->sizeMapY; j++){
