@@ -1,6 +1,7 @@
 #include "../../Structs.h"
 #include "../AboutItem/AboutItem.h"
 #include "../Functions/Functions.h"
+#include "../Functions/Color.h"
 
 BombList *newBombNode(Bomb *bomb){
    BombList *newNode = malloc(sizeof(BombList));
@@ -36,11 +37,11 @@ void displayBoomMap(Game *game, short** boomMap){
     for (int i = 0; i < game->map[game->currentMap].sizeMapX; ++i){
         for (int j = 0; j < game->map[game->currentMap].sizeMapY; ++j){
             if (boomMap[i][j]){
-                printf("\033[0;31m");
+               colorRed();
                 printf("\u25CE");
-                printf("\033[0m");
+               colorReset();
             }
-            else if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
+            if (game->map[game->currentMap].tile[i][j].whichItemIsHere != NULL){
                 char tempSprite = game->map[game->currentMap].tile[i][j].whichItemIsHere->sprite;
                 switch (tempSprite){
                     case 'x':
@@ -58,17 +59,35 @@ void displayBoomMap(Game *game, short** boomMap){
                         break;
                 }
             }
-            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){ // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
-                if(game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
-                    printf("\033[0;31m");
-                    printf("\uA66A");
-                    printf("\033[0m");
+            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){
+                short playerId;
+                for(int k = 0; k < game->numberOfPlayers; k++){
+                    if(game->players[k]->x == i && game->players[k]->y == j){
+                        playerId = game->players[k]->id;
+                    }
                 }
-                else
-                    printf("\uA66A");
+                if(game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
+                    colorHighlight();
+                }
+                switch (playerId){
+                    case 1:
+                        colorBlue();
+                        break;
+                    case 2:
+                        colorRed();
+                        break;
+                    case 3:
+                        colorGreen();
+                        break;
+                    case 4:
+                        colorYellow();
+                        break;
+                }
+                printf("\uA66A");
+                colorReset();
             }
             else if (game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
-                printf("\u24B7");
+                printf("\u0E4F");
             }
             else
                 printf(" ");
@@ -102,7 +121,6 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
       }
       i++;
    }
-
    i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[bombToExplode->x][(bombToExplode->y + i) % map->sizeMapY].whichItemIsHere;
@@ -120,7 +138,6 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
          break;
       i++;
    }
-
    i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[(bombToExplode->x - i) % map->sizeMapX][bombToExplode->y].whichItemIsHere;
@@ -138,7 +155,6 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
          break;
       i++;
    }
-
    i = 1;
    while (i <= bombToExplode->range){
       Item *currentItem = map->tile[bombToExplode->x][(bombToExplode->y - i) % map->sizeMapY].whichItemIsHere;
@@ -156,23 +172,23 @@ void boom(Bomb *bombToExplode, Game *game, short **boomMap){
          break;
       i++;
    }
-
    bombToExplode->owner->numberOfBombsLeft++;
-
    // Free the bomb that just exploded.
 
    map->tile[bombToExplode->x][bombToExplode->y].whichBombIsHere = NULL;
    BombList *nextBombInList = game->activeBombs;
    if (nextBombInList->thisBomb->x == bombToExplode->x && nextBombInList->thisBomb->y == bombToExplode->y){
       game->activeBombs = nextBombInList->nextOne;
+      free(nextBombInList);
+   } else {
+      while (!(nextBombInList->nextOne->thisBomb->x == bombToExplode->x && nextBombInList->nextOne->thisBomb->y == bombToExplode->y)){
+         // No need to check if NULL. This bomb can't not be in the list. Y'know, like checking if VIPs in the club are on the list.
+         nextBombInList = nextBombInList->nextOne;
+      }
+      BombList *temp = nextBombInList->nextOne;
+      nextBombInList->nextOne = nextBombInList->nextOne->nextOne;
+      free(temp);
    }
-   while (!(nextBombInList->nextOne->thisBomb->x == bombToExplode->x && nextBombInList->nextOne->thisBomb->y == bombToExplode->y)){
-      // No need to check if NULL. This bomb can't not be in the list. Y'know, like checking if VIPs in the club are on the list.
-      nextBombInList = nextBombInList->nextOne;
-   }
-   BombList *temp = nextBombInList->nextOne;
-   nextBombInList->nextOne = nextBombInList->nextOne->nextOne;
-   free(temp);
    free(bombToExplode);
 }
 
@@ -193,8 +209,7 @@ void setOffBombs(Game *game){
          boomMap[i][j] = 0;
       }
    }
-   printf("debug15\n");
-   printf("%p\n", &map->sizeMapX);
+   /*printf("%p\n", &map->sizeMapX);
    printf("%d\n", map->sizeMapX);
    // The boomMap has two uses : avoid item drop by walls to be destroyed the same turn they poped in and
    // keeping the player from taking multiple damage in one turn. It checks which tile will be cleansed by
@@ -207,25 +222,24 @@ void setOffBombs(Game *game){
     printf("X:%d Y:%d\n", sizeX, sizeY);
     //////////  Impossible de savoir pourquoi, mais on a une segfault juste au print suivant. C'est pourtant un print basique, sans rien de particulier.
     //          Du coup, pour le moment, impossible d'avoir des explosions.
-    /*printf("BOOOOMMAPPP 1\n");
+    printf("BOOOOMMAPPP 1\n");
     printf("%p\n", boomMap);
-    printf("BOOOOMMAPPP 2\n");
-   for (int i = 0; i < sizeX; i++){
-        printf("debug19\n");
-      for (int j = 0; j < sizeY; j++){
-         printf("debug20\n");
+    printf("BOOOOMMAPPP 2\n");*/
+   for (int i = 0; i < map->sizeMapX; i++){
+      
+      for (int j = 0; j < map->sizeMapY; j++){
+         
          if (boomMap[i][j] == 1){
             continue;
          }
-         printf("debug16\n");
          Bomb *currentTileBomb = map->tile[i][j].whichBombIsHere;
          if (currentTileBomb != NULL && currentTileBomb->timer <= 0){
-             printf("debug17\n");
+            
             boom(currentTileBomb, game, boomMap);
-             printf("debug18\n");
+            printf("debug18\n");
          }
       }
-   }*/
+   }/**/
 
    // Display of explosions
    clearScreen();

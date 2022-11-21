@@ -1,6 +1,7 @@
 #include "Functions.h"
 #include "../Bomb/bomb.h"
 #include "../AboutItem/AboutItem.h"
+#include "Color.h"
 
 int chooseGameType(){
     int choice = 0;
@@ -47,7 +48,7 @@ Player **createPlayers(int numberOfPlayersWished, int numberOfHumanPlayers){
         aPlayer->totalNumberOfBombs = 1;            // to be modified to take in account the number specified when creating the map
         aPlayer->numberOfBombsLeft = 1; // to be modified to take in account the number specified when creating the map
         aPlayer->range = 1;
-        aPlayer->life = 3;
+        aPlayer->life = 1;
         aPlayer->shield = 0;
         aPlayer->invincibilityTimer = 0;
         aPlayer->numberOfVictories = 0;
@@ -218,7 +219,8 @@ void displayPlayerStats(Game* game){
     printf("Tours d'invicibilité restants : %d\n", game->currentPlayer->invincibilityTimer / game->numberOfPlayers);
     printf("Nombre de bombes restantes : %d/%d\n", game->currentPlayer->numberOfBombsLeft, game->currentPlayer->totalNumberOfBombs);
     printf("Nombre de victoires : %d\n", game->currentPlayer->numberOfVictories);
-    printf("Commandes pour jouer:\ne = ne rien faire | a = poser une bombe ( \u24B7 ) | d = \u25B6 | s = \u25BC | q = \u25C0 | z = \u25B2\n");
+    printf("Range de la bombe : %d\n", game->currentPlayer->range);
+    printf("Commandes pour jouer:\ne = ne rien faire | a = poser une bombe ( \u0E4F ) | d = \u25B6 | s = \u25BC | q = \u25C0 | z = \u25B2\n");
     if(game->map[game->currentMap].tile[game->currentPlayer->x][game->currentPlayer->y].whichBombIsHere != NULL) printf("Attention, vous avez une bombe à vos pieds!\n");
 }
 
@@ -432,17 +434,35 @@ void displayMap(Game *game){
                         break;
                 }
             }
-            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){ // Penser à afficher bombe ET joueurs présents sur la même case. Impossible avec juste des char, mais possible avec SDL.
-                if(game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
-                    printf("\033[0;31m");
-                    printf("\uA66A");
-                    printf("\033[0m");
+            else if (game->map[game->currentMap].tile[i][j].whoIsHere != NULL){
+                short playerId;
+                for(int k = 0; k < game->numberOfPlayers; k++){
+                    if(game->players[k]->x == i && game->players[k]->y == j){
+                        playerId = game->players[k]->id;
+                    }
                 }
-                else
-                    printf("\uA66A");
+                if(game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
+                    colorHighlight();
+                }
+                switch (playerId){
+                    case 1:
+                        colorBlue();
+                        break;
+                    case 2:
+                        colorRed();
+                        break;
+                    case 3:
+                        colorGreen();
+                        break;
+                    case 4:
+                        colorYellow();
+                        break;
+                }
+                printf("\uA66A");
+                colorReset();
             }
             else if (game->map[game->currentMap].tile[i][j].whichBombIsHere != NULL){
-                printf("\u24B7");
+                printf("\u0E4F");
             }
             else
                 printf(" ");
@@ -587,8 +607,9 @@ short getPlayerAction(){
 }
 
 void botAction(Game* game){
-    //Pas le temps de l'implémenter, mais j'ai toute l'IA conçue sur papier.
+    // Pas le temps de l'implémenter, mais j'ai toute l'IA conçue sur papier.
     // Je vais juste mettre les grande lignes et bricoler un truc en 20mn.
+    // J'ai voulu faire un "botAction", mais quand j'ai vu l'heure, je me suis dit "botA... Nique, j'ai pas le temps !"
 
     // check if puts a bomb : for each tile that a bomb could touch, check if there is another player at 2 tiles or less.
     //          If yes, put a bomb.
@@ -610,6 +631,118 @@ void botAction(Game* game){
     //                              If no Item in range, move randomly (any direction or don't move).
     //                      If no, don't move.
 
+/*
+    
+    
+
+
+
+    short **dangerMap = malloc(map->sizeMapX * sizeof(short *));
+    for (int i = 0; i < map->sizeMapX; i++){
+        dangerMap[i] = malloc(map->sizeMapY * sizeof(short));
+        for (int j = 0; j < map->sizeMapY; j++){
+            dangerMap[i][j] = 0;
+        }
+    }
+    BombList* node = game->activeBombs;
+    while (node != NULL){
+        Bomb* bombTocheck = node->thisBomb;
+        if (bombToCheck->timer > 1)
+            break;
+        
+        // The 4 next loops are just one done for each direction.
+        // The flame of the explosion goes up to one wall (and destructs it if able) or up to range, whichever the less.
+        // It sets off other bombs it touches and destroys all items in its path.
+        int i = 1;
+        while (i <= bombTocheck->range){
+            Item *currentItem = map->tile[(bombTocheck->x + i) % map->sizeMapX][bombTocheck->y].whichItemIsHere;
+            if (dangerMap[(bombTocheck->x + i) % map->sizeMapX][bombTocheck->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+                i++;
+                continue;
+            }
+            else{
+                if (currentItem != NULL && (currentItem->ID == INDESTRUCTIBLE_WALL || currenItem->ID == WALL)){
+                    dangerMap[(bombTocheck->x + i) % map->sizeMapX][bombTocheck->y] = 1;
+                    break;
+                }
+            }
+            i++;
+        }
+
+        i = 1;
+        while (i <= bombTocheck->range){
+            Item *currentItem = map->tile[bombTocheck->x][(bombTocheck->y + i) % map->sizeMapY].whichItemIsHere;
+            if (dangerMap[bombTocheck->x][(bombTocheck->y + i) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+                i++;
+                continue;
+            }
+            if (currentItem != NULL && (currentItem->ID == INDESTRUCTIBLE_WALL || currenItem->ID == WALL)){
+                dangerMap[bombTocheck->x][(bombTocheck->y + i) % map->sizeMapY] = 1;
+                break;
+            }
+            i++;
+        }
+
+        i = 1;
+        while (i <= bombTocheck->range){
+            Item *currentItem = map->tile[(bombTocheck->x - i) % map->sizeMapX][bombTocheck->y].whichItemIsHere;
+            if (dangerMap[(bombTocheck->x - i) % map->sizeMapX][bombTocheck->y] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+                i++;
+                continue;
+            }
+            if (currentItem != NULL && (currentItem->ID == INDESTRUCTIBLE_WALL || currenItem->ID == WALL)){
+                dangerMap[(bombTocheck->x - i) % map->sizeMapX][bombTocheck->y] = 1;
+                break;
+            }
+            i++;
+        }
+
+        i = 1;
+        while (i <= bombTocheck->range){
+            Item *currentItem = map->tile[bombTocheck->x][(bombTocheck->y - i) % map->sizeMapY].whichItemIsHere;
+            if (dangerMap[bombTocheck->x][(bombTocheck->y - i) % map->sizeMapY] == 1 && !(currentItem != NULL && (currentItem->ID == WALL || currentItem->ID == INDESTRUCTIBLE_WALL))){
+                i++;
+                continue;
+            }
+            if (currentItem != NULL && (currentItem->ID == INDESTRUCTIBLE_WALL || currenItem->ID == WALL)){
+                dangerMap[bombTocheck->x + i][(bombTocheck->y - i) % map->sizeMapY] = 1;
+                break;
+            }
+            i++;
+        }
+
+        node = node->nextOne;
+    }
+    if (dangerMap[mover->x][mover->y]){
+        short directionsPossible = 4;
+        short directionSafety[4];
+        directionsPossible -= (dangerMap[(mover->x + 1) % game->map[game->currentMap]->sizeMapX][mover->y]);
+        directionSafety[0] = (dangerMap[(mover->x + 1) % game->map[game->currentMap]->sizeMapX][mover->y]);
+        directionsPossible -= (dangerMap[mover->x][(mover->y + 1) % game->map[game->currentMap]->sizeMapY]);
+        directionSafety[1] = (dangerMap[mover->x][(mover->y + 1) % game->map[game->currentMap]->sizeMapY]);
+        directionsPossible -= (dangerMap[(mover->x + 1) % game->map[game->currentMap]->sizeMapX][mover->y]);
+        directionSafety[2] = (dangerMap[(mover->x + 1) % game->map[game->currentMap]->sizeMapX][mover->y]);
+        directionsPossible -= (dangerMap[mover->x][(mover->y - 1) % game->map[game->currentMap]->sizeMapY]);
+        directionSafety[3] = (dangerMap[mover->x][(mover->y - 1) % game->map[game->currentMap]->sizeMapY]);
+        short whereToGo = 0;
+        if (directionsPossible){
+            while(){
+                short temp = rand() % 5;
+                if (temp == DONT_MOVE){
+                    break;
+                } else {
+                    switch ()
+                    
+                }
+            }
+        }
+    }
+
+
+    /**/
+
+    
+    // Sur la version rendue, c'est juste juste du random pur.
     Map *map = &game->map[game->currentMap];
     Player *mover = game->currentPlayer;
 
@@ -730,6 +863,10 @@ void playerAction(Game *game){
 
     Item *whichItemIsHere = map->tile[destinationX][destinationY].whichItemIsHere;
     Bomb *whichBombIsHere = map->tile[destinationX][destinationY].whichBombIsHere;
+    Player *whoIsHere = map->tile[destinationX][destinationY].whoIsHere;
+    if (whoIsHere != NULL){
+        return;
+    }
     if (whichItemIsHere != NULL){
 
         switch (whichItemIsHere->ID){
@@ -778,7 +915,7 @@ void hitPlayer(Player *dommageCollateral, Game *game){
     dommageCollateral->life--;
     if (!dommageCollateral->life){
         clearScreen();
-        printf("Rest in pieces, player %d", game->playerTurn % game->numberOfPlayers);
+        printf("Rest in pieces, player %d.\n", dommageCollateral->id);
         sleep(4);
         game->map[game->currentMap].tile[dommageCollateral->x][dommageCollateral->y].whoIsHere = NULL;
         game->numberOfAlivePlayers--;
