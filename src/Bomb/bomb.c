@@ -184,22 +184,22 @@ void setOffBombs(Game *game){
     printf("X:%d Y:%d\n", sizeX, sizeY);
     //////////  Impossible de savoir pourquoi, mais on a une segfault juste au print suivant. C'est pourtant un print basique, sans rien de particulier.
     //          Du coup, pour le moment, impossible d'avoir des explosions.
-    /*printf("BOOOOMMAPPP 1");
-    printf("%p", boomMap);
-    printf("BOOOOMMAPPP 2");
+    /*printf("BOOOOMMAPPP 1\n");
+    printf("%p\n", boomMap);
+    printf("BOOOOMMAPPP 2\n");
    for (int i = 0; i < sizeX; i++){
-        printf("debug19");
+        printf("debug19\n");
       for (int j = 0; j < sizeY; j++){
-         printf("debug20");
+         printf("debug20\n");
          if (boomMap[i][j] == 1){
             continue;
          }
-         printf("debug16");
+         printf("debug16\n");
          Bomb *currentTileBomb = map->tile[i][j].whichBombIsHere;
          if (currentTileBomb != NULL && currentTileBomb->timer <= 0){
-             printf("debug17");
+             printf("debug17\n");
             boom(currentTileBomb, game, boomMap);
-             printf("debug18");
+             printf("debug18\n");
          }
       }
    }*/
