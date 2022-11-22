@@ -672,6 +672,103 @@ void botAction(Game* game){
     
 
 
+#include <math.h>
+    short nearestPlayersId = -1;
+    short directionToNearestPlayer = DONT_MOVE;
+    double distanceToNearestPlayer = -1;
+    short coordinatesDifferenceToPlayer = malloc(game->numberOfPlayers * 2 *sizeof(short));
+    double distanceToPlayer = malloc(game->numberOfPlayers * sizeof(double));
+    for (int i = 0; i < game->numberOfPlayers; i++){
+        distanceToPlayer[i] = 0;
+    }
+
+    for (int i = 1; i < map->sizeMapX; i++){
+        for (int j = -i; j < i; j++){
+            if (j < -map->sizeMapY / 2)
+                continue;
+            if (j >= map->sizeMapY / 2)
+                break;
+            Player* enemy = map->tile[(mover->x + i + map->sizeMapX) % map->sizeMapX][(mover->x + j + map->sizeMapY) % map->sizeMapY]->whoIsHere;
+            if (enemy != NULL){
+                short enemyId = enemy->id - 1;
+                coordinatesDifferenceToPlayer[enemyId * 2] = enemy->x;
+                coordinatesDifferenceToPlayer[enemyId * 2 + 1] = enemy->y;
+                distanceToPlayer[enemyId] =  pow(pow((coordinatesDifferenceToPlayer[enemyId * 2] - mover->x + map->sizeMapX) % map->sizeMapX, 2)
+                                                 + pow((coordinatesDifferenceToPlayer[enemyId * 2 + 1] - mover->y + map->sizeMapY) % map->sizeMapX, 2), 0.5);
+                if (distanceToNearestPlayer && distanceToPlayer < distanceToPlayer[enemyId]){
+                    distanceToPlayer = distanceToPlayer[enemyId];
+                    nearestPlayersId = enemyId;
+                    directionToNearestplayer = XPLUS;
+                }
+            }
+        }
+    }
+    for (int i = 1; i < map->sizeMapX; i++){
+        for (int j = -i; j < i; j++){
+            if (j < -map->sizeMapY / 2)
+                continue;
+            if (j >= map->sizeMapY / 2)
+                break;
+            Player* enemy = map->tile[(mover->x + j + map->sizeMapX) % map->sizeMapX][(mover->x + i + map->sizeMapY) % map->sizeMapY]->whoIsHere;
+            if (enemy != NULL){
+                short enemyId = enemy->id - 1;
+                coordinatesDifferenceToPlayer[enemyId * 2] = enemy->x;
+                coordinatesDifferenceToPlayer[enemyId * 2 + 1] = enemy->y;
+                distanceToPlayer[enemyId] =  pow(pow((coordinatesDifferenceToPlayer[enemyId * 2] - mover->x + map->sizeMapX) % map->sizeMapX, 2)
+                                                 + pow((coordinatesDifferenceToPlayer[enemyId * 2 + 1] - mover->y + map->sizeMapY) % map->sizeMapX, 2), 0.5);
+                if (distanceToNearestPlayer && distanceToPlayer < distanceToPlayer[enemyId]){
+                    distanceToPlayer = distanceToPlayer[enemyId];
+                    nearestPlayersId = enemyId;
+                    directionToNearestplayer = YPLUS;
+                }
+            }
+        }
+    }
+    for (int i = 1; i < map->sizeMapX; i++){
+        for (int j = -i; j < i; j++){
+            if (j < -map->sizeMapY / 2)
+                continue;
+            if (j >= map->sizeMapY / 2)
+                break;
+            Player* enemy = map->tile[(mover->x - i + map->sizeMapX) % map->sizeMapX][(mover->x - j + map->sizeMapY) % map->sizeMapY]->whoIsHere;
+            if (enemy != NULL){
+                short enemyId = enemy->id - 1;
+                coordinatesDifferenceToPlayer[enemyId * 2] = enemy->x;
+                coordinatesDifferenceToPlayer[enemyId * 2 + 1] = enemy->y;
+                distanceToPlayer[enemyId] =  pow(pow((coordinatesDifferenceToPlayer[enemyId * 2] - mover->x + map->sizeMapX) % map->sizeMapX, 2)
+                                                 + pow((coordinatesDifferenceToPlayer[enemyId * 2 + 1] - mover->y + map->sizeMapY) % map->sizeMapX, 2), 0.5);
+                if (distanceToNearestPlayer && distanceToPlayer < distanceToPlayer[enemyId]){
+                    distanceToPlayer = distanceToPlayer[enemyId];
+                    nearestPlayersId = enemyId;
+                    directionToNearestplayer = XMINUS;
+                }
+            }
+        }
+    }
+    for (int i = 1; i < map->sizeMapX; i++){
+        for (int j = -i; j < i; j++){
+            if (j < -map->sizeMapY / 2)
+                continue;
+            if (j >= map->sizeMapY / 2)
+                break;
+            Player* enemy = map->tile[(mover->x - j + map->sizeMapX) % map->sizeMapX][(mover->x - i + map->sizeMapY) % map->sizeMapY]->whoIsHere;
+            if (enemy != NULL){
+                short enemyId = enemy->id - 1;
+                coordinatesDifferenceToPlayer[enemyId * 2] = enemy->x;
+                coordinatesDifferenceToPlayer[enemyId * 2 + 1] = enemy->y;
+                distanceToPlayer[enemyId] =  pow(pow((coordinatesDifferenceToPlayer[enemyId * 2] - mover->x + map->sizeMapX) % map->sizeMapX, 2)
+                                                 + pow((coordinatesDifferenceToPlayer[enemyId * 2 + 1] - mover->y + map->sizeMapY) % map->sizeMapX, 2), 0.5);
+                if (distanceToNearestPlayer && distanceToPlayer < distanceToPlayer[enemyId]){
+                    distanceToPlayer = distanceToPlayer[enemyId];
+                    nearestPlayersId = enemyId;
+                    directionToNearestplayer = XPLUS;
+                }
+            }
+        }
+    }
+
+
+
 
     short **dangerMap = malloc(map->sizeMapX * sizeof(short *));
     for (int i = 0; i < map->sizeMapX; i++){
@@ -685,7 +782,7 @@ void botAction(Game* game){
         Bomb* bombTocheck = node->thisBomb;
         if (bombToCheck->timer > 1)
             break;
-        
+
         // The 4 next loops are just one done for each direction.
         // The flame of the explosion goes up to one wall (and destructs it if able) or up to range, whichever the less.
         // It sets off other bombs it touches and destroys all items in its path.
@@ -762,22 +859,11 @@ void botAction(Game* game){
         directionSafety[3] = (dangerMap[mover->x][(mover->y - 1) % game->map[game->currentMap]->sizeMapY]);
         short whereToGo = 0;
         if (directionsPossible){
-            while(){
-                short temp = rand() % 5;
-                if (temp == DONT_MOVE){
-                    break;
-                } else {
-                    switch ()
-                    
-                }
-            }
+
         }
     }
 
 
-/**/
-
-    
     // Sur la version rendue, c'est juste juste du random pur.
     Map *map = &game->map[game->currentMap];
     Player *mover = game->currentPlayer;
